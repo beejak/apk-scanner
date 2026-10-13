@@ -1,16 +1,9 @@
 {
   "run_id": "capability_run_20261014",
-  "scan_timestamp": "2026-10-13T19:15:00.824515+00:00",
-  "generated_utc": "2026-10-13T19:17:24.163736+00:00",
+  "scan_timestamp": "2026-10-13T20:01:38.056480+00:00",
+  "generated_utc": "2026-10-13T20:01:40.014826+00:00",
   "artifacts": 25,
-  "findings": 325,
-  "by_type_downloaded": {
-    "apk": 5,
-    "ipa": 5,
-    "jar": 5,
-    "so": 5,
-    "sdk": 5
-  },
+  "findings": 150,
   "by_type_discovered": {
     "apk": 5,
     "ipa": 5,
@@ -19,281 +12,58 @@
     "so": 5
   },
   "by_severity": {
-    "critical": 0,
-    "high": 28,
-    "medium": 98,
-    "low": 137,
-    "info": 62
+    "critical": 5,
+    "high": 23,
+    "medium": 66,
+    "low": 0,
+    "info": 56
   },
   "by_rule_id": {
-    "ipa-hardcoded-password": 95,
-    "ipa-cleartext": 61,
-    "dex-storage-sharedprefs": 47,
-    "dex-hardcoded-password": 29,
-    "dex-ssl-trust": 19,
-    "jar-cleartext": 14,
-    "ipa-hardcoded-secret": 12,
-    "apk-exported-unprotected": 11,
-    "ipa-hardcoded-apikey": 11,
-    "dex-cleartext": 6,
+    "dex-storage-sharedprefs": 33,
+    "jar-cleartext": 32,
+    "ipa-cleartext": 15,
+    "dex-path-traversal": 13,
+    "dex-hardcoded-password": 11,
+    "sca-osv-vuln": 10,
     "apk-allow-backup": 5,
-    "apk-debuggable": 4,
-    "dex-hardcoded-secret": 2,
+    "ipa-hardcoded-secret": 4,
+    "dex-hardcoded-secret": 3,
+    "ipa-allow-arbitrary-loads": 3,
+    "so-jni": 3,
+    "apk-debuggable": 2,
+    "apk-exported-provider-unprotected": 2,
+    "dex-cleartext": 2,
+    "apk-exported-intent-risk": 2,
+    "ipa-hardcoded-password": 2,
     "sdk-sensitive-file": 2,
-    "sdk-exposed-credential": 2,
-    "secret-aws-access-key": 1,
+    "dex-content-provider-access": 1,
+    "apk-exported-unprotected": 1,
+    "jar-weak-crypto": 1,
     "jar-secret-aws-access-key": 1,
-    "jar-hardcoded-apikey": 1,
-    "jar-hardcoded-password": 1,
-    "so-jni": 1
-  },
-  "themes": {
-    "password/secret noise": 153,
-    "cleartext / ATS": 81,
-    "storage": 47,
-    "SSL / trust": 19,
-    "exported / platform": 11,
-    "backup / debug": 9,
-    "SDK sensitive files": 4,
-    "other pattern hits": 1
-  },
-  "sources": {
-    "apk": "InsecureShop, AndroGoat, DIVA, UnCrackable L1, OVAA (public training)",
-    "ipa": "OWASP UnCrackable L1/L2, DVIA-v2 (x2), iGoat-Swift",
-    "jar": "Maven Central (junit, commons-lang3, slf4j, gson) + local edu-secrets-sample.jar",
-    "so": "Extracted from DIVA/OVAA/UnCrackable L2/L3/InjuredAndroid (training APKs)",
-    "sdk": "NDK hello-jni layout, gson/slf4j source snapshots, training + vuln-config demo SDKs"
+    "jar-runtime-exec": 1,
+    "dex-webview-js-bridge": 1
   },
   "pytest": {
-    "command": "python -m pytest tests/ -v",
-    "result": "41 passed",
-    "exit_code": 0,
-    "duration": "1.17s"
+    "command": "python -m pytest tests/ -q",
+    "result": "56 passed",
+    "exit_code": 0
   },
   "dast": {
     "ran": false,
-    "reason": "adb not on PATH; device not available \u2014 DAST scaffold skipped (not forced)"
+    "reason": "adb not on PATH; DAST skipped"
   },
-  "artifacts_table": [
-    {
-      "file": "ipa/iGoat-Swift.ipa",
-      "type": "ipa",
-      "id": "\u2014",
-      "version": "\u2014",
-      "notes": "\u2014",
-      "findings": 64
-    },
-    {
-      "file": "apk/AndroGoat.apk",
-      "type": "apk",
-      "id": "owasp.sat.agoat",
-      "version": "1.0",
-      "notes": "debuggable=true, allowBackup=true",
-      "findings": 53
-    },
-    {
-      "file": "ipa/DVIA-v2.ipa",
-      "type": "ipa",
-      "id": "\u2014",
-      "version": "\u2014",
-      "notes": "\u2014",
-      "findings": 50
-    },
-    {
-      "file": "ipa/DVIA-v2-swift.ipa",
-      "type": "ipa",
-      "id": "\u2014",
-      "version": "\u2014",
-      "notes": "\u2014",
-      "findings": 47
-    },
-    {
-      "file": "apk/InsecureShop.apk",
-      "type": "apk",
-      "id": "com.insecureshop",
-      "version": "1.0",
-      "notes": "debuggable=true, allowBackup=true",
-      "findings": 27
-    },
-    {
-      "file": "apk/ovaa-debug.apk",
-      "type": "apk",
-      "id": "oversecured.ovaa",
-      "version": "1.0",
-      "notes": "debuggable=true, allowBackup=true",
-      "findings": 23
-    },
-    {
-      "file": "apk/diva-beta.apk",
-      "type": "apk",
-      "id": "jakhar.aseem.diva",
-      "version": "1.0",
-      "notes": "debuggable=true, allowBackup=true",
-      "findings": 19
-    },
-    {
-      "file": "ipa/UnCrackable-Level2.ipa",
-      "type": "ipa",
-      "id": "\u2014",
-      "version": "\u2014",
-      "notes": "\u2014",
-      "findings": 10
-    },
-    {
-      "file": "ipa/UnCrackable-Level1.ipa",
-      "type": "ipa",
-      "id": "\u2014",
-      "version": "\u2014",
-      "notes": "\u2014",
-      "findings": 8
-    },
-    {
-      "file": "jar/commons-lang3-3.14.0.jar",
-      "type": "jar",
-      "id": "\u2014",
-      "version": "3.14.0",
-      "notes": "\u2014",
-      "findings": 6
-    },
-    {
-      "file": "jar/slf4j-api-2.0.12.jar",
-      "type": "jar",
-      "id": "\u2014",
-      "version": "2.0.12",
-      "notes": "\u2014",
-      "findings": 6
-    },
-    {
-      "file": "jar/edu-secrets-sample.jar",
-      "type": "jar",
-      "id": "\u2014",
-      "version": "\u2014",
-      "notes": "\u2014",
-      "findings": 4
-    },
-    {
-      "file": "apk/UnCrackable-Level1.apk",
-      "type": "apk",
-      "id": "owasp.mstg.uncrackable1",
-      "version": "1.0",
-      "notes": "allowBackup=true",
-      "findings": 2
-    },
-    {
-      "file": "kits/training-mobile-sdk",
-      "type": "sdk",
-      "id": "directory",
-      "version": "\u2014",
-      "notes": "entries=7, size=180",
-      "findings": 2
-    },
-    {
-      "file": "kits/vuln-config-demo-sdk",
-      "type": "sdk",
-      "id": "directory",
-      "version": "\u2014",
-      "notes": "entries=7, size=2928",
-      "findings": 2
-    },
-    {
-      "file": "jar/gson-2.10.1.jar",
-      "type": "jar",
-      "id": "\u2014",
-      "version": "\u2014",
-      "notes": "\u2014",
-      "findings": 1
-    },
-    {
-      "file": "so/diva-beta__libdivajni.so",
-      "type": "so",
-      "id": "\u2014",
-      "version": "\u2014",
-      "notes": "machine=AArch64, elf=64",
-      "findings": 1
-    },
-    {
-      "file": "jar/junit-4.13.2.jar",
-      "type": "jar",
-      "id": "\u2014",
-      "version": "4.13.2",
-      "notes": "\u2014",
-      "findings": 0
-    },
-    {
-      "file": "kits/android-ndk-hello-jni-sdk",
-      "type": "sdk",
-      "id": "directory",
-      "version": "\u2014",
-      "notes": "entries=42, size=73467",
-      "findings": 0
-    },
-    {
-      "file": "kits/gson-java-sdk",
-      "type": "sdk",
-      "id": "directory",
-      "version": "\u2014",
-      "notes": "entries=6, size=4785",
-      "findings": 0
-    },
-    {
-      "file": "kits/slf4j-logging-sdk",
-      "type": "sdk",
-      "id": "directory",
-      "version": "\u2014",
-      "notes": "entries=6, size=2861",
-      "findings": 0
-    },
-    {
-      "file": "so/InjuredAndroid__libapp.so",
-      "type": "so",
-      "id": "\u2014",
-      "version": "\u2014",
-      "notes": "machine=AArch64, elf=64",
-      "findings": 0
-    },
-    {
-      "file": "so/UnCrackable-Level2__libfoo.so",
-      "type": "so",
-      "id": "\u2014",
-      "version": "\u2014",
-      "notes": "machine=AArch64, elf=64",
-      "findings": 0
-    },
-    {
-      "file": "so/UnCrackable-Level3__libfoo.so",
-      "type": "so",
-      "id": "\u2014",
-      "version": "\u2014",
-      "notes": "machine=ARM, elf=32",
-      "findings": 0
-    },
-    {
-      "file": "so/ovaa-debug__libovaa.so",
-      "type": "so",
-      "id": "\u2014",
-      "version": "\u2014",
-      "notes": "machine=AArch64, elf=64",
-      "findings": 0
-    }
-  ],
-  "limitations": [
-    "Pattern-scan / metadata heuristics only \u2014 not confirmed vulnerability triage.",
-    "Vague password/secret/apikey tokens are low/info noise by design.",
-    "No decompilation, call-graph, or API-misuse proof.",
-    "DEX strings via ZIP scan (androguard off); same constrained rules.",
-    "DAST not exercised (no adb/device).",
-    "One JAR (edu-secrets-sample.jar) was built locally for SAST coverage; others from Maven Central.",
-    "Native .so samples extracted from public training APKs (not standalone upstream .so releases).",
-    "Binaries purged from temp sandbox after report copy; not stored in git."
-  ],
-  "max_severity_score": 9.2,
-  "avg_severity_score": 3.8,
-  "enrichment": {
-    "severity_score": true,
-    "cvss_estimate": true,
-    "remediation": true,
-    "revalidate": true,
-    "cve": null,
-    "note": "Re-enriched from report.json without re-scanning binaries (taxonomy lookup)."
-  }
+  "plugins": {
+    "apkid": false,
+    "semgrep": true,
+    "mobsfscan": false
+  },
+  "sca": true,
+  "sources": {
+    "apk": "InsecureShop, AndroGoat, DIVA, UnCrackable L1, OVAA (public; fallbacks if download fails)",
+    "ipa": "OWASP UnCrackable L1/L2 + synthetic ATS IPAs to reach 5",
+    "jar": "Maven Central + edu-secrets-sample.jar",
+    "so": "Extracted from training APKs / stubs",
+    "sdk": "Synthetic SDK layouts (hello-jni, gson, slf4j, training, vuln-config)"
+  },
+  "honesty": "Pattern-scan leads; Critical/High from shipped rules; CVE only from OSV when extracted."
 }
