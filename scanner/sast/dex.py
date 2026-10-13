@@ -1,6 +1,6 @@
 """
-DEX-based SAST for APK using androguard (optional).
-Extracts strings and method/class names; runs pattern rules.
+DEX pattern-scan SAST for APK (substring rules on strings / class names).
+Optional androguard improves string tables only — same patterns as ZIP fallback.
 """
 
 from pathlib import Path

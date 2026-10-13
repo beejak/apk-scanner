@@ -1,7 +1,7 @@
 """
-Android DAST: run APK in emulator, instrument with Frida, collect runtime findings.
-Requires: Android SDK (adb), running AVD or device, Frida tools + frida-tools.
-Flow: adb devices -> install APK -> frida -U -f <pkg> -l <script> --no-pause -> parse output.
+Android DAST scaffold: adb install + one optional Frida SSLContext.init check.
+Requires: Android SDK (adb), device/emulator; Python frida for message capture
+(CLI frida alone produces no hook findings). Not a full runtime suite.
 """
 
 import logging

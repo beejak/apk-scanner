@@ -1,18 +1,20 @@
 # Test fixtures
 
-Sample artifacts used to test the scanner (discovery, metadata, SAST, taxonomy).
+Sample artifacts used to test the scanner (discovery, metadata, pattern-scan SAST, taxonomy).
 
 ## Public clone note
 
-**APKs are gitignored** and are not in the repository. After cloning, download the training APKs below into this directory (`tests/fixtures/`) if you want full APK / DEX coverage. Small non-APK fixtures (`sample_sdk/`, JARs, `libdivajni.so`) are tracked in git.
+**`*.apk` / `*.ipa` are gitignored** and are **not** in the repository. After cloning from the public GitHub repo you **must download** the training APKs below into this directory (`tests/fixtures/`) for full APK / DEX coverage.
+
+Small non-APK fixtures (`sample_sdk/`, JARs, `libdivajni.so`) are tracked in git and work without downloads.
 
 ## What’s included (in git)
 
 | Type | File / path | Source / note |
 |------|-------------|----------------|
 | **JAR** | `junit-4.13.2.jar` | Maven Central (JUnit). |
-| **JAR** | `test-with-secrets.jar` | Local minimal JAR with `config.properties` containing `api_key=`, `password=`, `http://` to trigger JAR SAST. |
-| **.so** | `libdivajni.so` | Extracted from DivaApplication.apk (`lib/x86_64/libdivajni.so`) to test .so metadata + native SAST (e.g. JNI_OnLoad, string patterns). |
+| **JAR** | `test-with-secrets.jar` | Local minimal JAR with `config.properties` containing `api_key=`, `password=`, `http://` to trigger JAR pattern-scan SAST. |
+| **.so** | `libdivajni.so` | Extracted from DivaApplication.apk (`lib/x86_64/libdivajni.so`) to test .so metadata + native string patterns (e.g. JNI_OnLoad). |
 | **SDK** | `sample_sdk/` | Local dir with `include/`, `lib/`, and `.env` (triggers SDK SAST: sensitive file + credential pattern). |
 | **JSON** | `report.json` | Tiny sample report for unit tests. |
 
@@ -33,10 +35,16 @@ Example (InsecureShop only; requires a network download):
 curl -L -o tests/fixtures/InsecureShop.apk https://github.com/hax0rgb/InsecureShop/releases/download/v1.0/InsecureShop.apk
 ```
 
+PowerShell alternative:
+
+```powershell
+Invoke-WebRequest -Uri "https://github.com/hax0rgb/InsecureShop/releases/download/v1.0/InsecureShop.apk" -OutFile "tests\fixtures\InsecureShop.apk"
+```
+
 ## Optional (add yourself for full coverage)
 
-- **IPA**: Drop a test IPA (e.g. from [DVIA-v2](https://github.com/OWASP/owasp-mastg/tree/master/Crackmes/iOS) or build from OWASP iGoat) to test IPA metadata + SAST (plist + string scan). IPAs are also gitignored.
-- **Live APKs (e.g. MyJio)**: Available from [APKMirror](https://www.apkmirror.com/apk/jio-platforms-limited/myjio/). Download manually via browser (APKMirror does not expose simple direct URLs for scripting). Use only for personal testing; commercial apps may have ToS restrictions on reverse engineering.
+- **IPA**: Drop a test IPA (e.g. from [DVIA-v2](https://github.com/prateek147/DVIA-v2) or OWASP iGoat) to test IPA metadata + plist/string pattern SAST. IPAs are also gitignored.
+- **Live APKs (e.g. MyJio)**: Available from [APKMirror](https://www.apkmirror.com/apk/jio-platforms-limited/myjio/). Download manually via browser. Use only for personal testing; commercial apps may have ToS restrictions on reverse engineering.
 
 ## Run scanner on fixtures
 
@@ -47,10 +55,12 @@ python cli.py tests\fixtures --sast -o text
 python cli.py tests\fixtures --sast -o csv --out-file "reports/scan_{timestamp}.csv"
 ```
 
-Or use the test runner (writes JSON + CSV to `reports/`):
+Or use the test runner (writes JSON + CSV to `reports/`, which is gitignored):
 
 ```bash
 python tests/run_fixtures_scan.py
 ```
 
-Expected with APKs present: **3 APKs** (InsecureBankv2, InsecureShop, DIVA – DEX findings), **2 JARs** (findings from `test-with-secrets.jar`), **1 .so** (libdivajni.so – JNI/string SAST), **1 SDK** (findings from `sample_sdk/.env`). Without APKs, discovery still covers JARs, `.so`, and `sample_sdk/`. Reports include taxonomy (CWE, NIST, OWASP, CAPEC, CISA, NSA) per finding. Install `pyelftools` for full .so metadata (elf_class, machine via `get_machine_arch()`, needed, JNI exports); `androguard` for richer DEX SAST.
+**Expected with APKs present:** 3 APKs (InsecureBankv2, InsecureShop, DIVA — DEX/metadata **pattern** findings), 2 JARs (findings from `test-with-secrets.jar`), 1 `.so` (`libdivajni.so`), 1 SDK (`sample_sdk/.env`). **Without APKs:** discovery still covers JARs, `.so`, and `sample_sdk/`.
+
+SAST here is **substring/pattern scan** (high FP possible). Install `pyelftools` for full .so metadata; `androguard` improves DEX **string tables** only (same patterns — not deeper analysis). Taxonomy columns are a post-finding lookup, not extra detection.

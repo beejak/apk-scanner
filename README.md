@@ -2,44 +2,50 @@
 
 **Project path:** `C:\Users\Master\Git Projects\apk scanner` — all project and future project files live here.
 
-Full-fledged scanner: **discovery**, **metadata extraction**, **SAST** (static analysis for APK, IPA, JAR, .so, SDK), **taxonomy** (CWE, NIST, OWASP, CAPEC, CISA, NSA), and optional **DAST** (emulator + Frida). Outputs JSON, text, CSV, HTML, and SARIF reports with optional timestamped filenames.
+CLI for **discovery**, **metadata extraction**, optional **pattern-scan SAST** (substring/regex lint), **taxonomy lookup** (CWE, NIST, OWASP, CAPEC, CISA, NSA after findings exist), and an optional **DAST scaffold** (one Android Frida check; iOS stub). Outputs JSON, text, CSV, HTML, and SARIF with optional timestamped filenames.
+
+**Honest capability:** solid inventory + metadata + keyword/pattern lint — **not** a full SAST/DAST product yet. Useful today for binary inventory, cheap secret/HTTP/plist lint, and CI SARIF scaffolding. **Not** useful today for confirmed vuln triage, real crypto/WebView/IPC analysis, or production DAST.
 
 ## Requirements
 
 - Python 3.9+ (3.10+ recommended for full APK metadata via apk-info)
 - **Pinned deps:** `apk-info==1.0.10`, `pyelftools==0.32`, `androguard>=4.0` (see `requirements.txt`)
 
-Without apk-info (e.g. Python &lt; 3.10), APK scan falls back to ZIP-only metadata. Without pyelftools, .so scan returns minimal info. Without androguard, DEX SAST uses a built-in ZIP string scan (still finds patterns).
+Without apk-info (e.g. Python &lt; 3.10), APK scan falls back to ZIP-only metadata. Without pyelftools, .so scan returns minimal info (stdlib fallback path is limited). Without androguard, DEX SAST uses a built-in ZIP string scan. **Androguard improves string/class name tables only — same substring patterns; it does not deepen analysis.**
 
-## Usage (new CLI)
+## Public repo / fixtures
+
+`*.apk`, `*.ipa`, and similar binaries are **gitignored**. After a public clone you must **download** training APKs yourself into `tests/fixtures/` (see [`tests/fixtures/README.md`](tests/fixtures/README.md)). Small text/SDK fixtures and a tiny JAR remain in git.
+
+## Usage (CLI)
 
 ```bash
-# Scan current directory (recursive)
+# Discovery + metadata (no SAST/DAST unless flagged)
 python cli.py .
 
 # Scan a path
 python cli.py "C:\path\to\scan"
 
-# JSON output
+# JSON output (richest with metadata + findings when --sast)
 python cli.py . -o json
 
-# CSV output (human-readable table with CWE/NIST/OWASP/CAPEC/CISA/NSA columns)
+# Pattern-scan SAST — findings in report
+python cli.py . --sast
+
+# CSV (findings table with taxonomy columns; does not include full per-artifact metadata)
 python cli.py . --sast -o csv --out-file "reports/scan_{timestamp}.csv"
 
-# HTML or SARIF (e.g. for CI / code scanning)
+# HTML or SARIF (thinner than JSON/text; useful for CI scaffolding)
 python cli.py . --sast -o html --out-file reports/scan.html
 python cli.py . --sast -o sarif --out-file reports/scan.sarif.json
 
-# With static analysis (SAST) — findings in report
-python cli.py . --sast
-
-# With dynamic analysis (DAST) on APK/IPA — requires emulator + Frida
+# DAST scaffold on APK — needs adb + device; Frida optional (see docs/dast.md)
 python cli.py path/to/app.apk --sast --dynamic -o text
 
 # Only certain types
 python cli.py . --types apk ipa jar
 
-# Parallel workers
+# Parallel workers (discovery/metadata)
 python cli.py . -j 4
 
 # Verbose / quiet
@@ -55,51 +61,52 @@ python cli.py . --sast -o json --out-file reports/scan_{timestamp}.json
 
 | Type | Detection | Metadata (when deps installed) |
 |------|-----------|--------------------------------|
-| **APK** | `.apk` files | apk-info: package, version, permissions, components, signatures, debuggable, etc. |
-| **IPA** | `.ipa` files | Info.plist: bundle_id, version, display_name, min_OS |
-| **JAR** | `.jar` files | MANIFEST.MF: Main-Class, version, Created-By |
+| **APK** | `.apk` files | apk-info: package, version, permissions, components, signatures, debuggable, etc.; else ZIP crumbs |
+| **IPA** | `.ipa` files | Info.plist: bundle_id, version, display_name, min_OS (stdlib) |
+| **JAR** | `.jar` files | MANIFEST.MF: Main-Class, version, Created-By (stdlib) |
 | **.so** | `.so` files | pyelftools: elf_class, machine, DT_NEEDED, JNI exports, stripped |
-| **SDK** | Dirs named *sdk* or with include/lib/samples/etc. | entry count, size |
+| **SDK** | Dirs named *sdk* or with include/lib/samples/etc. | entry count, size (file counter) |
 
 ## Testing with vulnerable apps
 
-Prepared fixtures in **`tests/fixtures/`** (see `tests/fixtures/README.md`): InsecureBankv2.apk, DivaApplication.apk (with native .so), JARs, libdivajni.so, sample_sdk. Run:
+Prepared fixtures in **`tests/fixtures/`** (see `tests/fixtures/README.md`). **APKs are not in git** — download InsecureBankv2, InsecureShop, DIVA, etc. locally. JARs, `libdivajni.so`, and `sample_sdk/` are tracked.
 
 ```bash
 python cli.py tests\fixtures --sast -o text
 python tests/run_fixtures_scan.py   # saves reports/fixtures_scan_<timestamp>.json and .csv
 ```
 
-To add your own: drop InsecureBankv2 from [Android-InsecureBankv2](https://github.com/dineshshetty/Android-InsecureBankv2), DIVA from [diva-apk](https://github.com/zpatshueh/diva-apk), or any APK/IPA/JAR/.so into a folder and scan it.
+Sources: [Android-InsecureBankv2](https://github.com/dineshshetty/Android-InsecureBankv2), [diva-apk](https://github.com/zpatshueh/diva-apk), [InsecureShop](https://github.com/hax0rgb/InsecureShop).
 
 ## Report formats and taxonomy
 
-- **Formats:** `-o text` (default), `-o json`, `-o csv`, `-o html`, `-o sarif`. Use `--out-file "reports/scan_{timestamp}.json"` (quote in PowerShell) for timestamped filenames (`YYYYMMDD_HHMMSS`). Every report includes `scan_timestamp` (ISO 8601 UTC). SARIF 2.1.0 is suitable for GitHub Code Scanning and similar.
-- **Taxonomy:** Each finding is cross-referenced with **CWE**, **NIST** (SP 800-53), **OWASP** (MASVS, Mobile Top 10), **CAPEC**, **CISA**, and **NSA** where applicable. Shown in text (classification line), CSV (one column per DB), and JSON (`classification` object per finding).
+- **Formats:** `-o text` / `-o json` (richest), `-o csv` (findings + taxonomy columns; drops full metadata blobs), `-o html` / `-o sarif` (thinner). Use `--out-file "reports/scan_{timestamp}.json"` (quote in PowerShell). Every report includes `scan_timestamp` (ISO 8601 UTC). SARIF 2.1.0 is suitable for CI scaffolding (not a substitute for confirmed triage).
+- **Taxonomy:** After a finding exists, the report **looks up** CWE / NIST / OWASP / CAPEC / CISA / NSA labels. Taxonomy packaging is a mapping table — it does not deepen detection.
 
 ## Project layout
 
-- **`cli.py`** — main entrypoint (discovery → metadata → SAST → report)
-- **`scanner/`** — package: `discovery`, `metadata/` (apk, ipa, jar, so, sdk), `sast/` (dex, jar, ipa, native, sdk), `taxonomy` (CWE/NIST/OWASP/CAPEC/CISA/NSA mapping), `report`, `run`
-- **`scanner.py`** — legacy minimal scanner (stdlib only)
-- **`docs/PRD.md`** — product requirements, test use cases, reference apps
-- **`tests/fixtures/`** — test APKs, JARs, .so, SDK; see `tests/fixtures/README.md`
+- **`cli.py`** — main entrypoint (discovery → metadata → optional SAST/DAST → report)
+- **`scanner/`** — package: `discovery`, `metadata/`, `sast/` (pattern rules), `dast/` (scaffold), `taxonomy`, `report`, `run`
+- **`scanner.py`** — legacy stdlib-only discovery + light metadata (no SAST/DAST); prefer `cli.py`
+- **`docs/PRD.md`** — product requirements (vision + implemented vs planned)
+- **`docs/dast.md`** — DAST requirements and current behavior
+- **`tests/fixtures/`** — download APKs locally; see `tests/fixtures/README.md`
 
-## SAST (static analysis)
+## SAST (pattern scan)
 
-With `--sast`, the scanner runs static checks and adds findings to the report:
+With `--sast`, the scanner runs **substring/regex and metadata heuristics** and adds findings. Expect **high false positives** on broad tokens like `password`, `secret`, `md5`.
 
-- **APK:** Metadata-based (debuggable, allowBackup, exported components when apk-info is used) and **DEX-based** rules. DEX rules run via a built-in ZIP scan of `.dex` contents (no extra deps) or via **androguard** if installed (richer analysis). Patterns: hardcoded password/API key/secret, cleartext HTTP, logging, SharedPreferences, weak SSL.
-- **.so:** Binary string patterns: hardcoded credentials, weak crypto (e.g. MD5, DES), JNI.
-- **JAR (Java executable):** ZIP scan of `.class`, `.xml`, `.properties` for hardcoded password/API key/secret, cleartext HTTP, trust-all SSL, weak crypto (MD5, DES). Same CWE/NIST/OWASP/CAPEC/CISA/NSA classification as APK where applicable.
-- **IPA (iOS):** Info.plist checks (NSAllowsArbitraryLoads, UIFileSharingEnabled, LSSupportsOpeningDocumentsInPlace, NSAllowsLocalNetworking) and binary string scan for hardcoded credentials and cleartext URLs. Full taxonomy mapping.
-- **SDK:** Directory scan for sensitive filenames (`.pem`, `.key`, `.p12`, `*secret*`, `.env`, etc.) and credential-like patterns in `.properties`, `.xml`, `.json`, `.env`, `.yaml`, `.config`. Taxonomy: CWE, NIST, OWASP, CAPEC, CISA, NSA.
+- **APK:** Metadata heuristics (debuggable, allowBackup, exported components when apk-info is used) plus DEX **string** patterns via ZIP scan or androguard string tables (same rules either way). Examples: hardcoded password/API key/secret, cleartext `http://`, logging, SharedPreferences, weak SSL keywords.
+- **.so:** Binary string patterns: credentials, weak crypto names (e.g. MD5, DES), JNI.
+- **JAR:** ZIP scan of `.class` / config-like entries for secrets, cleartext HTTP, trust-all SSL, weak crypto names.
+- **IPA:** Info.plist flags (e.g. NSAllowsArbitraryLoads) and binary string scan for credentials / cleartext URLs.
+- **SDK:** Sensitive filenames and credential-like patterns in config-ish files.
 
-Findings include `rule_id`, `severity`, `message`, `location`, and optional `masvs_id` (OWASP MASVS). Optional dependency for full DEX analysis: `androguard>=4.0` (may require C++ build tools on Windows).
+Findings include `rule_id`, `severity`, `message`, `location`, and optional `masvs_id`. Optional `androguard` improves string extraction, **not** analysis depth (no xrefs / API-misuse engine yet).
 
-## DAST (dynamic analysis)
+## DAST (scaffold)
 
-Use `--dynamic` to run runtime checks on APK/IPA. Requires Android SDK (`adb`) and a device/emulator; optional Frida for hook-based checks. iOS DAST is macOS-only and not yet implemented. See **`docs/dast.md`** for requirements and flow.
+Use `--dynamic` for a **scaffold**, not production DAST. Android: `adb` install + optional one Frida check (`SSLContext.init` with null TrustManager). Python `frida` can emit that finding; Frida **CLI-only** runs the script but **captures no messages**. iOS: stub (returns no findings). See **`docs/dast.md`**.
 
 ## Tests
 
@@ -110,8 +117,8 @@ pip install -r requirements.txt
 python -m pytest tests/ -v
 ```
 
-Requires `pytest` (in requirements.txt). Fixture-based tests are skipped if `tests/fixtures/` is missing.
+Requires `pytest` (in requirements.txt). Unit/integration coverage is strongest for discovery, taxonomy, and reporting; APK-dependent tests skip if fixtures are missing. There are **no dedicated SAST/DAST unit suites** yet.
 
 ## Roadmap
 
-DAST is scaffolded (Android: adb install + optional Frida; iOS: stub). Next: more Frida checks, iOS simulator support; optional Semgrep/mobsfscan integration. See `.cursor/plans/full_mobile_scanner_replan.md` and the PRD.
+Honesty and depth next: real constrained SAST detectors, `.so` fallback wiring, SAST tests on synthetic fixtures, then more Frida checks. Optional Semgrep/mobsfscan as a pluggable backend later. See `docs/PRD.md` and `.cursor/plans/`.

@@ -1,6 +1,8 @@
 # DAST (Dynamic Application Security Testing)
 
-Dynamic analysis runs the app in an emulator or on a device and uses Frida to instrument runtime behavior. Findings are tagged with `source: "dynamic"` in reports.
+**Status:** scaffold only — not production DAST.
+
+Dynamic mode can install an APK via `adb` and, if the Python `frida` package is available, run **one** Android hook check. Findings are tagged with `source: "dynamic"` in reports. iOS is a stub.
 
 ## Enabling DAST
 
@@ -18,7 +20,17 @@ DAST runs only on **APK** and **IPA** artifacts. Other types are skipped.
 
 - **Android SDK** — `adb` on PATH
 - **Device or emulator** — at least one device listed by `adb devices` (e.g. AVD running)
-- **Frida** (optional) — `frida` and `frida-tools` for hook-based checks. If missing, only install is attempted.
+- **Frida** (optional) — Python package `frida` for the SSL check with message capture; or `frida` CLI (script may run but **no findings** are captured from hooks)
+
+### What is implemented today
+
+Exactly **one** runtime check when Python Frida works:
+
+| Check | Behavior |
+|-------|----------|
+| `dast-android-ssl-trust-all` | Hook `SSLContext.init`; if called with a null `TrustManager`, emit a high-severity finding (CWE-295 / MASVS-NETWORK-2) |
+
+There is **no** automated UI flow, network capture, storage inspection, pinning-bypass suite, or evidence harvesting beyond that Frida message.
 
 ### Flow
 
@@ -26,7 +38,7 @@ DAST runs only on **APK** and **IPA** artifacts. Other types are skipped.
 2. Check for `adb`; if missing, skip DAST and log.
 3. Check for at least one connected device/emulator; if none, skip and log.
 4. Install APK on the first device: `adb -s <device> install -r <apk>`.
-5. If the **Python `frida`** package is installed, the scanner spawns the app, injects a script that hooks `SSLContext.init`, and collects messages. If `SSLContext.init` is called with a null `TrustManager` (trust-all), a **runtime finding** `dast-android-ssl-trust-all` is added (high severity; CWE-295, MASVS-NETWORK-2). If only the **frida CLI** is available, the script runs but messages are not captured, so no finding is produced from hooks.
+5. If the **Python `frida`** package is installed, spawn the app, inject the SSLContext script, and collect messages. If only the **frida CLI** is available, the script may run but messages are **not** captured, so **no** hook-based finding is produced. If Frida is missing entirely, install may succeed and hooks are skipped.
 
 ### Running an emulator
 
@@ -40,9 +52,9 @@ Then run the scanner with `--dynamic`.
 
 ## iOS
 
-- **Supported only on macOS** (simulator and Xcode toolchain).
-- **Status:** Stub only. `run_ios_dast` returns `[]` and logs that iOS DAST is not yet implemented.
-- Planned: `xcrun simctl` boot, install IPA, Frida attach, runtime checks.
+- **Supported only on macOS** (simulator and Xcode toolchain) when implemented.
+- **Status:** Stub only. `run_ios_dast` returns `[]` and logs that iOS DAST is not yet implemented (also skips on non-Darwin).
+- Planned (not implemented): `xcrun simctl` boot, install IPA, Frida attach, runtime checks.
 
 ## Report
 

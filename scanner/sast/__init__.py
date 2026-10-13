@@ -92,7 +92,7 @@ def _metadata_rules(
 
 
 def _apk_sast(path: Path, metadata: Dict[str, Any]) -> List[Dict[str, Any]]:
-    """DEX-based and APK-specific SAST (androguard if available)."""
+    """APK pattern-scan SAST (DEX string/metadata rules; androguard optional for strings)."""
     try:
         from .dex import run_dex_rules
         return run_dex_rules(path)

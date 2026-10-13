@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """
-APK, IPA, JAR, and SDK scanner.
-Finds and reports these file types; extracts basic metadata where possible.
+Legacy stdlib-only discovery + light ZIP/directory metadata (APK, IPA, JAR, SDK).
+
+Does not scan .so, does not run SAST/DAST, and does not use the scanner/ package.
+Prefer cli.py for the current toolchain (discovery, metadata, --sast, --dynamic, reports).
 """
 
 import argparse
@@ -120,7 +122,9 @@ def format_size(n: int) -> str:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Scan for APK, IPA, JAR, and SDK files")
+    parser = argparse.ArgumentParser(
+        description="Legacy discovery: find APK/IPA/JAR/SDK and print light metadata (use cli.py instead)."
+    )
     parser.add_argument("path", nargs="?", default=".", type=Path, help="Path to scan")
     parser.add_argument("-r", "--recursive", action="store_true", default=True, help="Recurse into directories")
     parser.add_argument("--no-recursive", action="store_false", dest="recursive", help="Do not recurse")

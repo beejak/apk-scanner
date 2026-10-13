@@ -1,17 +1,39 @@
 # Product Requirements Document: Full-Fledged Mobile & Binary Security Scanner
 
+## 0. Current capability (honest)
+
+**Today this is a solid discovery + metadata + keyword/pattern-lint CLI**, not a full SAST/DAST product. Docs and taxonomy packaging historically outran the analysis engine; this PRD marks **implemented** vs **planned** explicitly.
+
+| Layer | Reality today |
+|-------|----------------|
+| Discovery | **Implemented:** apk/ipa/jar/so/sdk via `scanner/discovery.py` |
+| Metadata | **Implemented with gaps:** APK strong only with `apk-info` (ZIP crumbs without it); IPA/JAR OK (stdlib); `.so` needs `pyelftools` (fallback limited); SDK is a file counter |
+| SAST | **Implemented as pattern scan:** substring/regex in `scanner/sast/*`. Androguard improves string tables only — same patterns. High FP on broad tokens (`password`/`secret`/`md5`) |
+| DAST | **Scaffold:** one Android Frida check (`SSLContext.init` null TrustManager); Frida CLI captures nothing; iOS stub |
+| Reports | JSON/text richest; CSV drops metadata blobs; HTML/SARIF thinner; taxonomy is a lookup table after findings exist |
+| Tests | Discovery/taxonomy/report OK; **no dedicated SAST/DAST/CLI suites** yet; integration often runs with `sast=False` |
+
+**Useful today for:** inventorying binaries, cheap secret/HTTP/plist lint, CI SARIF scaffolding.  
+**Not useful today for:** confirmed vuln triage, real crypto/WebView/IPC analysis, production DAST.
+
+The sections below describe the **product vision** and requirements. Status tags: **[Implemented]**, **[Partial]**, **[Planned]**.
+
+---
+
 ## 1. Product overview
 
 ### 1.1 Vision
 
 A **full-blown code and runtime vulnerability scanner** for Android (APK/AAB), iOS (IPA), Java (JAR), native libraries (.so, .dylib), and SDK-style directories. The product performs **discovery**, **metadata extraction**, **static application security testing (SAST)**, and **dynamic application security testing (DAST)** in one CLI-driven (and optionally UI-driven) toolchain.
 
+**Current delivery vs vision:** discovery + metadata + pattern-scan SAST + DAST scaffold are in the CLI; deep SAST, production DAST, and UI remain **planned**.
+
 ### 1.2 Goals
 
-- **Single toolchain:** One scanner that handles APK, IPA, JAR, .so, and SDK from a path or drag-and-drop input.
-- **Full vulnerability coverage:** Find code-level issues (SAST) and runtime issues (DAST), not only metadata.
-- **Standards-aligned:** Map findings to OWASP MASVS/MASTG/MASWE where applicable.
-- **Multi-agent friendly:** Structure and documentation support splitting work across specialized agents (discovery, SAST, DAST, reporting).
+- **Single toolchain:** One scanner that handles APK, IPA, JAR, .so, and SDK from a path or drag-and-drop input. **[Partial]** — CLI path scan works; drag-and-drop UI not built.
+- **Full vulnerability coverage:** Find code-level issues (SAST) and runtime issues (DAST), not only metadata. **[Partial]** — pattern lint + one DAST check; not confirmed triage.
+- **Standards-aligned:** Map findings to OWASP MASVS/MASTG/MASWE where applicable. **[Partial]** — taxonomy lookup after findings; MASWE/MASTG IDs not fully wired.
+- **Multi-agent friendly:** Structure and documentation support splitting work across specialized agents (discovery, SAST, DAST, reporting). **[Implemented]** for repo layout/skills.
 
 ### 1.3 Out of scope (for v1)
 
@@ -25,9 +47,9 @@ A **full-blown code and runtime vulnerability scanner** for Android (APK/AAB), i
 
 | Persona | Use case |
 |---------|----------|
-| **App developer** | Scan a build folder or CI artifact; get a report of metadata + vulnerabilities before release. |
-| **Security reviewer** | Point at a directory of APKs/IPAs; run full static + optional dynamic scan; export report (JSON/HTML/SARIF). |
-| **DevSecOps** | Integrate scanner in pipeline (CLI); fail build or gate on findings; consume JSON/SARIF. |
+| **App developer** | Scan a build folder or CI artifact; get a report of metadata + pattern findings before release. |
+| **Security reviewer** | Point at a directory of APKs/IPAs; run pattern SAST + optional DAST scaffold; export report (JSON/HTML/SARIF). Treat findings as leads, not confirmed vulns. |
+| **DevSecOps** | Integrate scanner in pipeline (CLI); consume JSON/SARIF for scaffolding; do not treat exit code as severity gate yet (always 0 on successful scan). |
 
 ---
 
@@ -35,58 +57,58 @@ A **full-blown code and runtime vulnerability scanner** for Android (APK/AAB), i
 
 ### 3.1 Discovery and metadata (foundation)
 
-- **FR-D1** Discover by path: files (APK, IPA, JAR, .so, .dylib) and directories (SDK heuristics).
+- **FR-D1** **[Implemented]** Discover by path: files (APK, IPA, JAR, .so) and directories (SDK heuristics). (`.dylib` not a first-class type yet.)
 - **FR-D2** Extract and report metadata per type:
-  - **APK/AAB:** package, version, min/target SDK, permissions, components (activities/services/receivers/providers) with exported flag, signatures/certs, debuggable, allowBackup, features, libraries, multidex, .so list inside APK.
-  - **IPA:** bundle ID, version, display name, min OS, Info.plist-derived metadata.
-  - **JAR:** manifest (Main-Class, version, Created-By, etc.).
-  - **SDK:** directory path, size, entry count, heuristic type.
-  - **.so:** path, size, ELF class/machine, DT_NEEDED, DT_SONAME, JNI exports, stripped.
-- **FR-D3** Support recursive and non-recursive scan; filter by type (e.g. `--types apk,ipa,so`).
-- **FR-D4** Mid-level logging (INFO): discovery summary, per-file progress, OK/skip/error, final summary. Optional verbose (DEBUG) and quiet mode.
+  - **APK/AAB:** **[Partial]** APK via apk-info when installed; AAB not fully supported. ZIP-only crumbs without apk-info.
+  - **IPA:** **[Implemented]** bundle ID, version, display name, min OS, Info.plist-derived metadata.
+  - **JAR:** **[Implemented]** manifest (Main-Class, version, Created-By, etc.).
+  - **SDK:** **[Implemented]** directory path, size, entry count, heuristic type.
+  - **.so:** **[Partial]** path, size, ELF fields via pyelftools; limited without it.
+- **FR-D3** **[Implemented]** Support recursive and non-recursive scan; filter by type (e.g. `--types apk ipa so`).
+- **FR-D4** **[Implemented]** Mid-level logging (INFO); optional verbose (DEBUG) and quiet mode.
 
 ### 3.2 Static analysis (SAST)
 
-- **FR-S1** **Android (APK):** Decompile DEX (classes.dex, multidex) to Java or Smali; run pattern/rule engine for code-level vulnerabilities.
-- **FR-S2** **JAR:** Decompile or parse bytecode; run pattern/rule engine on code or AST.
-- **FR-S3** **IPA / native:** Analyze Mach-O binary, symbols, strings; pattern match for secrets, weak crypto, unsafe APIs.
-- **FR-S4** **.so:** String and symbol extraction; pattern match for hardcoded secrets, weak crypto, JNI misuse.
-- **FR-S5** **Rule engine:** Configurable rules (e.g. Semgrep, mobsfscan, or custom) for: hardcoded secrets/API keys, insecure crypto, SQLi/XSS patterns, dangerous permissions usage, exported components without protection, debug/log in release, unsafe deserialization. Findings include: rule ID, severity, location (file/line or method), message.
-- **FR-S6** Map findings to OWASP MASVS control groups (STORAGE, CRYPTO, AUTH, NETWORK, PLATFORM, CODE, RESILIENCE, PRIVACY) and/or MASWE where applicable. **Implemented:** Full taxonomy mapping (CWE, NIST SP 800-53, OWASP, CAPEC, CISA, NSA) per finding; shown in text, CSV, and JSON.
+- **FR-S1** **Android (APK):** **[Partial — pattern scan]** Substring/regex on DEX strings (ZIP or androguard string tables) + metadata heuristics. **Not** full DEX decompile → Java/Smali rule engine.
+- **FR-S2** **JAR:** **[Partial — pattern scan]** ZIP/string scan of class/config bytes; **not** bytecode AST / decompiler-based rules.
+- **FR-S3** **IPA / native:** **[Partial]** Plist checks + binary string patterns; **not** full Mach-O misuse analysis.
+- **FR-S4** **.so:** **[Partial]** String patterns for secrets/weak crypto/JNI; deeper symbol misuse **planned**.
+- **FR-S5** **Rule engine:** **[Partial]** Built-in pattern rules only. Configurable Semgrep/mobsfscan / custom rule paths **planned** (`--rules` not implemented). Findings include rule ID, severity, location, message (line often null).
+- **FR-S6** Map findings to OWASP MASVS control groups and/or MASWE. **[Partial — Implemented taxonomy lookup]** CWE, NIST SP 800-53, OWASP, CAPEC, CISA, NSA labels per finding in text/CSV/JSON; not a substitute for deeper detection.
 
 ### 3.3 Dynamic analysis (DAST)
 
-- **FR-DA1** **Android:** Run APK in Android emulator (e.g. AVD); instrument with Frida (or equivalent); support automated or scripted flows; observe network, storage, and API behavior.
-- **FR-DA2** **iOS:** Run IPA in iOS simulator (macOS) or device; instrument; trigger flows; collect runtime findings.
-- **FR-DA3** **Runtime checks:** Certificate pinning bypass, auth bypass, insecure IPC, sensitive data in logs/clipboard, weak TLS, etc. Findings include: check ID, severity, description, evidence.
-- **FR-DA4** DAST can be optional (e.g. `--dynamic` flag or separate subcommand) due to environment requirements (emulator, macOS for iOS).
+- **FR-DA1** **Android:** **[Partial — scaffold]** adb install + optional Frida; **one** check (`SSLContext.init` null TrustManager). No scripted flows / broad observation suite.
+- **FR-DA2** **iOS:** **[Planned]** Stub only (`run_ios_dast` → `[]`).
+- **FR-DA3** **Runtime checks:** **[Partial]** Only the SSL trust-all check above; pinning bypass suite, auth bypass, IPC, clipboard, etc. **planned**.
+- **FR-DA4** **[Implemented]** DAST optional via `--dynamic` (environment-dependent; skipped cleanly if adb/device missing).
 
 ### 3.4 Reporting and output
 
-- **FR-R1** **Formats:** JSON (machine), text (human), **CSV** (table with CWE/NIST/OWASP/CAPEC/CISA/NSA columns), **HTML** (single-file report), **SARIF 2.1.0** (for CI/code scanning). Reports include `scan_timestamp` (ISO 8601 UTC); CLI supports `--out-file` with `{timestamp}` placeholder for timestamped filenames.
-- **FR-R2** **Content:** Per-artifact metadata + list of findings (SAST and DAST) with severity, rule/check ID, location, message; summary counts and error/skip list.
-- **FR-R3** **Exit code:** 0 on success (with or without findings); non-zero on fatal error or invalid args.
-- **FR-R4** Logging to stderr (or configurable); report to stdout or file so output is pipeable.
+- **FR-R1** **Formats:** **[Implemented]** JSON, text, CSV, HTML, SARIF 2.1.0; `scan_timestamp`; `--out-file` with `{timestamp}`. JSON/text richest; CSV omits full metadata; HTML/SARIF thinner.
+- **FR-R2** **Content:** **[Implemented]** Per-artifact metadata + findings + summary; depth of finding detail depends on SAST/DAST quality above.
+- **FR-R3** **Exit code:** **[Partial]** 0 on success (with or without findings); non-zero on fatal error or invalid path. Severity-based exit (`--severity-threshold`) **planned**.
+- **FR-R4** **[Implemented]** Logging to stderr; report to stdout or file.
 
 ### 3.5 CLI and integration
 
-- **FR-C1** CLI: positional path; `--types`, `-o` (text|json|csv|html|sarif), `-j` (workers), `--no-recursive`, `-v`/`--quiet`, `--dynamic` (enable DAST), `--rules` (rule set path).
-- **FR-C2** Optional web UI: drag-and-drop or path input; run scan; display results and export (same formats). Backend reuses same scanner core.
+- **FR-C1** CLI: **[Partial]** path; `--types`; `-o` text|json|csv|html|sarif; `-j`; `--no-recursive`; `-v`/`--quiet`; `--sast`; `--dynamic`. **`--rules` planned / not implemented.**
+- **FR-C2** Optional web UI: **[Planned]** not implemented.
 
 ---
 
 ## 4. Non-functional requirements
 
-- **NFR-1** **Performance:** Parallel discovery and parsing (ProcessPoolExecutor or equivalent); SAST can be per-artifact parallel; DAST may be sequential per artifact due to emulator.
-- **NFR-2** **Reproducibility:** Pinned dependencies (requirements.txt with versions); documented Python and platform requirements (e.g. Python 3.10+, 64-bit on Windows for apk-info).
-- **NFR-3** **Platform:** CLI runs on Windows, Linux, macOS; DAST for iOS requires macOS for simulator.
-- **NFR-4** **Extensibility:** Rule engine and SAST/DAST checks are pluggable or configurable so new rules can be added without rewriting core.
+- **NFR-1** **Performance:** **[Partial]** Parallel discovery/metadata via `-j`; SAST not heavily parallelized; DAST sequential per artifact.
+- **NFR-2** **Reproducibility:** **[Implemented]** requirements.txt; documented Python/platform notes in README.
+- **NFR-3** **Platform:** **[Partial]** CLI on Windows/Linux/macOS; iOS DAST requires macOS when built.
+- **NFR-4** **Extensibility:** **[Partial]** Package layout allows new rules; pluggable Semgrep/mobsfscan backend **planned**.
 
 ---
 
 ## 5. Vulnerability taxonomy (alignment)
 
-Align findings with **OWASP MASVS** control groups:
+Align findings with **OWASP MASVS** control groups (lookup after a finding exists):
 
 | MASVS | Focus | Example checks (SAST/DAST) |
 |-------|--------|----------------------------|
@@ -99,39 +121,39 @@ Align findings with **OWASP MASVS** control groups:
 | MASVS-RESILIENCE | Reverse engineering | Debuggable; tampering; root detection. |
 | MASVS-PRIVACY | Privacy | PII handling; logging; permissions. |
 
-Use **MASTG** tests and **MASWE** weakness IDs in rule metadata where possible.
+Use **MASTG** tests and **MASWE** weakness IDs in rule metadata where possible (**mostly planned** beyond MASVS-ish tags on pattern rules).
 
 ---
 
 ## 6. Architecture (high level)
 
-- **Discovery layer:** Walk filesystem (os.scandir); classify by extension/type; emit list of (path, type). **Implemented:** APK, IPA, JAR, .so, SDK (recursive with heuristics).
-- **Metadata layer:** Per type, parse artifact (apk-info, plistlib, zipfile, pyelftools); emit unified metadata structure. **Implemented:** All five types; .so uses pyelftools `get_machine_arch()`, elf_class 32/64.
-- **SAST layer:** For APK/JAR/IPA/.so/SDK, decompile or extract code/strings; run rule engine; emit findings. **Implemented:** APK (DEX via androguard or ZIP fallback), JAR (ZIP scan), IPA (plist + binary), .so (native strings), SDK (sensitive files + credential patterns). Findings enriched with taxonomy (CWE, NIST, OWASP, CAPEC, CISA, NSA).
-- **DAST layer (optional):** For APK/IPA, launch emulator/simulator, install app, instrument (Frida), run flows; emit runtime findings. **Planned.**
-- **Reporting layer:** Aggregate metadata + SAST + DAST findings; output JSON/text/CSV (HTML/SARIF optional). **Implemented:** `scan_timestamp`, text with classification line per finding, CSV with taxonomy columns, JSON with full `classification` per finding.
-- **CLI/UI:** Entry points that invoke discovery → metadata → SAST [→ DAST] → report. **Implemented:** path, `-o text|json|csv`, `--sast`, `-j`, `--types`, `-v`/`--quiet`, `--out-file` with `{timestamp}`.
+- **Discovery layer:** Walk filesystem; classify by extension/type. **[Implemented]** APK, IPA, JAR, .so, SDK.
+- **Metadata layer:** Per type, parse artifact. **[Implemented with gaps]** as in §0.
+- **SAST layer:** Extract strings / metadata heuristics; pattern rules; emit findings. **[Implemented as pattern scan]** — not decompile + Semgrep. Taxonomy enrichment after the fact.
+- **DAST layer (optional):** **[Partial]** Android scaffold; iOS stub. Broader runtime suite **planned**.
+- **Reporting layer:** Aggregate metadata + findings; JSON/text/CSV/HTML/SARIF. **[Implemented]** with format-depth caveats in §0.
+- **CLI/UI:** **[Partial]** CLI implemented (`cli.py`); UI planned. Prefer `cli.py` over legacy `scanner.py` (stdlib discovery only).
 
 ---
 
 ## 7. Dependencies and tooling
 
-| Area | Dependency | Purpose |
-|------|------------|---------|
-| APK metadata | apk-info | Manifest, permissions, components, signatures. |
-| ELF/.so | pyelftools | ELF parsing, DT_NEEDED, symbols. |
-| DEX/SAST (Android) | androguard or jadx | DEX decompilation; optional androguard for bytecode analysis. |
-| Rule engine | Semgrep, mobsfscan rules, or custom | Pattern matching on decompiled/source code. |
-| DAST | Frida, Android emulator (AVD), iOS simulator | Instrumentation and runtime testing. |
-| Stdlib | zipfile, plistlib, pathlib, multiprocessing, logging | JAR, IPA plist, discovery, concurrency, logging. |
+| Area | Dependency | Purpose | Status |
+|------|------------|---------|--------|
+| APK metadata | apk-info | Manifest, permissions, components, signatures. | Used when installed |
+| ELF/.so | pyelftools | ELF parsing, DT_NEEDED, symbols. | Used when installed |
+| DEX string tables (Android) | androguard (optional) | Better string/class name extraction for **same** pattern rules; not deeper analysis. | Optional |
+| Rule engine | custom patterns today; Semgrep/mobsfscan later | Pattern matching. | Custom **[Implemented]**; Semgrep **[Planned]** |
+| DAST | Frida, Android emulator (AVD), iOS simulator | Instrumentation and runtime testing. | Android one-check **[Partial]**; iOS **[Planned]** |
+| Stdlib | zipfile, plistlib, pathlib, multiprocessing, logging | JAR, IPA plist, discovery, concurrency, logging. | Used |
 
 ---
 
 ## 8. Success criteria
 
-- User can run one CLI command on a path and receive a report containing metadata + SAST findings (and DAST if enabled and environment is available).
-- Findings are categorized by severity and mapped to MASVS/MASWE where applicable.
-- Multiple agents can work on different layers (discovery, SAST, DAST, reporting) with clear handoffs and shared PRD/architecture (see agent skills).
+- User can run one CLI command on a path and receive a report containing metadata + (optional) pattern-scan SAST findings and (optional) DAST scaffold findings when the environment allows.
+- Findings are categorized by severity and mapped to taxonomy labels where a rule mapping exists — treat as **leads**, not confirmed vulns, until deeper detectors exist.
+- Multiple agents can work on different layers with clear handoffs (see agent skills).
 
 ---
 
@@ -139,19 +161,19 @@ Use **MASTG** tests and **MASWE** weakness IDs in rule metadata where possible.
 
 Use these scenarios to validate the product in real time. Tests can be automated (CI) or run manually.
 
-| ID | Use case | What to do | Layer(s) |
-|----|----------|------------|----------|
-| **TC-1** | Scan single vulnerable APK | Run scanner on one known-vulnerable APK (e.g. InsecureBankv2 or MASTG Hacking Playground). | Discovery, metadata, SAST |
-| **TC-2** | Scan single vulnerable IPA | Run scanner on one known-vulnerable IPA (e.g. DVIA-v2 or iGoat-Swift). | Discovery, metadata, SAST |
-| **TC-3** | Scan mixed directory | Run scanner on a folder containing APKs, IPAs, JARs, .so, and an SDK-like directory. | Discovery, metadata |
-| **TC-4** | Metadata correctness (APK) | For a reference APK, assert report contains expected package name, version, permission count, at least one exported component, and signature info. | Metadata |
-| **TC-5** | SAST findings on vulnerable APK | For a vulnerable reference APK, assert report contains at least N expected SAST findings (e.g. hardcoded secret, debuggable=true, or known CWE/MASVS). | SAST |
-| **TC-6** | SAST findings on vulnerable IPA | For a vulnerable reference IPA, assert report contains at least one finding in expected categories (e.g. storage, crypto, or network). | SAST |
-| **TC-7** | Dynamic scan (Android) | With emulator and Frida available, run scanner with `--dynamic` on a vulnerable APK; assert at least one runtime finding or successful instrumentation. | DAST |
-| **TC-8** | Dynamic scan (iOS) | On macOS with simulator, run `--dynamic` on a vulnerable IPA; assert runtime findings or successful run. | DAST |
-| **TC-9** | Report formats | Run scan; assert JSON output is valid and contains metadata + findings arrays; assert text/HTML render without error. | Reporting |
-| **TC-10** | CLI robustness | Run with invalid path → non-zero exit; run with `--types apk` on folder with only JARs → empty or JARs excluded per filter. | CLI |
-| **TC-11** | Real-time regression | Download latest build of a reference vulnerable app (see §11); re-run TC-1 or TC-2 and compare findings to baseline. | End-to-end |
+| ID | Use case | What to do | Layer(s) | Status note |
+|----|----------|------------|----------|-------------|
+| **TC-1** | Scan single vulnerable APK | Run scanner on one known-vulnerable APK (download locally; APKs gitignored). | Discovery, metadata, SAST | Manual / fixtures download |
+| **TC-2** | Scan single vulnerable IPA | Run scanner on one known-vulnerable IPA (download; IPAs gitignored). | Discovery, metadata, SAST | Manual |
+| **TC-3** | Scan mixed directory | Run scanner on a folder containing APKs, IPAs, JARs, .so, and an SDK-like directory. | Discovery, metadata | Partial without downloaded APKs |
+| **TC-4** | Metadata correctness (APK) | Assert package, version, permissions, exported component, signature when apk-info + APK present. | Metadata | Needs downloaded APK |
+| **TC-5** | SAST findings on vulnerable APK | Assert presence of pattern findings (not confirmed vuln triage). | SAST | Needs downloaded APK |
+| **TC-6** | SAST findings on vulnerable IPA | Assert at least one finding category when IPA present. | SAST | Manual |
+| **TC-7** | Dynamic scan (Android) | With emulator + Python Frida, `--dynamic`; expect install and possibly one SSL finding. | DAST | Scaffold only |
+| **TC-8** | Dynamic scan (iOS) | On macOS with simulator, `--dynamic` on IPA. | DAST | Stub — expect skip / empty |
+| **TC-9** | Report formats | Assert JSON valid; text/HTML/SARIF generate. | Reporting | Unit coverage partial |
+| **TC-10** | CLI robustness | Invalid path → non-zero; `--types` filter. | CLI | Limited automated coverage |
+| **TC-11** | Real-time regression | Re-download reference app; compare finding categories to baseline. | End-to-end | Manual |
 
 ---
 
@@ -160,46 +182,47 @@ Use these scenarios to validate the product in real time. Tests can be automated
 A test **passes** when all of the following hold for its scope:
 
 - **Discovery:** All expected files (by type) in the path are listed in the report; no crash on malformed or empty paths.
-- **Metadata:** For each artifact in the report, required fields for that type are present and non-empty where the artifact provides them (e.g. APK has package name; IPA has bundle ID).
-- **SAST:** For vulnerable reference apps (§11), the report contains at least the minimum expected findings defined in the test baseline (e.g. “at least 1 finding with severity high or critical” or “at least 1 finding tagged MASVS-STORAGE”). No requirement to match an exact count; focus on presence of expected vulnerability categories.
-- **DAST:** When DAST is enabled and environment is available, the run completes without fatal error and either produces at least one runtime finding or logs successful instrumentation/flow execution. If emulator/simulator is unavailable, skip or mark DAST test as skipped (not fail).
-- **Reporting:** JSON is valid and conforms to the report schema (metadata array, findings array with rule_id, severity, location, message). Text and HTML generation do not raise.
-- **CLI:** Exit code 0 for successful scan; non-zero for invalid args or fatal error. Logging appears at configured level (INFO/DEBUG/quiet).
+- **Metadata:** For each artifact in the report, required fields for that type are present and non-empty where the artifact and deps provide them.
+- **SAST:** For vulnerable reference apps (§11), the report contains at least the minimum expected **pattern** findings (e.g. cleartext/`http://` or secret-like substring). Success is presence of expected **classes** of hits, not confirmed exploitability.
+- **DAST:** When enabled and environment available, run completes without fatal error; may produce the SSL trust-all finding or only successful install/instrumentation. If emulator unavailable, skip (not fail). iOS DAST currently always empty.
+- **Reporting:** JSON valid with metadata + findings arrays. Text/HTML/SARIF generation do not raise.
+- **CLI:** Exit code 0 for successful scan; non-zero for invalid path or fatal error.
 
-**Baseline (expected findings):** Maintain a small baseline file or table per reference app (e.g. “InsecureBankv2: expect ≥3 SAST findings including debuggable and hardcoded-secret”). Success = scanner finds at least the minimum set or superset. Update baselines when rules or reference app versions change.
+**Baseline (expected findings):** Maintain a small baseline per reference app (e.g. “InsecureBankv2: expect ≥1 DEX/metadata pattern finding”). Update when rules or app versions change.
 
 ---
 
 ## 11. Reference test artifacts (vulnerable APK / IPA)
 
-Use these **intentionally vulnerable** apps to test the scanner in real time. Download and place in a test directory (e.g. `tests/fixtures/` or a path documented in the repo).
+Use these **intentionally vulnerable** apps to test the scanner. **Binaries are gitignored** — download into `tests/fixtures/` (or another local dir). See `tests/fixtures/README.md`.
 
 ### Android (APK)
 
 | App | Description | Source / download |
 |-----|-------------|-------------------|
-| **OWASP MASTG Hacking Playground** | Official OWASP vulnerable app (Kotlin/Java). | [GitHub: OWASP/MASTG-Hacking-Playground](https://github.com/OWASP/MASTG-Hacking-Playground) — build from source or use pre-built APK from releases/Android. |
-| **InsecureBankv2** | Widely used for Android security training. | [MASTG reference apps](https://mas.owasp.org/MASTG/apps/) — link to repo or release. |
-| **DIVA (Damn Insecure and Vulnerable App)** | Intentional vulnerabilities for learning. | [MASTG apps list](https://mas.owasp.org/MASTG/apps/) — Android/APK. |
+| **OWASP MASTG Hacking Playground** | Official OWASP vulnerable app (Kotlin/Java). | [GitHub: OWASP/MASTG-Hacking-Playground](https://github.com/OWASP/MASTG-Hacking-Playground) |
+| **InsecureBankv2** | Widely used for Android security training. | [Android-InsecureBankv2](https://github.com/dineshshetty/Android-InsecureBankv2) |
+| **DIVA** | Intentional vulnerabilities for learning. | [diva-apk](https://github.com/zpatshueh/diva-apk) |
+| **InsecureShop** | Training shop APK. | [InsecureShop releases](https://github.com/hax0rgb/InsecureShop/releases) |
 | **UnCrackable (L1–L4)** | OWASP reverse-engineering challenges. | [MASTG apps](https://mas.owasp.org/MASTG/apps/). |
 | **AndroGoat** | OWASP vulnerable app. | [MASTG reference applications](https://mas.owasp.org/MASTG/apps/). |
 
-**Suggested default for TC-1:** InsecureBankv2 or MASTG Hacking Playground APK. **Fixtures in repo:** `tests/fixtures/` includes InsecureBankv2.apk, DivaApplication.apk (DIVA), libdivajni.so (from DIVA), JARs, and sample_sdk; `tests/run_fixtures_scan.py` runs a full scan and writes `reports/fixtures_scan_<timestamp>.json` and `.csv`. See `tests/fixtures/README.md` for details.
+**Suggested default for TC-1:** InsecureBankv2 or InsecureShop APK. **In git under `tests/fixtures/`:** small JARs, `libdivajni.so`, `sample_sdk/` — **not** the APKs. `tests/run_fixtures_scan.py` writes reports under `reports/` (also gitignored).
 
 ### iOS (IPA)
 
 | App | Description | Source / download |
 |-----|-------------|-------------------|
-| **Damn Vulnerable iOS App (DVIA-v2)** | Swift app with 16+ vulnerability categories (storage, crypto, pinning, WebView, etc.). | [GitHub: prateek147/DVIA-v2](https://github.com/prateek147/DVIA-v2) — IPA in releases or build from Xcode. |
-| **iGoat (Swift)** | OWASP intentionally insecure iOS app. | [OWASP iGoat-Swift](https://github.com/OWASP/iGoat-Swift) — source and unencrypted IPA. |
+| **Damn Vulnerable iOS App (DVIA-v2)** | Swift app with many vulnerability categories. | [GitHub: prateek147/DVIA-v2](https://github.com/prateek147/DVIA-v2) |
+| **iGoat (Swift)** | OWASP intentionally insecure iOS app. | [OWASP iGoat-Swift](https://github.com/OWASP/iGoat-Swift) |
 
-**Suggested default for TC-2:** DVIA-v2 IPA. Document download or build steps for CI (e.g. macOS runner) and local testing.
+**Suggested default for TC-2:** DVIA-v2 IPA (download/build locally; gitignored).
 
 ### Usage in tests
 
-- **Automated:** In CI, either commit a small, stable test APK/IPA (if license permits) or download from a fixed URL/version in the test script before running TC-1, TC-2, TC-5, TC-6, TC-7, TC-8.
-- **Manual / real-time:** Developer downloads one or more reference apps into a local folder and runs the scanner (e.g. `scanner path/to/vulnerable_apps -o json`) to verify behavior and findings.
-- **Baseline:** For each reference app, define minimum expected findings (see §10). Store in `tests/baselines/` or in PRD appendix and update when rules or app versions change.
+- **Automated:** CI should not assume APKs in git. Prefer synthetic non-binary fixtures for unit tests; download fixed URLs in optional integration jobs.
+- **Manual / real-time:** Download reference apps into a local folder and run `python cli.py path/to/apps --sast -o json`.
+- **Baseline:** Define minimum expected finding **categories** per app (see §10).
 
 ---
 

@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """
-CLI for the full mobile & binary security scanner.
+CLI for discovery, metadata, optional pattern-scan SAST, and optional DAST scaffold.
+
+This is a discovery + metadata + keyword/pattern-lint tool, not a full SAST/DAST product.
 """
 
 import argparse
@@ -18,7 +20,12 @@ REPORT_TIMESTAMP_FORMAT = "%Y%m%d_%H%M%S"
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Scan path for APK, IPA, JAR, .so, SDK; extract metadata and report."
+        description=(
+            "Discover APK/IPA/JAR/.so/SDK under a path, extract metadata, and optionally "
+            "run pattern-scan SAST (--sast) and/or a DAST scaffold (--dynamic). "
+            "SAST is substring/regex lint (not decompilation or confirmed vuln triage). "
+            "Report formats: text, json, csv, html, sarif."
+        )
     )
     parser.add_argument("path", nargs="?", default=".", type=Path, help="Path to scan (file or directory)")
     parser.add_argument("-r", "--recursive", action="store_true", default=True, help="Recurse into directories")
@@ -30,10 +37,30 @@ def main() -> int:
         choices=["apk", "ipa", "jar", "so", "sdk"],
         help="Artifact types to include",
     )
-    parser.add_argument("-o", "--output", choices=("text", "json", "csv", "html", "sarif"), default="text", help="Output format")
-    parser.add_argument("-j", "--jobs", type=int, default=1, help="Parallel workers (default 1)")
-    parser.add_argument("--sast", action="store_true", help="Run static analysis (SAST) and include findings in report")
-    parser.add_argument("--dynamic", action="store_true", help="Run dynamic analysis (DAST) on APK/IPA when emulator and Frida are available")
+    parser.add_argument(
+        "-o",
+        "--output",
+        choices=("text", "json", "csv", "html", "sarif"),
+        default="text",
+        help="Output format (json/text richest; csv omits per-artifact metadata; html/sarif are thinner)",
+    )
+    parser.add_argument("-j", "--jobs", type=int, default=1, help="Parallel workers for discovery/metadata (default 1)")
+    parser.add_argument(
+        "--sast",
+        action="store_true",
+        help=(
+            "Run pattern-scan SAST (substring/regex on strings and metadata heuristics) "
+            "and include findings; not deep static analysis"
+        ),
+    )
+    parser.add_argument(
+        "--dynamic",
+        action="store_true",
+        help=(
+            "Run DAST scaffold on APK/IPA: Android needs adb + device (one Frida SSLContext "
+            "check if Python frida is installed; CLI Frida captures nothing); iOS is a stub"
+        ),
+    )
     parser.add_argument("-v", "--verbose", action="store_true", help="Verbose (DEBUG) logging")
     parser.add_argument("--quiet", action="store_true", help="Only report to stdout; no progress logs")
     parser.add_argument(
