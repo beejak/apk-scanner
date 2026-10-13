@@ -143,5 +143,14 @@
       "allow_backup": "true",
       "finding_count": 35
     }
-  ]
+  ],
+  "by_severity": {
+    "critical": 0,
+    "high": 34,
+    "medium": 112,
+    "low": 105,
+    "info": 134
+  },
+  "max_severity_score": 9.2,
+  "avg_severity_score": 3.38
 }

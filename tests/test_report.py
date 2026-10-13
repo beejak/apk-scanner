@@ -4,12 +4,14 @@ import pytest
 from scanner.report import (
     aggregate,
     format_size,
+    reenrich_report,
     to_csv,
     to_html,
     to_json,
     to_sarif,
     to_text,
 )
+from scanner.taxonomy import enrich_finding
 
 
 def test_aggregate_empty():
@@ -17,18 +19,25 @@ def test_aggregate_empty():
     assert r["scan_timestamp"]
     assert r["metadata"] == []
     assert r["findings"] == []
-    assert r["summary"] == {"artifacts": 0, "findings": 0}
+    assert r["summary"]["artifacts"] == 0
+    assert r["summary"]["findings"] == 0
+    assert r["summary"]["by_severity"]["high"] == 0
+    assert r["summary"]["max_severity_score"] == 0.0
+    assert r["summary"]["avg_severity_score"] == 0.0
 
 
 def test_aggregate_with_metadata_and_findings():
     meta = [{"path": "/a.apk", "type": "apk", "metadata": {}}]
-    findings = [{"rule_id": "r1", "severity": "high", "message": "msg"}]
+    findings = [{"rule_id": "apk-debuggable", "severity": "high", "message": "msg"}]
+    enrich_finding(findings[0])
     r = aggregate(meta, findings, scan_timestamp="2026-01-01T00:00:00Z")
     assert r["scan_timestamp"] == "2026-01-01T00:00:00Z"
     assert len(r["metadata"]) == 1
     assert len(r["findings"]) == 1
     assert r["summary"]["artifacts"] == 1
     assert r["summary"]["findings"] == 1
+    assert r["summary"]["by_severity"]["high"] == 1
+    assert r["summary"]["max_severity_score"] > 0
 
 
 def test_format_size():
@@ -61,34 +70,43 @@ def test_to_text():
 
 
 def test_to_text_with_finding():
-    r = aggregate(
-        [],
-        [{"rule_id": "r1", "severity": "high", "message": "Bad", "source": "sast"}],
-        scan_timestamp="2026-01-01T00:00:00Z",
-    )
+    f = {"rule_id": "apk-debuggable", "severity": "high", "message": "Bad", "source": "sast"}
+    enrich_finding(f)
+    r = aggregate([], [f], scan_timestamp="2026-01-01T00:00:00Z")
     out = to_text(r)
     assert "FINDINGS" in out
-    assert "r1" in out
+    assert "apk-debuggable" in out
     assert "Bad" in out
+    assert "Remediation:" in out
+    assert "Revalidate:" in out
+    assert "score=" in out
 
 
 def test_to_csv():
-    r = aggregate(
-        [],
-        [{"rule_id": "r1", "severity": "high", "message": "M", "source": "sast", "location": {"file": "/p"}}],
-        scan_timestamp="2026-01-01T00:00:00Z",
-    )
+    f = {
+        "rule_id": "apk-debuggable",
+        "severity": "high",
+        "message": "M",
+        "source": "sast",
+        "location": {"file": "/p"},
+    }
+    enrich_finding(f)
+    r = aggregate([], [f], scan_timestamp="2026-01-01T00:00:00Z")
     out = to_csv(r)
     assert "scan_timestamp" in out
     assert "rule_id" in out
-    assert "source" in out
-    assert "r1" in out
+    assert "severity_score" in out
+    assert "remediation" in out
+    assert "revalidate" in out
+    assert "apk-debuggable" in out
 
 
 def test_to_html():
+    f = {"rule_id": "apk-debuggable", "severity": "high", "message": "M", "source": "dynamic"}
+    enrich_finding(f)
     r = aggregate(
         [{"path": "/a.apk", "type": "apk", "size_bytes": 1000, "metadata": {}}],
-        [{"rule_id": "r1", "severity": "high", "message": "M", "source": "dynamic"}],
+        [f],
         scan_timestamp="2026-01-01T00:00:00Z",
     )
     out = to_html(r)
@@ -96,16 +114,19 @@ def test_to_html():
     assert "Scan Report" in out
     assert "Artifacts" in out
     assert "Findings" in out
-    assert "r1" in out
+    assert "apk-debuggable" in out
     assert "dynamic" in out
+    assert "How to fix" in out
+    assert "How to revalidate" in out
+    assert "CVSS-estimate" in out
+    assert "Severity score" in out
+    assert "<style>" in out
 
 
 def test_to_sarif():
-    r = aggregate(
-        [],
-        [{"rule_id": "dex-hardcoded-password", "severity": "high", "message": "Hardcoded creds"}],
-        scan_timestamp="2026-01-01T00:00:00Z",
-    )
+    f = {"rule_id": "dex-hardcoded-password", "severity": "high", "message": "Hardcoded creds"}
+    enrich_finding(f)
+    r = aggregate([], [f], scan_timestamp="2026-01-01T00:00:00Z")
     out = to_sarif(r, tool_name="test-tool")
     data = json.loads(out)
     assert data["version"] == "2.1.0"
@@ -114,3 +135,21 @@ def test_to_sarif():
     assert data["runs"][0]["tool"]["driver"]["name"] == "test-tool"
     assert len(data["runs"][0]["results"]) == 1
     assert data["runs"][0]["results"][0]["ruleId"] == "dex-hardcoded-password"
+    props = data["runs"][0]["results"][0]["properties"]
+    assert "severity_score" in props
+    assert "remediation" in props
+
+
+def test_reenrich_report():
+    f = {"rule_id": "apk-debuggable", "severity": "high", "message": "dbg"}
+    r = {
+        "scan_timestamp": "2026-01-01T00:00:00Z",
+        "metadata": [],
+        "findings": [f],
+        "summary": {"artifacts": 0, "findings": 1},
+    }
+    reenrich_report(r)
+    assert r["findings"][0]["severity_score"] is not None
+    assert r["findings"][0]["remediation"]
+    assert "by_severity" in r["summary"]
+    assert r["summary"]["max_severity_score"] > 0

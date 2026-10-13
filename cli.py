@@ -28,7 +28,9 @@ def main() -> int:
             "high-confidence secret formats); still not decompilation or confirmed triage. "
             "Vague password/secret tokens are low/info. "
             "DEX scan is ZIP-based by default; set APK_SCANNER_ANDROGUARD=1 for optional androguard strings. "
-            "Report formats: text, json, csv, html, sarif."
+            "Report formats: text, json, csv, html, sarif. Findings include severity_score (0-10), "
+            "taxonomy (CWE/NIST/OWASP/CAPEC/CISA/NSA), cvss_estimate (rule-based, not NVD CVE CVSS), "
+            "remediation, and revalidate. CVE IDs require SCA (not implemented; cve is null)."
         )
     )
     parser.add_argument("path", nargs="?", default=".", type=Path, help="Path to scan (file or directory)")
@@ -46,7 +48,11 @@ def main() -> int:
         "--output",
         choices=("text", "json", "csv", "html", "sarif"),
         default="text",
-        help="Output format (json/text richest; csv omits per-artifact metadata; html/sarif are thinner)",
+        help=(
+            "Output format: json/text (richest: scores, taxonomy, remediation); "
+            "csv (findings table + score/CVSS/remediation/taxonomy columns; no full metadata); "
+            "html (executive summary + per-finding fix/revalidate); sarif (CI + properties)"
+        ),
     )
     parser.add_argument("-j", "--jobs", type=int, default=1, help="Parallel workers for discovery/metadata (default 1)")
     parser.add_argument(

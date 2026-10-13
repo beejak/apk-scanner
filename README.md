@@ -81,8 +81,10 @@ Sources: [Android-InsecureBankv2](https://github.com/dineshshetty/Android-Insecu
 
 ## Report formats and taxonomy
 
-- **Formats:** `-o text` / `-o json` (richest), `-o csv` (findings + taxonomy columns; drops full metadata blobs), `-o html` / `-o sarif` (thinner). Use `--out-file "reports/scan_{timestamp}.json"` (quote in PowerShell). Every report includes `scan_timestamp` (ISO 8601 UTC). SARIF 2.1.0 is suitable for CI scaffolding (not a substitute for confirmed triage).
-- **Taxonomy:** After a finding exists, the report **looks up** CWE / NIST / OWASP / CAPEC / CISA / NSA labels. Taxonomy packaging is a mapping table — it does not deepen detection.
+- **Formats:** `-o text` / `-o json` (richest), `-o csv` (findings + score/CVSS/remediation/taxonomy columns; drops full metadata blobs), `-o html` (executive summary + per-finding fix/revalidate), `-o sarif` (CI + finding properties). Use `--out-file "reports/scan_{timestamp}.json"` (quote in PowerShell). Every report includes `scan_timestamp` (ISO 8601 UTC). SARIF 2.1.0 is suitable for CI scaffolding (not a substitute for confirmed triage).
+- **Per finding:** `severity_score` (0.0–10.0 from severity band × rule weight), `classification` (CWE / NIST / OWASP / CAPEC / CISA / NSA), `cvss_estimate` `{ score, vector, note }` (**rule-based estimate, not NVD CVSS for a CVE**), `remediation`, `revalidate`, and `cve: null` (real CVE IDs need component/version SCA — not implemented; we do not invent CVE-YYYY-NNNN).
+- **Summary rollups:** `by_severity` counts, `max_severity_score`, `avg_severity_score`.
+- **Taxonomy:** Lookup table after a finding exists — packaging only; it does not deepen detection.
 
 ## Project layout
 
@@ -103,7 +105,7 @@ With `--sast`, the scanner runs **constrained regex + metadata heuristics** and 
 - **IPA:** Info.plist ATS (`NSAllowsArbitraryLoads`, exception insecure HTTP) and binary string scan.
 - **SDK:** Sensitive filenames and credential-like patterns in config-ish files.
 
-Findings include `rule_id`, `severity`, `message`, `location`, and optional `masvs_id`. Optional `androguard` improves string extraction, **not** analysis depth (no xrefs / API-misuse engine yet).
+Findings include `rule_id`, `severity`, `severity_score`, `message`, `location`, optional `masvs_id`, plus enrichment fields above. Optional `androguard` improves string extraction, **not** analysis depth (no xrefs / API-misuse engine yet).
 
 **Local UI (planned, not built):** a static HTML/JS drop-zone cannot run this Python scanner in-browser alone; it would need a companion local server or Tauri shell that invokes `cli.py`. See Phase 3 notes in the audit roadmap plan.
 
@@ -124,4 +126,4 @@ Requires `pytest` (in requirements.txt). Use **Python 3.10+** for `apk-info`; on
 
 ## Roadmap
 
-Shipped in Phase 3 light: constrained SAST detectors, `.so` fallback wiring, synthetic SAST tests, high-confidence secret formats. Next: MASWE taxonomy depth, SARIF honesty, optional APKiD/CI sandbox, then Frida/DAST. Optional Semgrep/mobsfscan as a pluggable backend later. Static local drop-zone UI remains planned (needs local bridge to `cli.py`). See `docs/PRD.md`.
+Shipped in Phase 3 light: constrained SAST detectors, `.so` fallback wiring, synthetic SAST tests, high-confidence secret formats, **severity scores**, **CVSS-estimate** (rule-based), and **remediation/revalidate** per rule. **CVE/SCA** (real CVE-YYYY-NNNN from component versions) remains backlog. Next: MASWE taxonomy depth, optional APKiD/CI sandbox, then Frida/DAST. Optional Semgrep/mobsfscan as a pluggable backend later. Static local drop-zone UI remains planned (needs local bridge to `cli.py`). See `docs/PRD.md`.

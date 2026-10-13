@@ -1,9 +1,13 @@
 """
 Cross-reference findings with CWE, NIST, OWASP, CAPEC, CISA, NSA.
 Maps rule_id (and optionally masvs_id) to standard classifications for easy-to-understand reporting.
+
+Also provides rule-based severity_score (0–10), CVSS-like estimates (not NVD CVE CVSS),
+and remediation / revalidate guidance. CVE IDs require component/version SCA (not implemented);
+findings may include cve: null.
 """
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 # Rule_id -> classification: CWE, NIST, OWASP, CAPEC, CISA, NSA.
 # Each entry: short label for "easy to understand" + official ID + optional URL.
@@ -398,6 +402,230 @@ TAXONOMY: Dict[str, Dict[str, List[Dict[str, str]]]] = {
 }
 
 
+# Severity band → base score (0.0–10.0). Final score = min(10, base * rule_weight).
+SEVERITY_BASE: Dict[str, float] = {
+    "critical": 9.5,
+    "high": 8.0,
+    "medium": 5.5,
+    "low": 3.0,
+    "info": 1.0,
+}
+
+CVSS_NOTE = "rule-based estimate, not NVD CVSS for a CVE"
+
+# Rule weight multipliers (confidence / actionability). Default 1.0.
+RULE_WEIGHTS: Dict[str, float] = {
+    "secret-aws-access-key": 1.15,
+    "secret-google-api-key": 1.1,
+    "secret-private-key-pem": 1.15,
+    "jar-secret-aws-access-key": 1.15,
+    "jar-secret-google-api-key": 1.1,
+    "jar-secret-private-key-pem": 1.15,
+    "ipa-secret-aws-access-key": 1.15,
+    "ipa-secret-google-api-key": 1.1,
+    "ipa-secret-private-key-pem": 1.15,
+    "apk-debuggable": 1.05,
+    "apk-cleartext-traffic": 1.05,
+    "apk-exported-unprotected": 1.05,
+    "dex-ssl-trust": 1.1,
+    "dast-android-ssl-trust-all": 1.15,
+    "dex-hardcoded-password": 0.85,
+    "dex-hardcoded-apikey": 0.9,
+    "dex-hardcoded-secret": 0.85,
+    "dex-storage-sharedprefs": 0.8,
+    "dex-logging": 0.75,
+    "so-jni": 0.7,
+}
+
+# CVSS-like estimate per rule: score + simplified v3.1-style vector + honesty note.
+# Not NVD CVSS for a CVE — requires SCA for real CVE/CVSS.
+_CVSS_BY_FAMILY: Dict[str, Tuple[float, str]] = {
+    "hardcoded-password": (5.3, "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"),
+    "hardcoded-apikey": (6.5, "AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"),
+    "hardcoded-secret": (5.5, "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"),
+    "cleartext": (7.4, "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"),
+    "ssl-trust": (8.1, "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"),
+    "ssl-trust-all": (8.1, "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"),
+    "logging": (3.3, "AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"),
+    "storage-sharedprefs": (4.0, "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"),
+    "debuggable": (7.5, "AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"),
+    "allow-backup": (5.3, "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"),
+    "exported-component": (5.5, "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"),
+    "exported-unprotected": (6.5, "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"),
+    "cleartext-traffic": (7.4, "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"),
+    "weak-cipher": (5.9, "AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"),
+    "weak-hash": (5.3, "AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N"),
+    "weak-crypto": (5.9, "AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"),
+    "webview-js-bridge": (6.5, "AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N"),
+    "webview-js-enabled": (5.4, "AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N"),
+    "webview-file-access": (6.1, "AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N"),
+    "aws-access-key": (8.6, "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"),
+    "google-api-key": (7.5, "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"),
+    "private-key-pem": (8.6, "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"),
+    "allow-arbitrary-loads": (7.4, "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"),
+    "allow-local-networking": (5.3, "AV:A/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"),
+    "exception-insecure-http": (6.5, "AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"),
+    "file-sharing": (4.3, "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"),
+    "documents-in-place": (3.3, "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"),
+    "sensitive-file": (6.5, "AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"),
+    "exposed-credential": (7.5, "AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"),
+    "jni": (3.0, "AV:L/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N"),
+}
+
+# Explicit overrides when family key alone is ambiguous.
+CVSS_ESTIMATES: Dict[str, Dict[str, Any]] = {}
+
+# Remediation + revalidate guidance per rule_id (or family fallback).
+_HELP_BY_FAMILY: Dict[str, Tuple[str, str]] = {
+    "hardcoded-password": (
+        "Remove hardcoded passwords from app binaries and resources. Use platform secret stores "
+        "(Android Keystore / iOS Keychain) or authenticate via a backend; never ship production credentials in the APK/IPA/JAR.",
+        "Rebuild the artifact, then re-run: python cli.py <path> --sast -o json. Expect this rule_id to be absent "
+        "(or only leftover false-positive token hits at low/info). Compare finding counts for the same path.",
+    ),
+    "hardcoded-apikey": (
+        "Move API keys out of client code. Prefer short-lived tokens from your backend; restrict keys by package "
+        "signature / bundle ID and IP where the vendor allows.",
+        "Rebuild and re-scan with --sast. Clear when the matching key string no longer appears in findings for this rule_id.",
+    ),
+    "hardcoded-secret": (
+        "Remove embedded secrets/crypto keys from the binary. Load keys from a secure backend or hardware-backed store at runtime.",
+        "Rebuild and re-run --sast; this rule_id should clear when the secret patterns are gone.",
+    ),
+    "cleartext": (
+        "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+        "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+    ),
+    "ssl-trust": (
+        "Remove custom TrustManager / HostnameVerifier implementations that accept all certificates. Use the system trust store; "
+        "add certificate pinning only with a maintained pin set.",
+        "Rebuild and re-scan with --sast (and --dynamic if you use the Frida SSL check). Expect ssl-trust / trust-all rule_ids to clear.",
+    ),
+    "ssl-trust-all": (
+        "Do not initialize SSLContext with a null or accepting-all TrustManager. Fix the app to validate certificates properly.",
+        "Re-run with --dynamic on a device/emulator when Frida is available; the dast-android-ssl-trust-all finding should be gone.",
+    ),
+    "logging": (
+        "Stop logging passwords, tokens, or PII. Use redaction or remove sensitive log lines before release builds.",
+        "Rebuild release and re-scan with --sast; dex-logging findings for those strings should clear.",
+    ),
+    "storage-sharedprefs": (
+        "Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.",
+        "Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.",
+    ),
+    "debuggable": (
+        "Set android:debuggable=false for release builds (default when using a release build type). Do not ship debug APKs to production.",
+        "Build a release APK and re-run --sast; apk-debuggable should be absent when the manifest flag is false/unset for release.",
+    ),
+    "allow-backup": (
+        "Set android:allowBackup=false, or use a backup rules / data extraction rules file that excludes sensitive data.",
+        "Rebuild and re-scan with --sast; apk-allow-backup should clear when allowBackup is false or appropriately restricted.",
+    ),
+    "exported-component": (
+        "Review exported activities/services/receivers/providers. Export only what is required; prefer explicit intents.",
+        "Rebuild and re-scan with --sast; review remaining apk-exported-* findings for intentional exports.",
+    ),
+    "exported-unprotected": (
+        "Add a permission (signature/custom) on exported components, or set android:exported=false if not needed by other apps.",
+        "Rebuild and re-scan with --sast; apk-exported-unprotected should clear for components that are no longer exported without permission.",
+    ),
+    "cleartext-traffic": (
+        "Disable cleartext in the manifest / network security config (usesCleartextTraffic=false; cleartextTrafficPermitted=false).",
+        "Rebuild and re-scan with --sast; apk-cleartext-traffic should clear when cleartext is disallowed.",
+    ),
+    "weak-cipher": (
+        "Replace weak Cipher algorithms (e.g. DES, RC4, ECB) with modern algorithms (AES-GCM) via Cipher.getInstance with strong transforms.",
+        "Rebuild and re-scan with --sast; dex-weak-cipher / jar-weak-crypto hits for those algorithm strings should clear.",
+    ),
+    "weak-hash": (
+        "Replace MD5/SHA-1 for security uses with SHA-256 or stronger (or a proper KDF/MAC). Do not use broken digests for integrity/auth.",
+        "Rebuild and re-scan with --sast; dex-weak-hash findings for those MessageDigest strings should clear.",
+    ),
+    "weak-crypto": (
+        "Remove weak crypto algorithm names from native/JAR code paths; use approved algorithms (AES-GCM, SHA-256+).",
+        "Rebuild and re-scan with --sast; so-weak-crypto / jar-weak-crypto should clear when weak algorithm strings are gone.",
+    ),
+    "webview-js-bridge": (
+        "Avoid addJavascriptInterface on untrusted content; if required, expose minimal APIs and validate all inputs.",
+        "Rebuild and re-scan with --sast; dex-webview-js-bridge should clear when the bridge is removed or no longer matched.",
+    ),
+    "webview-js-enabled": (
+        "Enable JavaScript only when required; load only trusted content and apply WebView hardening (safe browsing, no file access).",
+        "Rebuild and re-scan with --sast; review remaining dex-webview-js-enabled hits for intentional trusted WebViews.",
+    ),
+    "webview-file-access": (
+        "Disable WebView file access (setAllowFileAccess(false) / setAllowFileAccessFromFileURLs(false)) unless strictly required.",
+        "Rebuild and re-scan with --sast; dex-webview-file-access should clear when file-access APIs are not used insecurely.",
+    ),
+    "aws-access-key": (
+        "Rotate the AWS access key immediately. Remove it from the app; use Cognito/STS or a backend that vends temporary credentials.",
+        "After rotation and rebuild, re-scan with --sast; secret-*/aws-access-key findings should be gone. Confirm key disabled in AWS IAM.",
+    ),
+    "google-api-key": (
+        "Restrict the Google API key (Android/iOS app restriction) or move calls server-side. Rotate if the key was exposed.",
+        "Rebuild and re-scan with --sast; google-api-key rule_ids should clear when the AIza… string is removed.",
+    ),
+    "private-key-pem": (
+        "Remove PEM private keys from the package. Generate/store keys in Keystore/Keychain or a secrets manager; rotate any exposed key.",
+        "Rebuild and re-scan with --sast; private-key-pem findings should clear when BEGIN PRIVATE KEY blocks are gone.",
+    ),
+    "allow-arbitrary-loads": (
+        "Set NSAllowsArbitraryLoads to false (or remove it). Use ATS exceptions only for specific, justified domains.",
+        "Rebuild the IPA and re-scan with --sast; ipa-allow-arbitrary-loads should clear when ATS no longer allows arbitrary loads.",
+    ),
+    "allow-local-networking": (
+        "Limit NSAllowsLocalNetworking; prefer TLS even on local networks when carrying sensitive data.",
+        "Rebuild and re-scan with --sast; ipa-allow-local-networking should clear when the plist flag is removed/false.",
+    ),
+    "exception-insecure-http": (
+        "Remove NSExceptionAllowsInsecureHTTPLoads for production domains; serve HTTPS only.",
+        "Rebuild and re-scan with --sast; ipa-exception-insecure-http should clear when insecure HTTP exceptions are removed.",
+    ),
+    "file-sharing": (
+        "Disable UIFileSharingEnabled if users should not browse app documents via Finder/iTunes; keep sensitive files out of Documents.",
+        "Rebuild and re-scan with --sast; ipa-file-sharing should clear when file sharing is disabled.",
+    ),
+    "documents-in-place": (
+        "Review LSSupportsOpeningDocumentsInPlace; ensure document access does not expose sensitive app data unintentionally.",
+        "Rebuild and re-scan with --sast; ipa-documents-in-place should clear when the capability is removed if unused.",
+    ),
+    "sensitive-file": (
+        "Remove keystores, PEM files, and credential-like filenames from the SDK distribution; load secrets at runtime from a vault.",
+        "Re-scan the SDK path with --sast; sdk-sensitive-file should clear when those files are removed from the tree.",
+    ),
+    "exposed-credential": (
+        "Remove credentials from SDK configs and source. Use environment injection or a secrets manager in consuming apps.",
+        "Re-scan with --sast; sdk-exposed-credential should clear when credential patterns are gone from configs.",
+    ),
+    "jni": (
+        "Treat JNI as a trust boundary: validate inputs, avoid exposing privileged native APIs broadly. Review for buffer issues separately.",
+        "Re-scan the .so with --sast; so-jni is informational — expect it if JNI symbols remain (not always a defect).",
+    ),
+}
+
+REMEDIATION: Dict[str, Dict[str, str]] = {}
+
+
+def _rule_family(rule_id: str) -> str:
+    """Strip artifact prefix to a family key used for CVSS/help fallbacks."""
+    rid = rule_id or ""
+    for prefix in (
+        "dast-android-",
+        "secret-",
+        "jar-secret-",
+        "ipa-secret-",
+        "apk-",
+        "dex-",
+        "jar-",
+        "ipa-",
+        "so-",
+        "sdk-",
+    ):
+        if rid.startswith(prefix):
+            return rid[len(prefix) :]
+    return rid
+
+
 def get_classification(rule_id: str, masvs_id: Optional[str] = None) -> Dict[str, List[Dict[str, str]]]:
     """Return CWE, NIST, OWASP, CAPEC, CISA, NSA for a rule_id. Empty lists for unknown rules."""
     return TAXONOMY.get(rule_id, {
@@ -410,11 +638,76 @@ def get_classification(rule_id: str, masvs_id: Optional[str] = None) -> Dict[str
     })
 
 
+def rule_weight(rule_id: str) -> float:
+    """Return weight multiplier for severity_score (default 1.0)."""
+    return float(RULE_WEIGHTS.get(rule_id or "", 1.0))
+
+
+def compute_severity_score(severity: str, rule_id: str = "") -> float:
+    """Numeric score 0.0–10.0 from severity band × rule weight."""
+    base = SEVERITY_BASE.get((severity or "info").lower(), 1.0)
+    score = base * rule_weight(rule_id or "")
+    return round(min(10.0, max(0.0, score)), 1)
+
+
+def get_cvss_estimate(rule_id: str, severity: Optional[str] = None) -> Dict[str, Any]:
+    """
+    Rule-based CVSS-like estimate. Not an NVD score for a CVE.
+    """
+    if rule_id in CVSS_ESTIMATES:
+        est = dict(CVSS_ESTIMATES[rule_id])
+        est.setdefault("note", CVSS_NOTE)
+        return est
+    family = _rule_family(rule_id)
+    if family in _CVSS_BY_FAMILY:
+        score, vector = _CVSS_BY_FAMILY[family]
+        return {"score": score, "vector": vector, "note": CVSS_NOTE}
+    # Fallback from severity band only
+    band = SEVERITY_BASE.get((severity or "info").lower(), 1.0)
+    return {
+        "score": round(band, 1),
+        "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "note": CVSS_NOTE,
+    }
+
+
+def get_remediation(rule_id: str) -> Dict[str, str]:
+    """Return remediation and revalidate strings for a rule_id."""
+    if rule_id in REMEDIATION:
+        entry = REMEDIATION[rule_id]
+        return {
+            "remediation": entry.get("remediation", ""),
+            "revalidate": entry.get("revalidate", ""),
+        }
+    family = _rule_family(rule_id)
+    if family in _HELP_BY_FAMILY:
+        rem, rev = _HELP_BY_FAMILY[family]
+        return {"remediation": rem, "revalidate": rev}
+    return {
+        "remediation": (
+            "Review the finding message and location; apply secure-coding guidance for the matched pattern, "
+            "then rebuild the artifact."
+        ),
+        "revalidate": (
+            "Re-run: python cli.py <path> --sast -o json (add --dynamic if applicable). "
+            "Expect this rule_id to clear or drop when the issue is fixed."
+        ),
+    }
+
+
 def enrich_finding(f: Dict[str, Any]) -> Dict[str, Any]:
-    """Add classification to a finding dict (mutates and returns)."""
+    """Add classification, severity_score, cvss_estimate, remediation, revalidate, cve=null (mutates)."""
     rule_id = f.get("rule_id") or ""
+    severity = f.get("severity") or "info"
     cls = get_classification(rule_id, f.get("masvs_id"))
     f["classification"] = cls
+    f["severity_score"] = compute_severity_score(severity, rule_id)
+    f["cvss_estimate"] = get_cvss_estimate(rule_id, severity)
+    help_map = get_remediation(rule_id)
+    f["remediation"] = help_map["remediation"]
+    f["revalidate"] = help_map["revalidate"]
+    # CVE IDs require component/version SCA (not implemented) — do not invent CVE-YYYY-NNNN.
+    f["cve"] = None
     return f
 
 
