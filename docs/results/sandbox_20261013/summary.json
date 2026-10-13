@@ -1,0 +1,147 @@
+{
+  "scan_timestamp": "2026-10-13T17:50:13.822058+00:00",
+  "artifacts": 14,
+  "findings": 385,
+  "by_rule_id": {
+    "dex-storage-sharedprefs": 124,
+    "dex-hardcoded-password": 97,
+    "apk-exported-unprotected": 56,
+    "dex-cleartext": 43,
+    "dex-ssl-trust": 24,
+    "apk-allow-backup": 13,
+    "dex-hardcoded-secret": 10,
+    "apk-debuggable": 9,
+    "dex-hardcoded-apikey": 8,
+    "secret-aws-access-key": 1
+  },
+  "by_app": {
+    "DVACv1.apk": 58,
+    "AndroGoat.apk": 53,
+    "InsecureBankv2.apk": 53,
+    "Vuldroid.apk": 35,
+    "Library.apk": 34,
+    "InjuredAndroid-1.0.12-release.apk": 27,
+    "InsecureShop.apk": 27,
+    "EasyShop.apk": 24,
+    "ovaa-debug.apk": 23,
+    "diva-beta.apk": 19,
+    "sieve.apk": 17,
+    "UnCrackable-Level3.apk": 10,
+    "UnCrackable-Level2.apk": 3,
+    "UnCrackable-Level1.apk": 2
+  },
+  "apps": [
+    {
+      "file": "AndroGoat.apk",
+      "package": "owasp.sat.agoat",
+      "version_name": "1.0",
+      "debuggable": "true",
+      "allow_backup": "true",
+      "finding_count": 53
+    },
+    {
+      "file": "diva-beta.apk",
+      "package": "jakhar.aseem.diva",
+      "version_name": "1.0",
+      "debuggable": "true",
+      "allow_backup": "true",
+      "finding_count": 19
+    },
+    {
+      "file": "DVACv1.apk",
+      "package": "com.zin.dvac",
+      "version_name": "1.0",
+      "debuggable": "true",
+      "allow_backup": "true",
+      "finding_count": 58
+    },
+    {
+      "file": "EasyShop.apk",
+      "package": "com.example.easyshop",
+      "version_name": "1.0",
+      "debuggable": "true",
+      "allow_backup": "true",
+      "finding_count": 24
+    },
+    {
+      "file": "InjuredAndroid-1.0.12-release.apk",
+      "package": "b3nac.injuredandroid",
+      "version_name": "1.0.9",
+      "debuggable": null,
+      "allow_backup": null,
+      "finding_count": 27
+    },
+    {
+      "file": "InsecureBankv2.apk",
+      "package": "com.android.insecurebankv2",
+      "version_name": "1.0",
+      "debuggable": "true",
+      "allow_backup": "true",
+      "finding_count": 53
+    },
+    {
+      "file": "InsecureShop.apk",
+      "package": "com.insecureshop",
+      "version_name": "1.0",
+      "debuggable": "true",
+      "allow_backup": "true",
+      "finding_count": 27
+    },
+    {
+      "file": "Library.apk",
+      "package": "com.secure.library",
+      "version_name": "1.0.0",
+      "debuggable": null,
+      "allow_backup": "true",
+      "finding_count": 34
+    },
+    {
+      "file": "ovaa-debug.apk",
+      "package": "oversecured.ovaa",
+      "version_name": "1.0",
+      "debuggable": "true",
+      "allow_backup": "true",
+      "finding_count": 23
+    },
+    {
+      "file": "sieve.apk",
+      "package": "com.mwr.example.sieve",
+      "version_name": "1.0",
+      "debuggable": "true",
+      "allow_backup": "true",
+      "finding_count": 17
+    },
+    {
+      "file": "UnCrackable-Level1.apk",
+      "package": "owasp.mstg.uncrackable1",
+      "version_name": "1.0",
+      "debuggable": null,
+      "allow_backup": "true",
+      "finding_count": 2
+    },
+    {
+      "file": "UnCrackable-Level2.apk",
+      "package": "owasp.mstg.uncrackable2",
+      "version_name": "1.0",
+      "debuggable": null,
+      "allow_backup": "true",
+      "finding_count": 3
+    },
+    {
+      "file": "UnCrackable-Level3.apk",
+      "package": "owasp.mstg.uncrackable3",
+      "version_name": "1.0",
+      "debuggable": null,
+      "allow_backup": "true",
+      "finding_count": 10
+    },
+    {
+      "file": "Vuldroid.apk",
+      "package": "com.vuldroid.application",
+      "version_name": "1.0",
+      "debuggable": "true",
+      "allow_backup": "true",
+      "finding_count": 35
+    }
+  ]
+}

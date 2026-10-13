@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>APK Scanner — sandbox capabilities</title>
+  <style>
+    :root {
+      --bg: #f6f4ef;
+      --ink: #1a1a1a;
+      --muted: #5a5a5a;
+      --line: #ccc7bc;
+      --accent: #0b5fff;
+      --card: #fffef9;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+      background: linear-gradient(165deg, #efeae0 0%, var(--bg) 40%, #e7eef8 100%);
+      color: var(--ink);
+      line-height: 1.45;
+    }
+    main { max-width: 960px; margin: 0 auto; padding: 2rem 1.25rem 3rem; }
+    h1 { font-size: 1.75rem; margin: 0 0 0.35rem; letter-spacing: -0.02em; }
+    h2 { font-size: 1.15rem; margin: 2rem 0 0.6rem; }
+    p.lead { color: var(--muted); margin: 0 0 1.25rem; max-width: 42rem; }
+    .meta { font-size: 0.9rem; color: var(--muted); margin-bottom: 1.5rem; }
+    .meta a { color: var(--accent); }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--card);
+      border: 1px solid var(--line);
+      font-size: 0.92rem;
+    }
+    th, td { text-align: left; padding: 0.45rem 0.65rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { background: #ebe6da; font-weight: 600; }
+    tr:last-child td { border-bottom: none; }
+    .num { text-align: right; font-variant-numeric: tabular-nums; }
+    .note {
+      margin-top: 1.5rem;
+      padding: 0.85rem 1rem;
+      border-left: 3px solid var(--accent);
+      background: rgba(255,255,255,0.65);
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    code { font-family: "IBM Plex Mono", Consolas, monospace; font-size: 0.88em; }
+    .err { color: #a30; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>APK Scanner — sandbox capabilities</h1>
+    <p class="lead">
+      Merged pattern-scan SAST results from public intentionally vulnerable training APKs.
+      Leads only — not confirmed vulnerability triage. APK binaries are not stored in the repo.
+    </p>
+    <p class="meta" id="meta">Loading <code>sandbox_20261013/summary.json</code>…</p>
+
+    <h2>Findings by rule_id</h2>
+    <table>
+      <thead><tr><th>rule_id</th><th class="num">count</th></tr></thead>
+      <tbody id="by-rule"></tbody>
+    </table>
+
+    <h2>Findings per app</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>file</th>
+          <th>package</th>
+          <th>debuggable</th>
+          <th>allowBackup</th>
+          <th class="num">findings</th>
+        </tr>
+      </thead>
+      <tbody id="by-app"></tbody>
+    </table>
+
+    <p class="note">
+      Full dumps: <a href="sandbox_20261013/report.json">report.json</a> ·
+      <a href="sandbox_20261013/report.html">report.html</a> ·
+      <a href="sandbox_20261013/report.csv">report.csv</a> ·
+      <a href="sandbox_20261013/report.txt">report.txt</a>.
+      See <a href="README.md">README</a> for regenerate/purge notes.
+      A local drag-and-drop UI is planned separately (needs a bridge to <code>cli.py</code>; not this page).
+    </p>
+  </main>
+  <script>
+    async function load() {
+      const meta = document.getElementById("meta");
+      try {
+        const res = await fetch("sandbox_20261013/summary.json");
+        if (!res.ok) throw new Error(res.status + " " + res.statusText);
+        const data = await res.json();
+        meta.innerHTML =
+          "Artifacts: <strong>" + data.artifacts + "</strong> · Findings: <strong>" +
+          data.findings + "</strong> · Scan: <code>" + (data.scan_timestamp || "—") +
+          "</code> · Source: <a href=\"sandbox_20261013/summary.json\">summary.json</a>";
+
+        const ruleBody = document.getElementById("by-rule");
+        const rules = data.by_rule_id || {};
+        ruleBody.innerHTML = Object.keys(rules).map(function (k) {
+          return "<tr><td><code>" + k + "</code></td><td class=\"num\">" + rules[k] + "</td></tr>";
+        }).join("") || "<tr><td colspan=\"2\">No data</td></tr>";
+
+        const appBody = document.getElementById("by-app");
+        const apps = data.apps || [];
+        appBody.innerHTML = apps.map(function (a) {
+          return "<tr><td><code>" + (a.file || "") + "</code></td><td>" +
+            (a.package || "—") + "</td><td>" + String(a.debuggable) + "</td><td>" +
+            String(a.allow_backup) + "</td><td class=\"num\">" + (a.finding_count || 0) +
+            "</td></tr>";
+        }).join("") || "<tr><td colspan=\"5\">No data</td></tr>";
+      } catch (e) {
+        meta.innerHTML = "<span class=\"err\">Failed to load summary: " + e.message +
+          ". Open this page via a static file server if fetch is blocked.</span>";
+        // Inline fallback so file:// still shows something useful
+        embedFallback();
+      }
+    }
+
+    function embedFallback() {
+      // Minimal static snapshot if fetch fails (kept in sync with sandbox_20261013)
+      const rules = {
+        "dex-storage-sharedprefs": 124,
+        "dex-hardcoded-password": 97,
+        "apk-exported-unprotected": 56,
+        "dex-cleartext": 43,
+        "dex-ssl-trust": 24,
+        "apk-allow-backup": 13,
+        "dex-hardcoded-secret": 10,
+        "apk-debuggable": 9,
+        "dex-hardcoded-apikey": 8,
+        "secret-aws-access-key": 1
+      };
+      document.getElementById("by-rule").innerHTML = Object.keys(rules).map(function (k) {
+        return "<tr><td><code>" + k + "</code></td><td class=\"num\">" + rules[k] + "</td></tr>";
+      }).join("");
+    }
+
+    load();
+  </script>
+</body>
+</html>
