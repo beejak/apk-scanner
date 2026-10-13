@@ -50,6 +50,8 @@ def run(
     apkid: bool = False,
     semgrep: bool = False,
     mobsfscan: bool = False,
+    quark: bool = False,
+    nuclei: bool = False,
     sca: bool = False,
     sca_offline: bool = False,
 ) -> dict:
@@ -112,12 +114,14 @@ def run(
                 logger.warning("SAST error for %s: %s", path_str, e)
         logger.info("SAST found %d finding(s)", len(findings))
 
-    if apkid or semgrep or mobsfscan:
+    if apkid or semgrep or mobsfscan or quark or nuclei:
         logger.info(
-            "Running optional plugins (apkid=%s semgrep=%s mobsfscan=%s)",
+            "Running optional plugins (apkid=%s semgrep=%s mobsfscan=%s quark=%s nuclei=%s)",
             apkid,
             semgrep,
             mobsfscan,
+            quark,
+            nuclei,
         )
         from .plugins import run_plugins
 
@@ -136,17 +140,21 @@ def run(
                     apkid=apkid,
                     semgrep=semgrep,
                     mobsfscan=mobsfscan,
+                    quark=quark,
+                    nuclei=nuclei,
                 ):
-                    f.setdefault("source", "plugin")
+                    f.setdefault("source", f.get("source") or "plugin")
                     findings.append(f)
                     plugin_count += 1
             except Exception as e:
                 logger.warning("Plugin error for %s: %s", path_str, e)
         logger.info("Plugins added %d finding(s)", plugin_count)
 
+    sca_components: List[dict] = []
     if sca:
         logger.info("Running SCA/OSV (offline=%s)", sca_offline)
         from .sca import run_sca
+        from .sca.extract import extract_components
 
         sca_count = 0
         for item in metadata_list:
@@ -156,6 +164,10 @@ def run(
             if meta.get("error"):
                 continue
             try:
+                for c in extract_components(Path(path_str), typ, meta):
+                    row = dict(c)
+                    row["path"] = path_str
+                    sca_components.append(row)
                 for f in run_sca(
                     Path(path_str),
                     typ,
@@ -195,7 +207,12 @@ def run(
         enrich_finding(f)
 
     scan_timestamp = datetime.now(timezone.utc).isoformat()
-    report = aggregate(metadata_list, findings, scan_timestamp=scan_timestamp)
+    report = aggregate(
+        metadata_list,
+        findings,
+        scan_timestamp=scan_timestamp,
+        sca_components=sca_components if sca else None,
+    )
     logger.info("Scan complete: %d artifact(s)", len(metadata_list))
     return report
 

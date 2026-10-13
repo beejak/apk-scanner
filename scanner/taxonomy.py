@@ -448,6 +448,9 @@ RULE_WEIGHTS: Dict[str, float] = {
     "dast-android-sensitive-log": 1.05,
     "dast-android-cleartext-observed": 1.05,
     "sca-osv-vuln": 1.1,
+    "plugin-quark-score": 0.9,
+    "plugin-quark-behavior": 1.05,
+    "plugin-nuclei-android": 1.0,
     "dex-hardcoded-password": 0.7,
     "dex-hardcoded-apikey": 0.75,
     "dex-hardcoded-secret": 0.7,
@@ -491,6 +494,9 @@ _CVSS_BY_FAMILY: Dict[str, Tuple[float, str]] = {
     "apkid-tag": (3.0, "AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N"),
     "semgrep": (5.5, "AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"),
     "mobsfscan": (5.5, "AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"),
+    "quark-score": (4.0, "AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N"),
+    "quark-behavior": (6.5, "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"),
+    "nuclei-android": (5.5, "AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"),
     "osv-vuln": (7.5, "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"),
     "aws-access-key": (9.1, "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"),
     "google-api-key": (7.5, "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"),
@@ -641,6 +647,18 @@ _HELP_BY_FAMILY: Dict[str, Tuple[str, str]] = {
     "mobsfscan": (
         "Review the mobsfscan finding and apply the suggested secure-coding fix; re-scan with --mobsfscan.",
         "Re-run: python cli.py <path> --sast --mobsfscan -o json. Expect plugin-mobsfscan hits to clear when mobsfscan is clean.",
+    ),
+    "quark-score": (
+        "Informational Quark behavior/threat score. Treat as a malware-family hint, not an AV verdict; triage with Quark reports or a lab.",
+        "Re-run: python cli.py <apk> --quark -o json. Score/family hints change with Quark rules and the binary.",
+    ),
+    "quark-behavior": (
+        "Review the Quark crime/rule hit (Dalvik behavior). Confirm whether the API sequence is expected for the app; not a confirmed malware label.",
+        "Re-run with --quark after code/binary changes; plugin-quark-behavior should clear when Quark no longer matches that rule.",
+    ),
+    "nuclei-android": (
+        "Review the nuclei file/android template hit on decompiled sources; fix manifest/permission/WebView issues as applicable.",
+        "Re-run: python cli.py <apk> --nuclei -o json (requires jadx + nuclei). Expect plugin-nuclei-android to clear when templates no longer match.",
     ),
     "osv-vuln": (
         "Upgrade or replace the vulnerable component to a fixed version listed by OSV/NVD. Do not ignore known CVEs in shipped libs.",

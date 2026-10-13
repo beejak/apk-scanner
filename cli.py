@@ -22,7 +22,8 @@ def main() -> int:
     parser = argparse.ArgumentParser(
         description=(
             "Discover APK/IPA/JAR/.so/SDK under a path, extract metadata, and optionally "
-            "run pattern-scan SAST (--sast), optional plugins (--apkid/--semgrep/--mobsfscan), "
+            "run pattern-scan SAST (--sast), optional plugins "
+            "(--apkid/--semgrep/--mobsfscan/--quark/--nuclei), "
             "real OSV SCA (--sca), and/or a DAST scaffold (--dynamic). "
             "SAST: constrained regex/metadata heuristics including WebView JS bridge, "
             "SQL/content-provider leads, unsafe deserialization, exported+unprotected intent/"
@@ -85,7 +86,11 @@ def main() -> int:
     parser.add_argument(
         "--semgrep",
         action="store_true",
-        help="Optional: run Semgrep subprocess if `semgrep` on PATH; skip if missing",
+        help=(
+            "Optional: run Semgrep if on PATH; default config is "
+            "rules/semgrep/android-mastg-starter.yml (override APK_SCANNER_SEMGREP_CONFIG); "
+            "skip if missing"
+        ),
     )
     parser.add_argument(
         "--mobsfscan",
@@ -93,11 +98,28 @@ def main() -> int:
         help="Optional: run mobsfscan subprocess if `mobsfscan` on PATH; skip if missing",
     )
     parser.add_argument(
+        "--quark",
+        action="store_true",
+        help=(
+            "Optional: run Quark-Engine on APKs if `quark` on PATH "
+            "(behavior score / family hints, not an AV verdict); skip if missing"
+        ),
+    )
+    parser.add_argument(
+        "--nuclei",
+        action="store_true",
+        help=(
+            "Optional: jadx decompile APK to temp then nuclei -t file/android "
+            "if both tools on PATH; skip if missing"
+        ),
+    )
+    parser.add_argument(
         "--sca",
         action="store_true",
         help=(
             "Optional: real OSV CVE/advisory lookup when component+version can be extracted "
-            "(JAR names, pom.properties, Gradle hints). Never invents CVE IDs. Caches under "
+            "(JAR names, pom.properties, Gradle hints). Never invents CVE IDs. Surfaces "
+            "inventory + CVE board in summary/HTML. Caches under "
             "~/.cache/apk-scanner/osv (or APK_SCANNER_SCA_CACHE). Polite rate delay via "
             "APK_SCANNER_OSV_DELAY (default 0.35s)"
         ),
@@ -138,6 +160,8 @@ def main() -> int:
         apkid=args.apkid,
         semgrep=args.semgrep,
         mobsfscan=args.mobsfscan,
+        quark=args.quark,
+        nuclei=args.nuclei,
         sca=args.sca,
         sca_offline=args.sca_offline,
     )

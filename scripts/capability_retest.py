@@ -373,6 +373,8 @@ def main() -> int:
         apkid=bool(sh.which("apkid")),
         semgrep=bool(sh.which("semgrep")),
         mobsfscan=bool(sh.which("mobsfscan")),
+        quark=bool(sh.which("quark")),
+        nuclei=bool(sh.which("jadx") and sh.which("nuclei")),
         sca=True,
         sca_offline=False,
     )

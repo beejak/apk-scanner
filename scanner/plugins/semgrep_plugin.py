@@ -1,7 +1,8 @@
 """
 Optional Semgrep subprocess backend. Merges JSON results into scanner findings.
 
-Requires `semgrep` on PATH. Uses p/security-audit if no config given.
+Requires `semgrep` on PATH. Default config: vendored Android/MASVS starter rules
+under rules/semgrep/android-mastg-starter.yml (override via APK_SCANNER_SEMGREP_CONFIG).
 Graceful skip if missing. Not a substitute for built-in pattern SAST.
 """
 
@@ -18,6 +19,23 @@ from typing import Any, Dict, List
 
 logger = logging.getLogger(__name__)
 
+_REPO_ROOT = Path(__file__).resolve().parents[2]
+_DEFAULT_CONFIG = _REPO_ROOT / "rules" / "semgrep" / "android-mastg-starter.yml"
+
+
+def default_semgrep_config() -> str:
+    """Path or registry id for Semgrep --config."""
+    env = (os.environ.get("APK_SCANNER_SEMGREP_CONFIG") or "").strip()
+    if env:
+        return env
+    if _DEFAULT_CONFIG.is_file():
+        return str(_DEFAULT_CONFIG)
+    logger.info(
+        "Vendored Semgrep config missing at %s; falling back to p/security-audit",
+        _DEFAULT_CONFIG,
+    )
+    return "p/security-audit"
+
 
 def run_semgrep(
     path: Path,
@@ -33,12 +51,13 @@ def run_semgrep(
     # when the path is a single archive — otherwise scan directory as-is.
     scan_target = path
     tmp: Path | None = None
+    proc = None
     try:
         if path.is_file() and artifact_type in ("apk", "jar"):
             tmp = Path(tempfile.mkdtemp(prefix="apk-scanner-semgrep-"))
             _extract_textish(path, tmp)
             scan_target = tmp
-        config = os.environ.get("APK_SCANNER_SEMGREP_CONFIG", "p/security-audit")
+        config = default_semgrep_config()
         proc = subprocess.run(
             [
                 "semgrep",
@@ -61,8 +80,12 @@ def run_semgrep(
         if tmp is not None:
             shutil.rmtree(tmp, ignore_errors=True)
 
-    if not proc.stdout.strip():
-        logger.info("Semgrep produced no JSON for %s (exit %s)", path.name, proc.returncode)
+    if proc is None or not proc.stdout.strip():
+        logger.info(
+            "Semgrep produced no JSON for %s (exit %s)",
+            path.name,
+            getattr(proc, "returncode", "?"),
+        )
         return []
     try:
         data = json.loads(proc.stdout)

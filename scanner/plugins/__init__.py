@@ -22,6 +22,8 @@ def run_plugins(
     apkid: bool = False,
     semgrep: bool = False,
     mobsfscan: bool = False,
+    quark: bool = False,
+    nuclei: bool = False,
 ) -> List[Dict[str, Any]]:
     """Run enabled plugins for one artifact; return merged finding list."""
     out: List[Dict[str, Any]] = []
@@ -33,6 +35,24 @@ def run_plugins(
             out.extend(run_apkid(path, metadata))
         except Exception as e:
             logger.info("APKiD plugin skipped: %s", e)
+    if quark and artifact_type == "apk":
+        try:
+            from .quark_plugin import run_quark
+
+            for f in run_quark(path, metadata):
+                f.setdefault("source", "quark")
+                out.append(f)
+        except Exception as e:
+            logger.info("Quark plugin skipped: %s", e)
+    if nuclei and artifact_type == "apk":
+        try:
+            from .nuclei_plugin import run_nuclei
+
+            for f in run_nuclei(path, metadata):
+                f.setdefault("source", "nuclei")
+                out.append(f)
+        except Exception as e:
+            logger.info("nuclei plugin skipped: %s", e)
     if semgrep and artifact_type in ("apk", "jar", "sdk"):
         try:
             from .semgrep_plugin import run_semgrep

@@ -48,27 +48,99 @@ def _severity_rollups(findings: List[dict]) -> Dict[str, Any]:
     return out
 
 
+def build_sca_summary(
+    findings: List[dict],
+    components: Optional[List[dict]] = None,
+) -> Dict[str, Any]:
+    """
+    Manager-facing OSV inventory: components checked + real CVE rows only.
+    Never invents CVE IDs — only what appears on sca-osv-vuln findings.
+    """
+    inventory: List[Dict[str, Any]] = []
+    seen_comp = set()
+    for c in components or []:
+        name = c.get("name") or ""
+        ver = c.get("version") or ""
+        key = (str(name).lower(), str(ver), c.get("ecosystem") or "")
+        if not name or not ver or key in seen_comp:
+            continue
+        seen_comp.add(key)
+        inventory.append({
+            "component": name,
+            "version": ver,
+            "ecosystem": c.get("ecosystem") or "Maven",
+            "path": c.get("path"),
+        })
+
+    vulns: List[Dict[str, Any]] = []
+    for f in findings or []:
+        if f.get("rule_id") != "sca-osv-vuln":
+            continue
+        ev = f.get("evidence") or {}
+        cves = f.get("cve") or []
+        if not isinstance(cves, list):
+            cves = [cves] if cves else []
+        cves = [str(x) for x in cves if str(x).startswith("CVE-")]
+        vulns.append({
+            "component": ev.get("package") or "",
+            "version": ev.get("version") or "",
+            "ecosystem": ev.get("ecosystem") or "",
+            "cve": cves,
+            "osv_id": ev.get("osv_id"),
+            "severity": (f.get("severity") or "medium").lower(),
+            "message": (f.get("message") or "")[:200],
+        })
+        # Ensure inventory includes vuln components even if extract list was empty
+        key = (str(ev.get("package") or "").lower(), str(ev.get("version") or ""), ev.get("ecosystem") or "")
+        if key[0] and key[1] and key not in seen_comp:
+            seen_comp.add(key)
+            inventory.append({
+                "component": ev.get("package"),
+                "version": ev.get("version"),
+                "ecosystem": ev.get("ecosystem") or "Maven",
+                "path": (f.get("location") or {}).get("file"),
+            })
+
+    return {
+        "components_checked": len(inventory),
+        "vuln_count": len(vulns),
+        "cve_count": sum(len(v.get("cve") or []) for v in vulns),
+        "inventory": inventory,
+        "vulnerabilities": vulns,
+        "honesty": (
+            "CVE IDs only from real OSV responses when name+version extracted; "
+            "never invented. Empty vulns means no OSV hits or no extractable coords."
+        ),
+    }
+
+
 def aggregate(
     metadata_items: List[dict],
     findings: Optional[List[dict]] = None,
     scan_timestamp: Optional[str] = None,
+    sca_components: Optional[List[dict]] = None,
 ) -> dict:
     """Build report dict. findings default empty. scan_timestamp in ISO 8601 UTC."""
     if scan_timestamp is None:
         scan_timestamp = datetime.now(timezone.utc).isoformat()
     findings = findings or []
     rollups = _severity_rollups(findings)
+    summary: Dict[str, Any] = {
+        "artifacts": len(metadata_items),
+        "findings": len(findings),
+        "by_severity": rollups["by_severity"],
+        "max_severity_score": rollups["max_severity_score"],
+        "avg_severity_score": rollups["avg_severity_score"],
+    }
+    if sca_components is not None or any(
+        f.get("rule_id") == "sca-osv-vuln" for f in findings
+    ):
+        summary["sca"] = build_sca_summary(findings, sca_components)
     return {
         "scan_timestamp": scan_timestamp,
         "metadata": metadata_items,
         "findings": findings,
-        "summary": {
-            "artifacts": len(metadata_items),
-            "findings": len(findings),
-            "by_severity": rollups["by_severity"],
-            "max_severity_score": rollups["max_severity_score"],
-            "avg_severity_score": rollups["avg_severity_score"],
-        },
+        "summary": summary,
     }
 
 
@@ -82,7 +154,22 @@ def reenrich_report(report: dict) -> dict:
         enrich_finding(f)
     meta = report.get("metadata") or []
     ts = report.get("scan_timestamp")
-    rebuilt = aggregate(meta, findings, scan_timestamp=ts)
+    prev_sca = (report.get("summary") or {}).get("sca")
+    comps = None
+    if isinstance(prev_sca, dict):
+        comps = prev_sca.get("inventory")
+        if comps:
+            # normalize inventory keys for build_sca_summary
+            comps = [
+                {
+                    "name": c.get("component") or c.get("name"),
+                    "version": c.get("version"),
+                    "ecosystem": c.get("ecosystem"),
+                    "path": c.get("path"),
+                }
+                for c in comps
+            ]
+    rebuilt = aggregate(meta, findings, scan_timestamp=ts, sca_components=comps)
     report["findings"] = rebuilt["findings"]
     report["summary"] = rebuilt["summary"]
     if ts:
@@ -364,6 +451,51 @@ code{font-family:Consolas,"Courier New",monospace;font-size:0.88em;}
         "CVSS-estimate fields are not NVD CVSS for a CVE. "
         "CVE IDs appear only from real OSV SCA (--sca) when component+version was extracted; otherwise null.</p>",
     ]
+
+    sca = summary.get("sca") or {}
+    if sca:
+        html_parts.append("<h2>SCA / OSV board</h2>")
+        html_parts.append(
+            f"<p class='note'>{_escape(sca.get('honesty', ''))} "
+            f"Components checked: {_escape(sca.get('components_checked', 0))}; "
+            f"OSV vulns: {_escape(sca.get('vuln_count', 0))}; "
+            f"CVE ids: {_escape(sca.get('cve_count', 0))}.</p>"
+        )
+        vulns = sca.get("vulnerabilities") or []
+        if vulns:
+            html_parts.append(
+                "<table class='meta-table'><tr>"
+                "<th>Component</th><th>Version</th><th>Severity</th><th>CVE</th><th>OSV id</th>"
+                "</tr>"
+            )
+            for v in vulns:
+                cve_s = ", ".join(v.get("cve") or []) or "—"
+                html_parts.append(
+                    "<tr>"
+                    f"<td>{_escape(v.get('component'))}</td>"
+                    f"<td>{_escape(v.get('version'))}</td>"
+                    f"<td>{_escape(v.get('severity'))}</td>"
+                    f"<td>{_escape(cve_s)}</td>"
+                    f"<td>{_escape(v.get('osv_id') or '')}</td>"
+                    "</tr>"
+                )
+            html_parts.append("</table>")
+        inv = sca.get("inventory") or []
+        if inv:
+            html_parts.append("<h3>Component inventory</h3>")
+            html_parts.append(
+                "<table class='meta-table'><tr><th>Component</th><th>Version</th>"
+                "<th>Ecosystem</th></tr>"
+            )
+            for c in inv[:80]:
+                html_parts.append(
+                    "<tr>"
+                    f"<td>{_escape(c.get('component'))}</td>"
+                    f"<td>{_escape(c.get('version'))}</td>"
+                    f"<td>{_escape(c.get('ecosystem'))}</td>"
+                    "</tr>"
+                )
+            html_parts.append("</table>")
 
     if meta:
         html_parts.append("<h2>Artifacts</h2><table class='meta-table'><tr><th>Path</th><th>Type</th><th>Size</th></tr>")

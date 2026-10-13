@@ -1,0 +1,85 @@
+# apk-scanner starter Android / MASVS-oriented Semgrep rules (original, small pack).
+# Not a full OWASP MASTG suite — see rules/semgrep/README.md for optional fetches.
+rules:
+  - id: apk-scanner.android.webview-js-bridge
+    languages: [java, generic]
+    severity: ERROR
+    message: "WebView addJavascriptInterface — review for untrusted JS bridge (MASVS-PLATFORM / MASWE-style lead)."
+    patterns:
+      - pattern: addJavascriptInterface(...)
+    metadata:
+      category: security
+      masvs: MASVS-PLATFORM-2
+      confidence: medium
+
+  - id: apk-scanner.android.runtime-exec
+    languages: [java, generic]
+    severity: ERROR
+    message: "Runtime.exec / ProcessBuilder — command execution lead (MASVS-CODE)."
+    pattern-either:
+      - pattern: Runtime.getRuntime().exec(...)
+      - pattern: new ProcessBuilder(...)
+    metadata:
+      category: security
+      masvs: MASVS-CODE-4
+      confidence: medium
+
+  - id: apk-scanner.android.trust-all-hostname
+    languages: [java, generic]
+    severity: ERROR
+    message: "HostnameVerifier / trust-all SSL pattern lead (MASVS-NETWORK)."
+    pattern-either:
+      - pattern: setHostnameVerifier(...)
+      - pattern: ALLOW_ALL_HOSTNAME_VERIFIER
+      - pattern: TrustAllCerts
+    metadata:
+      category: security
+      masvs: MASVS-NETWORK-2
+      confidence: low
+
+  - id: apk-scanner.android.cleartext-http-url
+    languages: [java, generic]
+    severity: WARNING
+    message: "Hardcoded http:// URL — cleartext traffic lead (MASVS-NETWORK)."
+    patterns:
+      - pattern-regex: 'http://[a-zA-Z0-9._/-]+'
+    metadata:
+      category: security
+      masvs: MASVS-NETWORK-1
+      confidence: low
+
+  - id: apk-scanner.android.logging-password
+    languages: [java, generic]
+    severity: WARNING
+    message: "Log call near password/token string — sensitive logging lead."
+    patterns:
+      - pattern-either:
+          - pattern: Log.$M(..., "...password...", ...)
+          - pattern: Log.$M(..., "...token...", ...)
+          - pattern: android.util.Log.$M(..., "...password...", ...)
+    metadata:
+      category: security
+      masvs: MASVS-STORAGE-2
+      confidence: low
+
+  - id: apk-scanner.android.uses-cleartext-traffic
+    languages: [generic]
+    severity: WARNING
+    message: "android:usesCleartextTraffic likely enabled in manifest excerpt."
+    patterns:
+      - pattern-regex: 'usesCleartextTraffic\s*=\s*"true"'
+    metadata:
+      category: security
+      masvs: MASVS-NETWORK-1
+      confidence: medium
+
+  - id: apk-scanner.android.exported-true
+    languages: [generic]
+    severity: INFO
+    message: "android:exported=\"true\" in XML excerpt — confirm permission protection."
+    patterns:
+      - pattern-regex: 'android:exported\s*=\s*"true"'
+    metadata:
+      category: security
+      masvs: MASVS-PLATFORM-1
+      confidence: low
