@@ -2,6 +2,8 @@
 SAST: static analysis findings per artifact type.
 Contract: run_sast(path, artifact_type, metadata) -> list of finding dicts.
 Finding: { rule_id, severity, message, location?: { file, line? }, masvs_id?, source: "sast" }
+
+Pattern scan with constrained detectors (not full decompilation / confirmed triage).
 """
 
 from pathlib import Path
@@ -37,6 +39,24 @@ def run_sast(
     return findings
 
 
+def _as_bool(value: Any) -> Optional[bool]:
+    """Normalize apk-info / XML-ish bools (True, 'true', '1', False, 'false')."""
+    if value is None:
+        return None
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, (int, float)):
+        return bool(value)
+    if isinstance(value, str):
+        s = value.strip().lower()
+        if s in ("true", "1", "yes"):
+            return True
+        if s in ("false", "0", "no"):
+            return False
+        return None
+    return None
+
+
 def _metadata_rules(
     artifact_type: str,
     metadata: Dict[str, Any],
@@ -50,8 +70,7 @@ def _metadata_rules(
     if err:
         return out
 
-    # MASVS-RESILIENCE: debuggable in release
-    if metadata.get("debuggable") is True:
+    if _as_bool(metadata.get("debuggable")) is True:
         out.append({
             "rule_id": "apk-debuggable",
             "severity": "high",
@@ -61,8 +80,7 @@ def _metadata_rules(
             "source": "sast",
         })
 
-    # MASVS-STORAGE: allowBackup can leak data
-    if metadata.get("allow_backup") is True:
+    if _as_bool(metadata.get("allow_backup")) is True:
         out.append({
             "rule_id": "apk-allow-backup",
             "severity": "medium",
@@ -72,21 +90,48 @@ def _metadata_rules(
             "source": "sast",
         })
 
-    # Exported components without permission (simplified: we only flag if we have components)
-    for comp_list, comp_type in [(metadata.get("activities"), "activity"), (metadata.get("services"), "service")]:
+    if _as_bool(metadata.get("uses_cleartext_traffic")) is True:
+        out.append({
+            "rule_id": "apk-cleartext-traffic",
+            "severity": "high",
+            "message": "usesCleartextTraffic is true; cleartext HTTP may be allowed.",
+            "location": {"file": str(artifact_path), "line": None},
+            "masvs_id": "MASVS-NETWORK-1",
+            "source": "sast",
+        })
+
+    # Exported components without a protecting permission (when permission field present)
+    for comp_list, comp_type in (
+        (metadata.get("activities"), "activity"),
+        (metadata.get("services"), "service"),
+        (metadata.get("receivers"), "receiver"),
+        (metadata.get("providers"), "provider"),
+    ):
         if not isinstance(comp_list, list):
             continue
         for c in comp_list:
-            if isinstance(c, dict) and c.get("exported") is True:
-                name = c.get("name", "?")
-                out.append({
-                    "rule_id": "apk-exported-component",
-                    "severity": "medium",
-                    "message": f"Exported {comp_type}: {name} (ensure proper permission or intent-filter).",
-                    "location": {"file": str(artifact_path), "line": None},
-                    "masvs_id": "MASVS-PLATFORM-1",
-                    "source": "sast",
-                })
+            if not isinstance(c, dict):
+                continue
+            if _as_bool(c.get("exported")) is not True:
+                continue
+            name = c.get("name", "?")
+            perm = c.get("permission")
+            # Flag only when we know permission is missing/empty (apk-info path).
+            # If permission key absent entirely (legacy metadata), still flag as medium lead.
+            if perm:
+                continue
+            out.append({
+                "rule_id": "apk-exported-unprotected",
+                "severity": "medium",
+                "message": (
+                    f"Exported {comp_type} without permission: {name}"
+                    if "permission" in c
+                    else f"Exported {comp_type}: {name} (permission unknown; verify protection)."
+                ),
+                "location": {"file": str(artifact_path), "line": None},
+                "masvs_id": "MASVS-PLATFORM-1",
+                "source": "sast",
+            })
 
     return out
 
@@ -95,7 +140,7 @@ def _apk_sast(path: Path, metadata: Dict[str, Any]) -> List[Dict[str, Any]]:
     """APK pattern-scan SAST (DEX string/metadata rules; androguard optional for strings)."""
     try:
         from .dex import run_dex_rules
-        return run_dex_rules(path)
+        return run_dex_rules(path, metadata)
     except ImportError:
         return []
 

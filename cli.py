@@ -23,7 +23,11 @@ def main() -> int:
         description=(
             "Discover APK/IPA/JAR/.so/SDK under a path, extract metadata, and optionally "
             "run pattern-scan SAST (--sast) and/or a DAST scaffold (--dynamic). "
-            "SAST is substring/regex lint (not decompilation or confirmed vuln triage). "
+            "SAST uses constrained regex/metadata heuristics (exported unprotected components, "
+            "weak Cipher.getInstance, WebView JS bridge, cleartext traffic flags, trust-all, "
+            "high-confidence secret formats); still not decompilation or confirmed triage. "
+            "Vague password/secret tokens are low/info. "
+            "DEX scan is ZIP-based by default; set APK_SCANNER_ANDROGUARD=1 for optional androguard strings. "
             "Report formats: text, json, csv, html, sarif."
         )
     )
@@ -49,8 +53,9 @@ def main() -> int:
         "--sast",
         action="store_true",
         help=(
-            "Run pattern-scan SAST (substring/regex on strings and metadata heuristics) "
-            "and include findings; not deep static analysis"
+            "Run pattern-scan SAST: constrained string/regex + metadata heuristics "
+            "(cleartext flags, exported-without-permission, weak crypto APIs, WebView bridge, "
+            "trust-all, AWS/Google-key-like formats). Not deep static analysis or confirmed vulns"
         ),
     )
     parser.add_argument(

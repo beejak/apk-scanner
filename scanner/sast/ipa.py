@@ -1,5 +1,5 @@
 """
-IPA (iOS) SAST: plist security settings and optional binary string scan.
+IPA (iOS) SAST: plist security settings and constrained binary string scan.
 """
 
 import plistlib
@@ -8,13 +8,15 @@ import zipfile
 from pathlib import Path
 from typing import Any, Dict, List
 
+from .patterns import ipa_id_map, scan_text_for_rules
+
 
 def run_ipa_rules(ipa_path: Path, metadata: Dict[str, Any]) -> List[Dict[str, Any]]:
-    """Check IPA Info.plist and Payload for insecure settings and patterns. Returns list of findings."""
+    """Check IPA Info.plist and Payload for insecure settings and patterns."""
     findings: List[Dict[str, Any]] = []
     path_str = str(ipa_path)
+    id_map = ipa_id_map()
 
-    # 1) Plist-based: read Info.plist from IPA
     try:
         with zipfile.ZipFile(ipa_path, "r") as zf:
             plist_path = None
@@ -25,7 +27,6 @@ def run_ipa_rules(ipa_path: Path, metadata: Dict[str, Any]) -> List[Dict[str, An
             if plist_path:
                 data = zf.read(plist_path)
                 info = plistlib.loads(data)
-                # NSAppTransportSecurity -> NSAllowsArbitraryLoads = true
                 ats = info.get("NSAppTransportSecurity")
                 if isinstance(ats, dict) and ats.get("NSAllowsArbitraryLoads") is True:
                     findings.append({
@@ -45,7 +46,22 @@ def run_ipa_rules(ipa_path: Path, metadata: Dict[str, Any]) -> List[Dict[str, An
                         "masvs_id": "MASVS-NETWORK-1",
                         "source": "sast",
                     })
-                # UIFileSharingEnabled / LSSupportsOpeningDocumentsInPlace
+                # Exception domains with NSExceptionAllowsInsecureHTTPLoads
+                if isinstance(ats, dict):
+                    exc = ats.get("NSExceptionDomains")
+                    if isinstance(exc, dict):
+                        for domain, cfg in exc.items():
+                            if isinstance(cfg, dict) and cfg.get("NSExceptionAllowsInsecureHTTPLoads") is True:
+                                findings.append({
+                                    "rule_id": "ipa-exception-insecure-http",
+                                    "severity": "medium",
+                                    "message": (
+                                        f"NSExceptionAllowsInsecureHTTPLoads for domain {domain}."
+                                    ),
+                                    "location": {"file": path_str, "line": None},
+                                    "masvs_id": "MASVS-NETWORK-1",
+                                    "source": "sast",
+                                })
                 if info.get("UIFileSharingEnabled") is True:
                     findings.append({
                         "rule_id": "ipa-file-sharing",
@@ -65,7 +81,6 @@ def run_ipa_rules(ipa_path: Path, metadata: Dict[str, Any]) -> List[Dict[str, An
                         "source": "sast",
                     })
 
-            # 2) Binary string scan in Payload/*.app (first 2MB of executables)
             seen: set = set()
             for name in zf.namelist():
                 if "Payload/" not in name or ".app/" not in name:
@@ -74,36 +89,20 @@ def run_ipa_rules(ipa_path: Path, metadata: Dict[str, Any]) -> List[Dict[str, An
                     base = name.split("/")[-1]
                     if base in ("Info.plist", "PkgInfo"):
                         continue
-                    # Binary or plist
                     try:
                         data = zf.read(name)[: 2 * 1024 * 1024]
                     except Exception:
                         continue
                     for m in re.finditer(rb"[\x20-\x7e]{8,200}", data):
-                        s = m.group(0).decode("ascii", errors="replace").lower()
-                        for pattern, rule_id, severity, message, masvs_id in _IPA_PATTERNS:
-                            if pattern in s:
-                                key = (rule_id, s[:80])
-                                if key in seen:
-                                    continue
-                                seen.add(key)
-                                findings.append({
-                                    "rule_id": rule_id,
-                                    "severity": severity,
-                                    "message": f"{message} (in IPA: {s[:50]}...)",
-                                    "location": {"file": path_str, "line": None},
-                                    "masvs_id": masvs_id,
-                                    "source": "sast",
-                                })
+                        s = m.group(0).decode("ascii", errors="replace")
+                        for hit in scan_text_for_rules(s, id_map=id_map):
+                            key = (hit["rule_id"], s[:80].lower())
+                            if key in seen:
+                                continue
+                            seen.add(key)
+                            hit["location"] = {"file": path_str, "line": None}
+                            hit["source"] = "sast"
+                            findings.append(hit)
     except Exception:
         pass
     return findings
-
-
-_IPA_PATTERNS = [
-    ("password", "ipa-hardcoded-password", "high", "Possible hardcoded password in IPA.", "MASVS-AUTH-4"),
-    ("api_key", "ipa-hardcoded-apikey", "high", "Possible hardcoded API key in IPA.", "MASVS-AUTH-4"),
-    ("apikey", "ipa-hardcoded-apikey", "high", "Possible hardcoded API key in IPA.", "MASVS-AUTH-4"),
-    ("secret", "ipa-hardcoded-secret", "medium", "Possible hardcoded secret in IPA.", "MASVS-CRYPTO-1"),
-    ("http://", "ipa-cleartext", "medium", "Cleartext HTTP URL in IPA; use HTTPS.", "MASVS-NETWORK-1"),
-]

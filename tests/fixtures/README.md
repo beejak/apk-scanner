@@ -63,4 +63,6 @@ python tests/run_fixtures_scan.py
 
 **Expected with APKs present:** 3 APKs (InsecureBankv2, InsecureShop, DIVA — DEX/metadata **pattern** findings), 2 JARs (findings from `test-with-secrets.jar`), 1 `.so` (`libdivajni.so`), 1 SDK (`sample_sdk/.env`). **Without APKs:** discovery still covers JARs, `.so`, and `sample_sdk/`.
 
-SAST here is **substring/pattern scan** (high FP possible). Install `pyelftools` for full .so metadata; `androguard` improves DEX **string tables** only (same patterns — not deeper analysis). Taxonomy columns are a post-finding lookup, not extra detection.
+SAST here is a **constrained pattern scan** (still not confirmed triage). Vague `password`/`secret` hits are low/info; prefer high-confidence formats and API-shaped rules. Install `pyelftools` for full .so metadata (stdlib fallback is wired without it); `androguard` improves DEX **string tables** only (same patterns — not deeper analysis). Taxonomy columns are a post-finding lookup, not extra detection.
+
+Synthetic SAST unit tests live in `tests/test_sast.py` (tiny ZIP/JAR/plist built in-memory — no APK binaries committed).

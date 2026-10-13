@@ -1,4 +1,4 @@
-"""APK metadata via apk-info."""
+"""APK metadata via apk-info; ZIP crumbs when apk-info is missing."""
 
 import zipfile
 from pathlib import Path
@@ -24,18 +24,32 @@ def extract_apk(path: Path) -> dict:
         "allow_backup": apk.get_application_allow_backup(),
         "multidex": apk.is_multidex(),
     }
-    try:
-        meta["activities"] = [
-            {"name": a.name, "exported": a.exported} for a in (apk.get_activities() or [])
-        ]
-    except Exception:
-        meta["activities"] = []
-    try:
-        meta["services"] = [
-            {"name": s.name, "exported": s.exported} for s in (apk.get_services() or [])
-        ]
-    except Exception:
-        meta["services"] = []
+
+    # usesCleartextTraffic when apk-info exposes it
+    cleartext = None
+    for meth_name in (
+        "get_application_uses_cleartext_traffic",
+        "get_uses_cleartext_traffic",
+        "uses_cleartext_traffic",
+    ):
+        meth = getattr(apk, meth_name, None)
+        if callable(meth):
+            try:
+                cleartext = meth()
+                break
+            except Exception:
+                pass
+        elif meth is not None and not callable(meth):
+            cleartext = meth
+            break
+    if cleartext is not None:
+        meta["uses_cleartext_traffic"] = bool(cleartext)
+
+    meta["activities"] = _components(apk, "get_activities")
+    meta["services"] = _components(apk, "get_services")
+    meta["receivers"] = _components(apk, "get_receivers")
+    meta["providers"] = _components(apk, "get_providers")
+
     try:
         sigs = apk.get_signatures()
         meta["signatures"] = []
@@ -50,6 +64,36 @@ def extract_apk(path: Path) -> dict:
     return meta
 
 
+def _components(apk, method_name: str) -> list:
+    """Return list of {name, exported, permission} for a component getter."""
+    try:
+        getter = getattr(apk, method_name, None)
+        if not callable(getter):
+            return []
+        items = getter() or []
+        out = []
+        for c in items:
+            perm = getattr(c, "permission", None)
+            # Normalize empty string to None
+            if isinstance(perm, str) and not perm.strip():
+                perm = None
+            exported = getattr(c, "exported", None)
+            if isinstance(exported, str):
+                el = exported.strip().lower()
+                if el in ("true", "1", "yes"):
+                    exported = True
+                elif el in ("false", "0", "no"):
+                    exported = False
+            out.append({
+                "name": getattr(c, "name", None) or getattr(c, "get_name", lambda: "?")(),
+                "exported": exported,
+                "permission": perm,
+            })
+        return out
+    except Exception:
+        return []
+
+
 def _extract_apk_fallback(path: Path) -> dict:
     """No apk-info: use ZIP only (file count, manifest presence)."""
     try:
@@ -60,6 +104,25 @@ def _extract_apk_fallback(path: Path) -> dict:
                 meta["has_android_manifest"] = True
             if "META-INF/MANIFEST.MF" in names:
                 meta["has_manifest_mf"] = True
+            # Best-effort: scan UTF-8 XML resources for cleartext flags (binary AXML won't match)
+            for name in names:
+                ln = name.lower()
+                if not (ln.endswith(".xml") or "network_security" in ln):
+                    continue
+                try:
+                    raw = zf.read(name)
+                except Exception:
+                    continue
+                if b"\x00" in raw[:64]:
+                    continue
+                try:
+                    text = raw.decode("utf-8", errors="ignore").lower()
+                except Exception:
+                    continue
+                if "usescleartexttraffic" in text and "true" in text:
+                    meta["uses_cleartext_traffic"] = True
+                if "cleartexttraffickermitted" in text and "true" in text:
+                    meta["uses_cleartext_traffic"] = True
             return meta
     except Exception as e:
         return {"error": str(e)}

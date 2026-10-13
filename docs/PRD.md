@@ -7,14 +7,14 @@
 | Layer | Reality today |
 |-------|----------------|
 | Discovery | **Implemented:** apk/ipa/jar/so/sdk via `scanner/discovery.py` |
-| Metadata | **Implemented with gaps:** APK strong only with `apk-info` (ZIP crumbs without it); IPA/JAR OK (stdlib); `.so` needs `pyelftools` (fallback limited); SDK is a file counter |
-| SAST | **Implemented as pattern scan:** substring/regex in `scanner/sast/*`. Androguard improves string tables only — same patterns. High FP on broad tokens (`password`/`secret`/`md5`) |
+| Metadata | **Implemented with gaps:** APK strong only with `apk-info` (ZIP crumbs without it); IPA/JAR OK (stdlib); `.so` via pyelftools with **wired stdlib fallback**; SDK is a file counter |
+| SAST | **Constrained pattern scan:** regex/metadata heuristics in `scanner/sast/*` (exported unprotected, weak Cipher, WebView bridge, cleartext flags, trust-all, AWS/Google-key-like formats). Vague `password`/`secret` demoted to low/info. Androguard improves string tables only |
 | DAST | **Scaffold:** one Android Frida check (`SSLContext.init` null TrustManager); Frida CLI captures nothing; iOS stub |
 | Reports | JSON/text richest; CSV drops metadata blobs; HTML/SARIF thinner; taxonomy is a lookup table after findings exist |
-| Tests | Discovery/taxonomy/report OK; **no dedicated SAST/DAST/CLI suites** yet; integration often runs with `sast=False` |
+| Tests | Discovery/taxonomy/report + **synthetic SAST fixtures**; DAST/CLI suites still thin; integration often runs with `sast=False` |
 
-**Useful today for:** inventorying binaries, cheap secret/HTTP/plist lint, CI SARIF scaffolding.  
-**Not useful today for:** confirmed vuln triage, real crypto/WebView/IPC analysis, production DAST.
+**Useful today for:** inventorying binaries, cleartext/exported/WebView/crypto-string leads, high-confidence secret-format hits, CI SARIF scaffolding.  
+**Not useful today for:** confirmed vuln triage, call-graph/API-misuse proof, production DAST.
 
 The sections below describe the **product vision** and requirements. Status tags: **[Implemented]**, **[Partial]**, **[Planned]**.
 
@@ -63,18 +63,18 @@ A **full-blown code and runtime vulnerability scanner** for Android (APK/AAB), i
   - **IPA:** **[Implemented]** bundle ID, version, display name, min OS, Info.plist-derived metadata.
   - **JAR:** **[Implemented]** manifest (Main-Class, version, Created-By, etc.).
   - **SDK:** **[Implemented]** directory path, size, entry count, heuristic type.
-  - **.so:** **[Partial]** path, size, ELF fields via pyelftools; limited without it.
+  - **.so:** **[Implemented with fallback]** path, size, ELF fields via pyelftools; stdlib fallback returns `size_bytes` + install note without it.
 - **FR-D3** **[Implemented]** Support recursive and non-recursive scan; filter by type (e.g. `--types apk ipa so`).
 - **FR-D4** **[Implemented]** Mid-level logging (INFO); optional verbose (DEBUG) and quiet mode.
 
 ### 3.2 Static analysis (SAST)
 
-- **FR-S1** **Android (APK):** **[Partial — pattern scan]** Substring/regex on DEX strings (ZIP or androguard string tables) + metadata heuristics. **Not** full DEX decompile → Java/Smali rule engine.
-- **FR-S2** **JAR:** **[Partial — pattern scan]** ZIP/string scan of class/config bytes; **not** bytecode AST / decompiler-based rules.
-- **FR-S3** **IPA / native:** **[Partial]** Plist checks + binary string patterns; **not** full Mach-O misuse analysis.
+- **FR-S1** **Android (APK):** **[Partial — constrained pattern scan]** DEX/ZIP string rules + metadata (exported unprotected, cleartext traffic). Weak Cipher/MessageDigest, WebView bridge, trust-all, secret formats. **Not** full DEX decompile → Java/Smali rule engine.
+- **FR-S2** **JAR:** **[Partial — constrained pattern scan]** ZIP/string scan of class/config bytes; **not** bytecode AST / decompiler-based rules.
+- **FR-S3** **IPA / native:** **[Partial]** Plist ATS checks (incl. exception insecure HTTP) + binary string patterns; **not** full Mach-O misuse analysis.
 - **FR-S4** **.so:** **[Partial]** String patterns for secrets/weak crypto/JNI; deeper symbol misuse **planned**.
-- **FR-S5** **Rule engine:** **[Partial]** Built-in pattern rules only. Configurable Semgrep/mobsfscan / custom rule paths **planned** (`--rules` not implemented). Findings include rule ID, severity, location, message (line often null).
-- **FR-S6** Map findings to OWASP MASVS control groups and/or MASWE. **[Partial — Implemented taxonomy lookup]** CWE, NIST SP 800-53, OWASP, CAPEC, CISA, NSA labels per finding in text/CSV/JSON; not a substitute for deeper detection.
+- **FR-S5** **Rule engine:** **[Partial]** Built-in constrained pattern rules. Configurable Semgrep/mobsfscan / custom rule paths **planned** (`--rules` not implemented). Findings include rule ID, severity, location, message (line often null).
+- **FR-S6** Map findings to OWASP MASVS control groups and/or MASWE. **[Partial — Implemented taxonomy lookup]** CWE, NIST SP 800-53, OWASP, CAPEC, CISA, NSA labels per finding in text/CSV/JSON; MASWE IDs still backlog; not a substitute for deeper detection.
 
 ### 3.3 Dynamic analysis (DAST)
 
@@ -93,7 +93,7 @@ A **full-blown code and runtime vulnerability scanner** for Android (APK/AAB), i
 ### 3.5 CLI and integration
 
 - **FR-C1** CLI: **[Partial]** path; `--types`; `-o` text|json|csv|html|sarif; `-j`; `--no-recursive`; `-v`/`--quiet`; `--sast`; `--dynamic`. **`--rules` planned / not implemented.**
-- **FR-C2** Optional web UI: **[Planned]** not implemented.
+- **FR-C2** Optional web UI: **[Planned]** Static HTML/JS drop-zone that shells out to or talks to local `cli.py` (cannot run Python in-browser alone; companion local server or Tauri later). Not built yet.
 
 ---
 
