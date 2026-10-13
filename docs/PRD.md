@@ -74,7 +74,7 @@ A **full-blown code and runtime vulnerability scanner** for Android (APK/AAB), i
 - **FR-S3** **IPA / native:** **[Partial]** Plist ATS checks (incl. exception insecure HTTP) + binary string patterns; **not** full Mach-O misuse analysis.
 - **FR-S4** **.so:** **[Partial]** String patterns for secrets/weak crypto/JNI; deeper symbol misuse **planned**.
 - **FR-S5** **Rule engine:** **[Partial]** Built-in constrained pattern rules. Configurable Semgrep/mobsfscan / custom rule paths **planned** (`--rules` not implemented). Findings include rule ID, severity, location, message (line often null).
-- **FR-S6** Map findings to OWASP MASVS control groups and/or MASWE. **[Partial — Implemented taxonomy lookup]** CWE, NIST SP 800-53, OWASP, CAPEC, CISA, NSA labels per finding in text/CSV/JSON; MASWE IDs still backlog; not a substitute for deeper detection.
+- **FR-S6** Map findings to OWASP MASVS control groups and/or MASWE. **[Partial — Implemented taxonomy lookup]** CWE, NIST SP 800-53, OWASP, CAPEC, CISA, NSA labels per finding; plus `severity_score`, rule-based `cvss_estimate`, `remediation`/`revalidate`. MASWE IDs and **CVE/SCA** still backlog (no invented CVE IDs); not a substitute for deeper detection.
 
 ### 3.3 Dynamic analysis (DAST)
 
@@ -85,8 +85,8 @@ A **full-blown code and runtime vulnerability scanner** for Android (APK/AAB), i
 
 ### 3.4 Reporting and output
 
-- **FR-R1** **Formats:** **[Implemented]** JSON, text, CSV, HTML, SARIF 2.1.0; `scan_timestamp`; `--out-file` with `{timestamp}`. JSON/text richest; CSV omits full metadata; HTML/SARIF thinner.
-- **FR-R2** **Content:** **[Implemented]** Per-artifact metadata + findings + summary; depth of finding detail depends on SAST/DAST quality above.
+- **FR-R1** **Formats:** **[Implemented]** JSON, text, CSV, HTML, SARIF 2.1.0; `scan_timestamp`; `--out-file` with `{timestamp}`. JSON/text richest; CSV omits full metadata; HTML is executive-friendly (scores, taxonomy, fix/revalidate); SARIF carries scores/remediation in properties.
+- **FR-R2** **Content:** **[Implemented]** Per-artifact metadata + findings + summary (`by_severity`, max/avg `severity_score`); enrichment fields per finding; depth of detection still depends on SAST/DAST quality above.
 - **FR-R3** **Exit code:** **[Partial]** 0 on success (with or without findings); non-zero on fatal error or invalid path. Severity-based exit (`--severity-threshold`) **planned**.
 - **FR-R4** **[Implemented]** Logging to stderr; report to stdout or file.
 
