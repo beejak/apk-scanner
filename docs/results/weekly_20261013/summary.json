@@ -1,0 +1,27 @@
+{
+  "run_id": "weekly_20261013",
+  "scan_timestamp": "2026-10-13T20:14:36.925189+00:00",
+  "generated_utc": "2026-10-13T20:14:36.927382+00:00",
+  "allowlist": "tests/fixtures/sources.json",
+  "downloaded": 9,
+  "artifacts": 11,
+  "findings": 91,
+  "by_type": {
+    "jar": 5,
+    "sdk": 1,
+    "ipa": 2,
+    "apk": 3
+  },
+  "by_severity": {
+    "critical": 3,
+    "high": 10,
+    "medium": 49,
+    "low": 0,
+    "info": 29
+  },
+  "honesty": "Allowlist-only educational sources. Pattern-scan leads. Binaries deleted from runner temp. Soft-fail on findings.",
+  "limits": {
+    "max_artifacts": 15,
+    "runner_note": "Keep allowlist small (~10-15) for GitHub Actions disk/time reliability (~14GB disk, 6h job cap)."
+  }
+}

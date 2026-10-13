@@ -1,0 +1,636 @@
+Scan time: 2026-10-13T20:14:36.925189+00:00
+Severity: critical=3, high=10, medium=49, low=0, info=29 | max_score=10.0 | avg_score=4.44
+
+=== APK (3) ===
+  <sandbox>/apk/InsecureShop.apk
+    size: 4 MB
+    package: com.insecureshop
+    version_code: 1
+    version_name: 1.0
+    min_sdk: 16
+    target_sdk: 29
+    permissions: ['android.permission.WAKE_LOCK', 'android.permission.WRITE_EXTERNAL_STORAGE', 'android.permission.INTERNET', 'android.permission.READ_CONTACTS', 'android.permission.READ_EXTERNAL_STORAGE']
+    main_activity: com.insecureshop.ProductListActivity
+    main_activities: ['com.insecureshop.ProductListActivity']
+    debuggable: true
+    allow_backup: true
+    multidex: False
+    activities: [{'name': 'com.insecureshop.ChooserActivity', 'exported': None, 'permission': None}, {'name': 'com.insecureshop.AboutUsActivity', 'exported': True, 'permission': None}, {'name': 'com.insecureshop.CartListActivity', 'exported': None, 'permission': None}, {'name': 'com.insecureshop.ProductListActivity', 'exported': None, 'permission': None}, {'name': 'com.insecureshop.LoginActivity', 'exported': None, 'permission': None}, {'name': 'com.insecureshop.WebViewActivity', 'exported': None, 'permission': None}, {'name': 'com.insecureshop.WebView2Activity', 'exported': None, 'permission': None}, {'name': 'com.insecureshop.PrivateActivity', 'exported': False, 'permission': None}, {'name': 'com.insecureshop.SendingDataViaActionActivity', 'exported': None, 'permission': None}, {'name': 'com.insecureshop.ResultActivity', 'exported': True, 'permission': None}]
+    services: [{'name': 'net.gotev.uploadservice.UploadService', 'exported': True, 'permission': None}]
+    receivers: []
+    providers: [{'name': 'com.insecureshop.contentProvider.InsecureShopProvider', 'exported': True, 'permission': None}, {'name': 'androidx.core.content.FileProvider', 'exported': False, 'permission': None}]
+    signatures: [{'subject': 'CN=Android Debug O=Android C=US', 'issuer': 'CN=Android Debug O=Android C=US', 'valid_until': 'Aug 30 10:14:25 2046 GMT'}, {'subject': 'CN=Android Debug O=Android C=US', 'issuer': 'CN=Android Debug O=Android C=US', 'valid_until': 'Aug 30 10:14:25 2046 GMT'}]
+  <sandbox>/apk/UnCrackable-Level2.apk
+    size: 879 KB
+    package: owasp.mstg.uncrackable2
+    version_code: 1
+    version_name: 1.0
+    min_sdk: 19
+    target_sdk: 28
+    permissions: []
+    main_activity: sg.vantagepoint.uncrackable2.MainActivity
+    main_activities: ['sg.vantagepoint.uncrackable2.MainActivity']
+    debuggable: None
+    allow_backup: true
+    multidex: False
+    activities: [{'name': 'sg.vantagepoint.uncrackable2.MainActivity', 'exported': None, 'permission': None}]
+    services: []
+    receivers: []
+    providers: []
+    signatures: [{'subject': 'C=NL L=Amsterdam O=OWASP OU=OMTG CN=Jeroen Willemsen', 'issuer': 'C=NL L=Amsterdam O=OWASP OU=OMTG CN=Jeroen Willemsen', 'valid_until': 'Aug 21 21:01:01 2043 GMT'}, {'subject': 'C=NL L=Amsterdam O=OWASP OU=OMTG CN=Jeroen Willemsen', 'issuer': 'C=NL L=Amsterdam O=OWASP OU=OMTG CN=Jeroen Willemsen', 'valid_until': 'Aug 21 21:01:01 2043 GMT'}]
+  <sandbox>/apk/UnCrackable-Level1.apk
+    size: 65 KB
+    package: owasp.mstg.uncrackable1
+    version_code: 1
+    version_name: 1.0
+    min_sdk: 19
+    target_sdk: 28
+    permissions: []
+    main_activity: sg.vantagepoint.uncrackable1.MainActivity
+    main_activities: ['sg.vantagepoint.uncrackable1.MainActivity']
+    debuggable: None
+    allow_backup: true
+    multidex: False
+    activities: [{'name': 'sg.vantagepoint.uncrackable1.MainActivity', 'exported': None, 'permission': None}]
+    services: []
+    receivers: []
+    providers: []
+    signatures: [{'subject': 'C=NL L=Amsterdam O=OWASP OU=OMTG CN=Jeroen Willemsen', 'issuer': 'C=NL L=Amsterdam O=OWASP OU=OMTG CN=Jeroen Willemsen', 'valid_until': 'Aug 21 21:01:01 2043 GMT'}, {'subject': 'C=NL L=Amsterdam O=OWASP OU=OMTG CN=Jeroen Willemsen', 'issuer': 'C=NL L=Amsterdam O=OWASP OU=OMTG CN=Jeroen Willemsen', 'valid_until': 'Aug 21 21:01:01 2043 GMT'}]
+
+=== IPA (2) ===
+  <sandbox>/ipa/UnCrackable-Level1.ipa
+    size: 280 KB
+    bundle_id: None
+    version: None
+    build: None
+    display_name: None
+    min_os_version: None
+    file_count: 42
+  <sandbox>/ipa/UnCrackable-Level2.ipa
+    size: 282 KB
+    bundle_id: None
+    version: None
+    build: None
+    display_name: None
+    min_os_version: None
+    file_count: 42
+
+=== JAR (5) ===
+  <sandbox>/jar/gson-2.8.9.jar
+    size: 252 KB
+    file_count: 214
+    manifest_version: 1.0
+    main_class: None
+    created_by: 11.0.11 (Azul Systems, Inc.)
+    Build-Jdk-Spec: 11
+    Bnd-LastModified: 1635537586812
+    Bundle-ContactAddress: https://github.com/google/gson
+    Bundle-Description: Gson JSON library
+    Bundle-DocURL: https://github.com/google/gson/gson
+    Bundle-License: "Apache-2.0";link="https://www.apache.org/licenses/LICENSE-2.0.txt"
+    Bundle-ManifestVersion: 2
+    Bundle-Name: Gson
+    Bundle-RequiredExecutionEnvironment: JavaSE-1.6, JavaSE-1.7, JavaSE-1.8
+    Bundle-SCM: url="https://github.com/google/gson/gson/",connection="scm:git:https://github.com/google/gson.git/gson",developer-connection="scm:git:git@github.com:google/gson.git/gson",tag="gson-parent-2.8.9"
+    Bundle-SymbolicName: com.google.gson
+    Bundle-Vendor: Google Gson Project
+    Bundle-Version: 2.8.9
+    Export-Package: com.google.gson;uses:="com.google.gson.reflect,com.google.gson.stream";version="2.8.9",com.google.gson.annotations;version="2.8.9",com.google.gson.reflect;version="2.8.9",com.google.gson.stream;version="2.8.9"
+    Import-Package: sun.misc;resolution:=optional,com.google.gson.annotations
+    Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.6))"
+    Tool: Bnd-6.0.0.202110041835
+  <sandbox>/jar/commons-lang3-3.12.0.jar
+    size: 573 KB
+    file_count: 374
+    manifest_version: 1.0
+    main_class: None
+    created_by: Apache Maven Bundle Plugin
+    Implementation-Title: Apache Commons Lang
+    Bundle-Description: Apache Commons Lang, a package of Java utility classes for the  classes that are in java.lang's hierarchy, or are considered to be so  standard as to justify existence in java.lang.
+    Automatic-Module-Name: org.apache.commons.lang3
+    Bundle-License: https://www.apache.org/licenses/LICENSE-2.0.txt
+    Bundle-SymbolicName: org.apache.commons.lang3
+    Implementation-Version: 3.12.0
+    Specification-Vendor: The Apache Software Foundation
+    Bnd-LastModified: 1614372027489
+    Bundle-ManifestVersion: 2
+    Specification-Title: Apache Commons Lang
+    Bundle-DocURL: https://commons.apache.org/proper/commons-lang/
+    Bundle-Vendor: The Apache Software Foundation
+    Include-Resource: META-INF/NOTICE.txt=NOTICE.txt,META-INF/LICENSE.txt=LICENSE.txt
+    Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.8))"
+    Tool: Bnd-5.3.0.202102221516
+    Implementation-Vendor: The Apache Software Foundation
+    Export-Package: org.apache.commons.lang3;version="3.12.0",org.apache.commons.lang3.arch;version="3.12.0",org.apache.commons.lang3.builder;version="3.12.0",org.apache.commons.lang3.compare;version="3.12.0",org.apache.commons.lang3.concurrent;version="3.12.0",org.apache.commons.lang3.concurrent.locks;version="3.12.0",org.apache.commons.lang3.event;version="3.12.0",org.apache.commons.lang3.exception;version="3.12.0",org.apache.commons.lang3.function;version="3.12.0",org.apache.commons.lang3.math;version="3.12.0",org.apache.commons.lang3.mutable;version="3.12.0",org.apache.commons.lang3.reflect;version="3.12.0",org.apache.commons.lang3.stream;version="3.12.0",org.apache.commons.lang3.text;version="3.12.0",org.apache.commons.lang3.text.translate;version="3.12.0",org.apache.commons.lang3.time;version="3.12.0",org.apache.commons.lang3.tuple;version="3.12.0"
+    Bundle-Name: Apache Commons Lang
+    Bundle-Version: 3.12.0
+    Build-Jdk-Spec: 1.8
+    Specification-Version: 3.12
+  <sandbox>/jar/edu-weekly-sample.jar
+    size: 384 B
+    file_count: 2
+    manifest_version: 1.0
+    main_class: None
+    created_by: None
+  <sandbox>/jar/junit-4.13.2.jar
+    size: 375 KB
+    file_count: 389
+    manifest_version: 1.0
+    main_class: None
+    created_by: Apache Maven 3.1.1
+    Implementation-Vendor: JUnit
+    Implementation-Title: JUnit
+    Automatic-Module-Name: junit
+    Implementation-Version: 4.13.2
+    Implementation-Vendor-Id: junit
+    Built-By: marc
+    Build-Jdk: 1.6.0_65
+    Implementation-URL: http://junit.org
+    Archiver-Version: Plexus Archiver
+  <sandbox>/jar/slf4j-api-1.7.36.jar
+    size: 40 KB
+    file_count: 46
+    manifest_version: 1.0
+    main_class: None
+    created_by: Maven Jar Plugin 3.2.0
+    Bundle-Description: The slf4j API
+    Implementation-Title: slf4j-api
+    Automatic-Module-Name: org.slf4j
+    Bundle-SymbolicName: slf4j.api
+    Implementation-Version: 1.7.36
+    Bundle-ManifestVersion: 2
+    Bundle-RequiredExecutionEnvironment: J2SE-1.5
+    Bundle-Vendor: SLF4J.ORG
+    Import-Package: org.slf4j.impl;version=1.6.0
+    Export-Package: org.slf4j;version=1.7.36, org.slf4j.spi;version=1.7.36, org.slf4j.helpers;version=1.7.36, org.slf4j.event;version=1.7.36
+    Bundle-Version: 1.7.36
+    Bundle-Name: slf4j-api
+    X-Compile-Target-JDK: 1.5
+    X-Compile-Source-JDK: 1.5
+    Build-Jdk-Spec: 1.8
+
+=== SDK (1) ===
+  <sandbox>/modules/weekly-training-sdk
+    size: 46 B
+    directory: True
+    entry_count: 6
+    size_bytes: 46
+
+=== FINDINGS (91) ===
+  [medium] score=5.5 jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in META-INF/maven/com.google.code.gson/gson/pom.xml; seen: <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi...) @ <sandbox>/jar/gson-2.8.9.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in META-INF/LICENSE.txt; seen:                         http://www.apache.org/licenses/) @ <sandbox>/jar/commons-lang3-3.12.0.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in META-INF/LICENSE.txt; seen:        http://www.apache.org/licenses/LICENSE-2.0) @ <sandbox>/jar/commons-lang3-3.12.0.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in META-INF/maven/org.apache.commons/commons-lang3/pom.xml; seen:       http://www.apache.org/licenses/LICENSE-2.0) @ <sandbox>/jar/commons-lang3-3.12.0.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in META-INF/maven/org.apache.commons/commons-lang3/pom.xml; seen:   xmlns="http://maven.apache.org/POM/4.0.0") @ <sandbox>/jar/commons-lang3-3.12.0.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in META-INF/maven/org.apache.commons/commons-lang3/pom.xml; seen:   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http...) @ <sandbox>/jar/commons-lang3-3.12.0.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in META-INF/maven/org.apache.commons/commons-lang3/pom.xml; seen:     <connection>scm:git:http://gitbox.apache.org/repos/asf/c...) @ <sandbox>/jar/commons-lang3-3.12.0.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in META-INF/maven/org.apache.commons/commons-lang3/pom.xml; seen:             <link>http://docs.oracle.com/javaee/6/api/</link...) @ <sandbox>/jar/commons-lang3-3.12.0.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in config.properties; seen: url=http://evil.example.com/api) @ <sandbox>/jar/edu-weekly-sample.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [high] score=8.0 jar-weak-crypto: Weak or deprecated Cipher.getInstance transformation (e.g. DES/ECB/RC4). (in config.properties; seen: Cipher.getInstance("DES")) @ <sandbox>/jar/edu-weekly-sample.jar
+    Classification: CWE-327 (Use of broken crypto algorithm); SC-13 (Cryptographic protection); MASVS-CRYPTO-2 (Strong crypto; no weak algorithms); M2 (Insecure data storage); MASWE-0026 (Weak cryptography); M10:2024 (Insufficient Cryptography); CAPEC-97 (Cryptanalysis); StrongCrypto (Use approved cryptography); Crypto (Use approved algorithms (NSA))
+    CVSS-estimate: 5.9 (AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Remove weak crypto algorithm names from native/JAR code paths; use approved algorithms (AES-GCM, SHA-256+).
+    Revalidate: Rebuild and re-scan with --sast; so-weak-crypto / jar-weak-crypto should clear when weak algorithm strings are gone.
+  [critical] score=10.0 jar-secret-aws-access-key: AWS access key id-like string (AKIA…). (in config.properties; seen: key=AKIAIOSFODNN7EXAMPLE) @ <sandbox>/jar/edu-weekly-sample.jar
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1:2024 (Improper Credential Usage); MASWE-0001 (Hardcoded credentials); M1:2024 (Improper Credential Usage); CAPEC-114 (Credential stuffing); NoSecrets (No cloud keys in JAR); AppSec (Protect cloud credentials (NSA))
+    CVSS-estimate: 9.1 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Rotate the AWS access key immediately. Remove it from the app; use Cognito/STS or a backend that vends temporary credentials.
+    Revalidate: After rotation and rebuild, re-scan with --sast; secret-*/aws-access-key findings should be gone. Confirm key disabled in AWS IAM.
+  [critical] score=10.0 dex-webview-js-bridge: WebView addJavascriptInterface (JS bridge) — high-impact if content is untrusted. (in config.properties; seen: addJavascriptInterface(bridge)) @ <sandbox>/jar/edu-weekly-sample.jar
+    Classification: CWE-749 (Exposed dangerous method); AC-4 (Information flow enforcement); MASVS-PLATFORM-2 (WebView / JS bridge hardening); M8 (Security misconfiguration); MASWE-0075 (WebView JavaScript bridge); M8:2024 (Security Misconfiguration); M4:2024 (Insufficient Input/Output Validation); CAPEC-182 (Flash Injection / bridge abuse); LeastPriv (Limit exposed interfaces); MobileApp (Harden WebView bridges (NSA))
+    CVSS-estimate: 8.1 (AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:L/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Avoid addJavascriptInterface on untrusted content; if required, expose minimal APIs and validate all inputs.
+    Revalidate: Rebuild and re-scan with --sast; dex-webview-js-bridge should clear when the bridge is removed or no longer matched.
+  [medium] score=5.5 jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/LoggerFactory.class; seen: KSee http://www.slf4j.org/codes.html#StaticLoggerBinder for ...) @ <sandbox>/jar/slf4j-api-1.7.36.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/LoggerFactory.class; seen: 9See also http://www.slf4j.org/codes.html#substituteLogger) @ <sandbox>/jar/slf4j-api-1.7.36.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/LoggerFactory.class; seen: /See also http://www.slf4j.org/codes.html#replay) @ <sandbox>/jar/slf4j-api-1.7.36.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/LoggerFactory.class; seen: ISee http://www.slf4j.org/codes.html#version_mismatch for fu...) @ <sandbox>/jar/slf4j-api-1.7.36.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/LoggerFactory.class; seen: ISee http://www.slf4j.org/codes.html#multiple_bindings for a...) @ <sandbox>/jar/slf4j-api-1.7.36.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/LoggerFactory.class; seen: ISee http://www.slf4j.org/codes.html#loggerNameMismatch for ...) @ <sandbox>/jar/slf4j-api-1.7.36.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/LoggerFactory.class; seen: org.slf4j.LoggerFactory in failed state. Original exception ...) @ <sandbox>/jar/slf4j-api-1.7.36.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/LoggerFactory.class; seen: http://www.slf4j.org/codes.html) @ <sandbox>/jar/slf4j-api-1.7.36.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/LoggerFactory.class; seen: 2http://www.slf4j.org/codes.html#StaticLoggerBinder) @ <sandbox>/jar/slf4j-api-1.7.36.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/LoggerFactory.class; seen: 1http://www.slf4j.org/codes.html#multiple_bindings) @ <sandbox>/jar/slf4j-api-1.7.36.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/LoggerFactory.class; seen: 'http://www.slf4j.org/codes.html#null_LF) @ <sandbox>/jar/slf4j-api-1.7.36.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/LoggerFactory.class; seen: 0http://www.slf4j.org/codes.html#version_mismatch) @ <sandbox>/jar/slf4j-api-1.7.36.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/LoggerFactory.class; seen: 0http://www.slf4j.org/codes.html#substituteLogger) @ <sandbox>/jar/slf4j-api-1.7.36.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/LoggerFactory.class; seen: 2http://www.slf4j.org/codes.html#loggerNameMismatch) @ <sandbox>/jar/slf4j-api-1.7.36.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/LoggerFactory.class; seen: &http://www.slf4j.org/codes.html#replay) @ <sandbox>/jar/slf4j-api-1.7.36.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/LoggerFactory.class; seen: 0http://www.slf4j.org/codes.html#unsuccessfulInit) @ <sandbox>/jar/slf4j-api-1.7.36.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/MDC.class; seen: MMDCAdapter cannot be null. See also http://www.slf4j.org/co...) @ <sandbox>/jar/slf4j-api-1.7.36.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/MDC.class; seen: MSee http://www.slf4j.org/codes.html#no_static_mdc_binder fo...) @ <sandbox>/jar/slf4j-api-1.7.36.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/MDC.class; seen: )http://www.slf4j.org/codes.html#null_MDCA) @ <sandbox>/jar/slf4j-api-1.7.36.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/MDC.class; seen: 4http://www.slf4j.org/codes.html#no_static_mdc_binder) @ <sandbox>/jar/slf4j-api-1.7.36.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in META-INF/maven/org.slf4j/slf4j-api/pom.xml; seen: <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi...) @ <sandbox>/jar/slf4j-api-1.7.36.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in META-INF/maven/org.slf4j/slf4j-api/pom.xml; seen:   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http...) @ <sandbox>/jar/slf4j-api-1.7.36.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in META-INF/maven/org.slf4j/slf4j-api/pom.xml; seen:   <url>http://www.slf4j.org</url>) @ <sandbox>/jar/slf4j-api-1.7.36.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [high] score=8.0 sdk-sensitive-file: Sensitive file in SDK: .env (ensure not committed or restrict access). @ <sandbox>/modules/weekly-training-sdk/config/.env
+    Classification: CWE-312 (Cleartext storage of sensitive information); CWE-200 (Information exposure); SC-28 (Protection of information at rest); CM-7 (Least functionality); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); MASWE-0001 (Sensitive files in package); M1:2024 (Improper Credential Usage); M2:2024 (Inadequate Supply Chain Security); CAPEC-37 (Retrieve embedded sensitive data); NoSecrets (Do not commit keys or credentials to SDK); SupplyChain (Secure SDK contents (NSA supply chain))
+    CVSS-estimate: 6.5 (AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Remove keystores, PEM files, and credential-like filenames from the SDK distribution; load secrets at runtime from a vault.
+    Revalidate: Re-scan the SDK path with --sast; sdk-sensitive-file should clear when those files are removed from the tree.
+  [medium] score=5.5 ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http:/...) @ <sandbox>/ipa/UnCrackable-Level1.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [info] score=1.0 ipa-hardcoded-secret: Possible secret reference (low confidence; high FP). (seen: A Secret Is Found In The Hidden Label!) @ <sandbox>/ipa/UnCrackable-Level1.ipa
+    Classification: CWE-798 (Hard-coded credentials); CWE-321 (Hard-coded cryptographic key); SC-28 (Protection of information at rest); IA-5 (Authenticator management); MASVS-CRYPTO-1 (No hardcoded keys); M2 (Insecure data storage); MASWE-0001 (Hardcoded credentials); MASWE-0028 (Hardcoded crypto material); M1:2024 (Improper Credential Usage); M10:2024 (Insufficient Cryptography); CAPEC-116 (Excavation); NoSecrets (Secrets in secure vault); MobileApp (Protect keys (NSA))
+    CVSS-estimate: 5.5 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Remove embedded secrets/crypto keys from the binary. Load keys from a secure backend or hardware-backed store at runtime.
+    Revalidate: Rebuild and re-run --sast; this rule_id should clear when the secret patterns are gone.
+  [medium] score=5.5 ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: %http://www.apple.com/appleca/root.crl0) @ <sandbox>/ipa/UnCrackable-Level1.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: http://crl.apple.com/iphone.crl0) @ <sandbox>/ipa/UnCrackable-Level1.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [info] score=1.0 ipa-hardcoded-secret: Possible secret reference (low confidence; high FP). (seen: You found the secret!!) @ <sandbox>/ipa/UnCrackable-Level1.ipa
+    Classification: CWE-798 (Hard-coded credentials); CWE-321 (Hard-coded cryptographic key); SC-28 (Protection of information at rest); IA-5 (Authenticator management); MASVS-CRYPTO-1 (No hardcoded keys); M2 (Insecure data storage); MASWE-0001 (Hardcoded credentials); MASWE-0028 (Hardcoded crypto material); M1:2024 (Improper Credential Usage); M10:2024 (Insufficient Cryptography); CAPEC-116 (Excavation); NoSecrets (Secrets in secure vault); MobileApp (Protect keys (NSA))
+    CVSS-estimate: 5.5 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Remove embedded secrets/crypto keys from the binary. Load keys from a secure backend or hardware-backed store at runtime.
+    Revalidate: Rebuild and re-run --sast; this rule_id should clear when the secret patterns are gone.
+  [medium] score=5.5 ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: http://crl.apple.com/root.crl0) @ <sandbox>/ipa/UnCrackable-Level1.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: #http://ocsp.apple.com/ocsp02-wwdr010) @ <sandbox>/ipa/UnCrackable-Level1.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: http://www.apple.com/appleca/0) @ <sandbox>/ipa/UnCrackable-Level1.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http:/...) @ <sandbox>/ipa/UnCrackable-Level2.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [info] score=1.0 ipa-hardcoded-secret: Possible secret reference (low confidence; high FP). (seen: Enter the Secret Message) @ <sandbox>/ipa/UnCrackable-Level2.ipa
+    Classification: CWE-798 (Hard-coded credentials); CWE-321 (Hard-coded cryptographic key); SC-28 (Protection of information at rest); IA-5 (Authenticator management); MASVS-CRYPTO-1 (No hardcoded keys); M2 (Insecure data storage); MASWE-0001 (Hardcoded credentials); MASWE-0028 (Hardcoded crypto material); M1:2024 (Improper Credential Usage); M10:2024 (Insufficient Cryptography); CAPEC-116 (Excavation); NoSecrets (Secrets in secure vault); MobileApp (Protect keys (NSA))
+    CVSS-estimate: 5.5 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Remove embedded secrets/crypto keys from the binary. Load keys from a secure backend or hardware-backed store at runtime.
+    Revalidate: Rebuild and re-run --sast; this rule_id should clear when the secret patterns are gone.
+  [medium] score=5.5 ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: %http://www.apple.com/appleca/root.crl0) @ <sandbox>/ipa/UnCrackable-Level2.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: http://crl.apple.com/iphone.crl0) @ <sandbox>/ipa/UnCrackable-Level2.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [info] score=1.0 ipa-hardcoded-password: Bare password token (info only; high FP — not a credential finding). (seen: decrypt:password:) @ <sandbox>/ipa/UnCrackable-Level2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); MASWE-0001 (Hardcoded credentials); M1:2024 (Improper Credential Usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+    CVSS-estimate: 5.3 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Remove hardcoded passwords from app binaries and resources. Use platform secret stores (Android Keystore / iOS Keychain) or authenticate via a backend; never ship production credentials in the APK/IPA/JAR.
+    Revalidate: Rebuild the artifact, then re-run: python cli.py <path> --sast -o json. Expect this rule_id to be absent (or only leftover false-positive token hits at low/info). Compare finding counts for the same path.
+  [info] score=1.0 ipa-hardcoded-password: Bare password token (info only; high FP — not a credential finding). (seen: encrypt:password:) @ <sandbox>/ipa/UnCrackable-Level2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); MASWE-0001 (Hardcoded credentials); M1:2024 (Improper Credential Usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+    CVSS-estimate: 5.3 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Remove hardcoded passwords from app binaries and resources. Use platform secret stores (Android Keystore / iOS Keychain) or authenticate via a backend; never ship production credentials in the APK/IPA/JAR.
+    Revalidate: Rebuild the artifact, then re-run: python cli.py <path> --sast -o json. Expect this rule_id to be absent (or only leftover false-positive token hits at low/info). Compare finding counts for the same path.
+  [info] score=1.0 ipa-hardcoded-secret: Possible secret reference (low confidence; high FP). (seen: You found the secret!!) @ <sandbox>/ipa/UnCrackable-Level2.ipa
+    Classification: CWE-798 (Hard-coded credentials); CWE-321 (Hard-coded cryptographic key); SC-28 (Protection of information at rest); IA-5 (Authenticator management); MASVS-CRYPTO-1 (No hardcoded keys); M2 (Insecure data storage); MASWE-0001 (Hardcoded credentials); MASWE-0028 (Hardcoded crypto material); M1:2024 (Improper Credential Usage); M10:2024 (Insufficient Cryptography); CAPEC-116 (Excavation); NoSecrets (Secrets in secure vault); MobileApp (Protect keys (NSA))
+    CVSS-estimate: 5.5 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Remove embedded secrets/crypto keys from the binary. Load keys from a secure backend or hardware-backed store at runtime.
+    Revalidate: Rebuild and re-run --sast; this rule_id should clear when the secret patterns are gone.
+  [medium] score=5.5 ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: http://crl.apple.com/root.crl0) @ <sandbox>/ipa/UnCrackable-Level2.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: #http://ocsp.apple.com/ocsp02-wwdr010) @ <sandbox>/ipa/UnCrackable-Level2.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [medium] score=5.5 ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: http://www.apple.com/appleca/0) @ <sandbox>/ipa/UnCrackable-Level2.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [high] score=8.4 apk-debuggable: Application is debuggable; increases reverse-engineering risk. @ <sandbox>/apk/InsecureShop.apk
+    Classification: CWE-489 (Active debug code); CM-7 (Least functionality); RA-5 (Vulnerability scanning); MASVS-RESILIENCE-1 (App not debuggable in release); M9 (Reverse engineering (Mobile Top 10)); MASWE-0090 (Debuggable release); M7:2024 (Insufficient Binary Protections); CAPEC-169 (Footprinting); SecureBuild (Disable debug in production (CISA)); MobileApp (Release builds: no debug (NSA))
+    CVSS-estimate: 7.5 (AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Set android:debuggable=false for release builds (default when using a release build type). Do not ship debug APKs to production.
+    Revalidate: Build a release APK and re-run --sast; apk-debuggable should be absent when the manifest flag is false/unset for release.
+  [medium] score=5.5 apk-allow-backup: allowBackup is true; app data may be backed up unencrypted. @ <sandbox>/apk/InsecureShop.apk
+    Classification: CWE-200 (Information exposure); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data not in backups); M2 (Insecure data storage); MASWE-0014 (Backup exposure); M9:2024 (Insecure Data Storage); CAPEC-37 (Retrieve embedded sensitive data); Backup (Restrict backup of sensitive app data); MobileApp (Control backup exposure (NSA))
+    CVSS-estimate: 5.3 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Set android:allowBackup=false, or use a backup rules / data extraction rules file that excludes sensitive data.
+    Revalidate: Rebuild and re-scan with --sast; apk-allow-backup should clear when allowBackup is false or appropriately restricted.
+  [high] score=8.8 apk-exported-intent-risk: Exported activity without permission (intent/IPC risk): com.insecureshop.AboutUsActivity @ <sandbox>/apk/InsecureShop.apk
+    Classification: CWE-926 (Improper export of Android component); AC-4 (Information flow enforcement); MASVS-PLATFORM-1 (Platform interaction / exported components); M8:2024 (Security Misconfiguration); MASWE-0071 (Unprotected IPC / intent); M8:2024 (Security Misconfiguration); M3:2024 (Insecure Authentication/Authorization); CAPEC-180 (Exploiting software via component vulnerability); LeastPriv (Protect exported components); MobileApp (Secure IPC and exports (NSA))
+    CVSS-estimate: 7.5 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:H/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Set android:exported=false when not needed, or require a signature/custom permission; validate Intent extras.
+    Revalidate: Rebuild and re-scan with --sast; apk-exported-intent-risk should clear for activities no longer exported without permission.
+  [high] score=8.8 apk-exported-intent-risk: Exported activity without permission (intent/IPC risk): com.insecureshop.ResultActivity @ <sandbox>/apk/InsecureShop.apk
+    Classification: CWE-926 (Improper export of Android component); AC-4 (Information flow enforcement); MASVS-PLATFORM-1 (Platform interaction / exported components); M8:2024 (Security Misconfiguration); MASWE-0071 (Unprotected IPC / intent); M8:2024 (Security Misconfiguration); M3:2024 (Insecure Authentication/Authorization); CAPEC-180 (Exploiting software via component vulnerability); LeastPriv (Protect exported components); MobileApp (Secure IPC and exports (NSA))
+    CVSS-estimate: 7.5 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:H/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Set android:exported=false when not needed, or require a signature/custom permission; validate Intent extras.
+    Revalidate: Rebuild and re-scan with --sast; apk-exported-intent-risk should clear for activities no longer exported without permission.
+  [medium] score=5.8 apk-exported-unprotected: Exported service without permission: net.gotev.uploadservice.UploadService @ <sandbox>/apk/InsecureShop.apk
+    Classification: CWE-926 (Improper export of Android component); AC-4 (Information flow enforcement); AC-17 (Remote access); MASVS-PLATFORM-1 (Platform interaction / exported components); M8 (Security misconfiguration / IPC); MASWE-0070 (Exported component); MASWE-0071 (Unprotected IPC); M8:2024 (Security Misconfiguration); M3:2024 (Insecure Authentication/Authorization); CAPEC-180 (Exploiting software via component vulnerability); LeastPriv (Least privilege; protect exported components); MobileApp (Secure IPC and exports (NSA))
+    CVSS-estimate: 6.5 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Add a permission (signature/custom) on exported components, or set android:exported=false if not needed by other apps.
+    Revalidate: Rebuild and re-scan with --sast; apk-exported-unprotected should clear for components that are no longer exported without permission.
+  [critical] score=10.0 apk-exported-provider-unprotected: Exported ContentProvider without permission (data IPC risk): com.insecureshop.contentProvider.InsecureShopProvider @ <sandbox>/apk/InsecureShop.apk
+    Classification: CWE-926 (Improper export of Android component); CWE-200 (Information exposure); AC-4 (Information flow enforcement); SC-28 (Protection of information at rest); MASVS-PLATFORM-1 (Platform interaction); M8:2024 (Security Misconfiguration); MASWE-0072 (Exported ContentProvider); M8:2024 (Security Misconfiguration); M9:2024 (Insecure Data Storage); CAPEC-180 (Exploiting component vulnerability); LeastPriv (Protect ContentProviders); MobileApp (Secure providers (NSA))
+    CVSS-estimate: 8.2 (AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Protect ContentProviders with permissions or set exported=false; never expose sensitive data via open providers.
+    Revalidate: Rebuild and re-scan with --sast; apk-exported-provider-unprotected should clear when providers are protected.
+  [medium] score=5.5 dex-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: < must be ASCII only! Read http://stackoverflow.com/a/441033...) @ <sandbox>/apk/InsecureShop.apk
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit (e.g. TLS)); M3 (Insecure communication (Mobile Top 10)); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit (CISA secure our world)); Encrypt (Use TLS for all network traffic (NSA guidance))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [info] score=0.7 dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: %()Landroid/content/SharedPreferences;) @ <sandbox>/apk/InsecureShop.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); MASWE-0013 (Insecure local storage); M9:2024 (Insecure Data Storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+    CVSS-estimate: 4.0 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.
+  [info] score=0.7 dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: &(Landroid/content/SharedPreferences;)V) @ <sandbox>/apk/InsecureShop.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); MASWE-0013 (Insecure local storage); M9:2024 (Insecure Data Storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+    CVSS-estimate: 4.0 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.
+  [info] score=0.7 dex-hardcoded-password: Bare password token (info only; high FP — not a credential finding). (seen: ; password: ) @ <sandbox>/apk/InsecureShop.apk
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage (Mobile Top 10)); MASWE-0001 (Hardcoded credentials); M1:2024 (Improper Credential Usage); CAPEC-114 (Credential stuffing); StrongAuth (Use strong authentication; no hardcoded secrets); MobileApp (Mobile app: avoid hardcoded credentials (NSA mobile guidance))
+    CVSS-estimate: 5.3 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Remove hardcoded passwords from app binaries and resources. Use platform secret stores (Android Keystore / iOS Keychain) or authenticate via a backend; never ship production credentials in the APK/IPA/JAR.
+    Revalidate: Rebuild the artifact, then re-run: python cli.py <path> --sast -o json. Expect this rule_id to be absent (or only leftover false-positive token hits at low/info). Compare finding counts for the same path.
+  [high] score=8.0 dex-path-traversal: Path traversal / file URI / external-storage path heuristic. (seen: )Environment.getExternalStorageDirectory()) @ <sandbox>/apk/InsecureShop.apk
+    Classification: CWE-22 (Path traversal); AC-4 (Information flow enforcement); MASVS-CODE-2 (Path / file handling); M4:2024 (Insufficient Input/Output Validation); MASWE-0041 (Path traversal / file URI); M4:2024 (Insufficient Input/Output Validation); CAPEC-126 (Path Traversal); LeastPriv (Validate paths); AppSec (Safe file paths (NSA))
+    CVSS-estimate: 7.5 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Canonicalize and validate file paths; block ../ and unexpected file:// URIs; prefer app-private storage APIs.
+    Revalidate: Rebuild and re-scan with --sast; path-traversal rule_ids should clear or drop when unsafe path construction is fixed.
+  [info] score=0.7 dex-hardcoded-password: Bare password token (info only; high FP — not a credential finding). (seen: Invalid username and password) @ <sandbox>/apk/InsecureShop.apk
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage (Mobile Top 10)); MASWE-0001 (Hardcoded credentials); M1:2024 (Improper Credential Usage); CAPEC-114 (Credential stuffing); StrongAuth (Use strong authentication; no hardcoded secrets); MobileApp (Mobile app: avoid hardcoded credentials (NSA mobile guidance))
+    CVSS-estimate: 5.3 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Remove hardcoded passwords from app binaries and resources. Use platform secret stores (Android Keystore / iOS Keychain) or authenticate via a backend; never ship production credentials in the APK/IPA/JAR.
+    Revalidate: Rebuild the artifact, then re-run: python cli.py <path> --sast -o json. Expect this rule_id to be absent (or only leftover false-positive token hits at low/info). Compare finding counts for the same path.
+  [info] score=0.7 dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: *Landroid/content/SharedPreferences$Editor;) @ <sandbox>/apk/InsecureShop.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); MASWE-0013 (Insecure local storage); M9:2024 (Insecure Data Storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+    CVSS-estimate: 4.0 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.
+  [info] score=0.7 dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: #Landroid/content/SharedPreferences;) @ <sandbox>/apk/InsecureShop.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); MASWE-0013 (Insecure local storage); M9:2024 (Insecure Data Storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+    CVSS-estimate: 4.0 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.
+  [info] score=0.7 dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: CLandroidx/core/content/SharedPreferencesCompat$EditorCompat...) @ <sandbox>/apk/InsecureShop.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); MASWE-0013 (Insecure local storage); M9:2024 (Insecure Data Storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+    CVSS-estimate: 4.0 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.
+  [info] score=0.7 dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: <Landroidx/core/content/SharedPreferencesCompat$EditorCompat...) @ <sandbox>/apk/InsecureShop.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); MASWE-0013 (Insecure local storage); M9:2024 (Insecure Data Storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+    CVSS-estimate: 4.0 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.
+  [info] score=0.7 dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: /Landroidx/core/content/SharedPreferencesCompat;) @ <sandbox>/apk/InsecureShop.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); MASWE-0013 (Insecure local storage); M9:2024 (Insecure Data Storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+    CVSS-estimate: 4.0 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.
+  [info] score=0.7 dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: +Landroidx/core/content/SharedPreferencesKt;) @ <sandbox>/apk/InsecureShop.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); MASWE-0013 (Insecure local storage); M9:2024 (Insecure Data Storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+    CVSS-estimate: 4.0 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.
+  [info] score=0.7 dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: SharedPreferences.kt) @ <sandbox>/apk/InsecureShop.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); MASWE-0013 (Insecure local storage); M9:2024 (Insecure Data Storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+    CVSS-estimate: 4.0 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.
+  [info] score=0.7 dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: + 1 SharedPreferences.kt) @ <sandbox>/apk/InsecureShop.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); MASWE-0013 (Insecure local storage); M9:2024 (Insecure Data Storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+    CVSS-estimate: 4.0 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.
+  [info] score=0.7 dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: androidx/core/content/SharedPreferencesKt) @ <sandbox>/apk/InsecureShop.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); MASWE-0013 (Insecure local storage); M9:2024 (Insecure Data Storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+    CVSS-estimate: 4.0 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.
+  [info] score=0.7 dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: SharedPreferencesCompat.java) @ <sandbox>/apk/InsecureShop.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); MASWE-0013 (Insecure local storage); M9:2024 (Insecure Data Storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+    CVSS-estimate: 4.0 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.
+  [high] score=8.0 dex-path-traversal: Path traversal / file URI / external-storage path heuristic. (seen: file:///android_asset/) @ <sandbox>/apk/InsecureShop.apk
+    Classification: CWE-22 (Path traversal); AC-4 (Information flow enforcement); MASVS-CODE-2 (Path / file handling); M4:2024 (Insufficient Input/Output Validation); MASWE-0041 (Path traversal / file URI); M4:2024 (Insufficient Input/Output Validation); CAPEC-126 (Path Traversal); LeastPriv (Validate paths); AppSec (Safe file paths (NSA))
+    CVSS-estimate: 7.5 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Canonicalize and validate file paths; block ../ and unexpected file:// URIs; prefer app-private storage APIs.
+    Revalidate: Rebuild and re-scan with --sast; path-traversal rule_ids should clear or drop when unsafe path construction is fixed.
+  [high] score=8.0 dex-path-traversal: Path traversal / file URI / external-storage path heuristic. (seen: getExternalFilesDir) @ <sandbox>/apk/InsecureShop.apk
+    Classification: CWE-22 (Path traversal); AC-4 (Information flow enforcement); MASVS-CODE-2 (Path / file handling); M4:2024 (Insufficient Input/Output Validation); MASWE-0041 (Path traversal / file URI); M4:2024 (Insufficient Input/Output Validation); CAPEC-126 (Path Traversal); LeastPriv (Validate paths); AppSec (Safe file paths (NSA))
+    CVSS-estimate: 7.5 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Canonicalize and validate file paths; block ../ and unexpected file:// URIs; prefer app-private storage APIs.
+    Revalidate: Rebuild and re-scan with --sast; path-traversal rule_ids should clear or drop when unsafe path construction is fixed.
+  [high] score=8.0 dex-path-traversal: Path traversal / file URI / external-storage path heuristic. (seen: getExternalFilesDirs) @ <sandbox>/apk/InsecureShop.apk
+    Classification: CWE-22 (Path traversal); AC-4 (Information flow enforcement); MASVS-CODE-2 (Path / file handling); M4:2024 (Insufficient Input/Output Validation); MASWE-0041 (Path traversal / file URI); M4:2024 (Insufficient Input/Output Validation); CAPEC-126 (Path Traversal); LeastPriv (Validate paths); AppSec (Safe file paths (NSA))
+    CVSS-estimate: 7.5 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Canonicalize and validate file paths; block ../ and unexpected file:// URIs; prefer app-private storage APIs.
+    Revalidate: Rebuild and re-scan with --sast; path-traversal rule_ids should clear or drop when unsafe path construction is fixed.
+  [high] score=8.0 dex-path-traversal: Path traversal / file URI / external-storage path heuristic. (seen: getExternalStorageDirectory) @ <sandbox>/apk/InsecureShop.apk
+    Classification: CWE-22 (Path traversal); AC-4 (Information flow enforcement); MASVS-CODE-2 (Path / file handling); M4:2024 (Insufficient Input/Output Validation); MASWE-0041 (Path traversal / file URI); M4:2024 (Insufficient Input/Output Validation); CAPEC-126 (Path Traversal); LeastPriv (Validate paths); AppSec (Safe file paths (NSA))
+    CVSS-estimate: 7.5 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Canonicalize and validate file paths; block ../ and unexpected file:// URIs; prefer app-private storage APIs.
+    Revalidate: Rebuild and re-scan with --sast; path-traversal rule_ids should clear or drop when unsafe path construction is fixed.
+  [info] score=0.7 dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: getSharedPreferences) @ <sandbox>/apk/InsecureShop.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); MASWE-0013 (Insecure local storage); M9:2024 (Insecure Data Storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+    CVSS-estimate: 4.0 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.
+  [info] score=0.7 dex-hardcoded-password: Bare password token (info only; high FP — not a credential finding). (seen: password) @ <sandbox>/apk/InsecureShop.apk
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage (Mobile Top 10)); MASWE-0001 (Hardcoded credentials); M1:2024 (Improper Credential Usage); CAPEC-114 (Credential stuffing); StrongAuth (Use strong authentication; no hardcoded secrets); MobileApp (Mobile app: avoid hardcoded credentials (NSA mobile guidance))
+    CVSS-estimate: 5.3 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Remove hardcoded passwords from app binaries and resources. Use platform secret stores (Android Keystore / iOS Keychain) or authenticate via a backend; never ship production credentials in the APK/IPA/JAR.
+    Revalidate: Rebuild the artifact, then re-run: python cli.py <path> --sast -o json. Expect this rule_id to be absent (or only leftover false-positive token hits at low/info). Compare finding counts for the same path.
+  [info] score=0.7 dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: setSharedpreferences) @ <sandbox>/apk/InsecureShop.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); MASWE-0013 (Insecure local storage); M9:2024 (Insecure Data Storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+    CVSS-estimate: 4.0 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.
+  [info] score=0.7 dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: sharedpreferences) @ <sandbox>/apk/InsecureShop.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); MASWE-0013 (Insecure local storage); M9:2024 (Insecure Data Storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+    CVSS-estimate: 4.0 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.
+  [info] score=0.7 dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: eFilter;":"e3c12317","Landroidx/core/content/PermissionCheck...) @ <sandbox>/apk/InsecureShop.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); MASWE-0013 (Insecure local storage); M9:2024 (Insecure Data Storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+    CVSS-estimate: 4.0 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.
+  [info] score=0.7 dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: orCompat$Helper;":"4a108208","Landroidx/core/content/SharedP...) @ <sandbox>/apk/InsecureShop.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); MASWE-0013 (Insecure local storage); M9:2024 (Insecure Data Storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+    CVSS-estimate: 4.0 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.
+  [medium] score=5.5 apk-allow-backup: allowBackup is true; app data may be backed up unencrypted. @ <sandbox>/apk/UnCrackable-Level2.apk
+    Classification: CWE-200 (Information exposure); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data not in backups); M2 (Insecure data storage); MASWE-0014 (Backup exposure); M9:2024 (Insecure Data Storage); CAPEC-37 (Retrieve embedded sensitive data); Backup (Restrict backup of sensitive app data); MobileApp (Control backup exposure (NSA))
+    CVSS-estimate: 5.3 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Set android:allowBackup=false, or use a backup rules / data extraction rules file that excludes sensitive data.
+    Revalidate: Rebuild and re-scan with --sast; apk-allow-backup should clear when allowBackup is false or appropriately restricted.
+  [info] score=0.7 dex-hardcoded-password: Bare password token (info only; high FP — not a credential finding). (seen: ; password: ) @ <sandbox>/apk/UnCrackable-Level2.apk
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage (Mobile Top 10)); MASWE-0001 (Hardcoded credentials); M1:2024 (Improper Credential Usage); CAPEC-114 (Credential stuffing); StrongAuth (Use strong authentication; no hardcoded secrets); MobileApp (Mobile app: avoid hardcoded credentials (NSA mobile guidance))
+    CVSS-estimate: 5.3 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Remove hardcoded passwords from app binaries and resources. Use platform secret stores (Android Keystore / iOS Keychain) or authenticate via a backend; never ship production credentials in the APK/IPA/JAR.
+    Revalidate: Rebuild the artifact, then re-run: python cli.py <path> --sast -o json. Expect this rule_id to be absent (or only leftover false-positive token hits at low/info). Compare finding counts for the same path.
+  [info] score=0.7 dex-hardcoded-secret: Possible secret reference (low confidence; high FP). (seen: This is the correct secret.) @ <sandbox>/apk/UnCrackable-Level2.apk
+    Classification: CWE-798 (Hard-coded credentials); CWE-321 (Hard-coded cryptographic key); SC-28 (Protection of information at rest); IA-5 (Authenticator management); MASVS-CRYPTO-1 (Standard crypto; no hardcoded keys); M2 (Insecure data storage (Mobile Top 10)); MASWE-0001 (Hardcoded credentials); MASWE-0028 (Hardcoded crypto material); M1:2024 (Improper Credential Usage); M10:2024 (Insufficient Cryptography); CAPEC-116 (Excavation); NoSecrets (Secrets in secure vault; not in code); MobileApp (Mobile: protect cryptographic keys)
+    CVSS-estimate: 5.5 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Remove embedded secrets/crypto keys from the binary. Load keys from a secure backend or hardware-backed store at runtime.
+    Revalidate: Rebuild and re-run --sast; this rule_id should clear when the secret patterns are gone.
+  [medium] score=5.5 apk-allow-backup: allowBackup is true; app data may be backed up unencrypted. @ <sandbox>/apk/UnCrackable-Level1.apk
+    Classification: CWE-200 (Information exposure); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data not in backups); M2 (Insecure data storage); MASWE-0014 (Backup exposure); M9:2024 (Insecure Data Storage); CAPEC-37 (Retrieve embedded sensitive data); Backup (Restrict backup of sensitive app data); MobileApp (Control backup exposure (NSA))
+    CVSS-estimate: 5.3 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Set android:allowBackup=false, or use a backup rules / data extraction rules file that excludes sensitive data.
+    Revalidate: Rebuild and re-scan with --sast; apk-allow-backup should clear when allowBackup is false or appropriately restricted.
+  [info] score=0.7 dex-hardcoded-secret: Possible secret reference (low confidence; high FP). (seen: This is the correct secret.) @ <sandbox>/apk/UnCrackable-Level1.apk
+    Classification: CWE-798 (Hard-coded credentials); CWE-321 (Hard-coded cryptographic key); SC-28 (Protection of information at rest); IA-5 (Authenticator management); MASVS-CRYPTO-1 (Standard crypto; no hardcoded keys); M2 (Insecure data storage (Mobile Top 10)); MASWE-0001 (Hardcoded credentials); MASWE-0028 (Hardcoded crypto material); M1:2024 (Improper Credential Usage); M10:2024 (Insufficient Cryptography); CAPEC-116 (Excavation); NoSecrets (Secrets in secure vault; not in code); MobileApp (Mobile: protect cryptographic keys)
+    CVSS-estimate: 5.5 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Remove embedded secrets/crypto keys from the binary. Load keys from a secure backend or hardware-backed store at runtime.
+    Revalidate: Rebuild and re-run --sast; this rule_id should clear when the secret patterns are gone.
+
+Total: 11 artifact(s), 91 finding(s)

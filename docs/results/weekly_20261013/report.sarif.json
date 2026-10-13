@@ -1,0 +1,5250 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "apk-scanner",
+          "version": "0.2.0",
+          "informationUri": "https://github.com/beejak/apk-scanner",
+          "rules": [
+            {
+              "id": "apk-allow-backup",
+              "name": "apk-allow-backup",
+              "shortDescription": {
+                "text": "apk-allow-backup"
+              },
+              "fullDescription": {
+                "text": "allowBackup is true; app data may be backed up unencrypted."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "severity": "medium",
+                "maswe_id": "MASWE-0014",
+                "owasp_mobile": "M9:2024"
+              },
+              "help": {
+                "text": "Set android:allowBackup=false, or use a backup rules / data extraction rules file that excludes sensitive data.\n\nRevalidate: Rebuild and re-scan with --sast; apk-allow-backup should clear when allowBackup is false or appropriately restricted.",
+                "markdown": "**Remediation**\n\nSet android:allowBackup=false, or use a backup rules / data extraction rules file that excludes sensitive data.\n\n**Revalidate**\n\nRebuild and re-scan with --sast; apk-allow-backup should clear when allowBackup is false or appropriately restricted."
+              }
+            },
+            {
+              "id": "apk-debuggable",
+              "name": "apk-debuggable",
+              "shortDescription": {
+                "text": "apk-debuggable"
+              },
+              "fullDescription": {
+                "text": "Application is debuggable; increases reverse-engineering risk."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "severity": "high",
+                "maswe_id": "MASWE-0090",
+                "owasp_mobile": "M7:2024"
+              },
+              "help": {
+                "text": "Set android:debuggable=false for release builds (default when using a release build type). Do not ship debug APKs to production.\n\nRevalidate: Build a release APK and re-run --sast; apk-debuggable should be absent when the manifest flag is false/unset for release.",
+                "markdown": "**Remediation**\n\nSet android:debuggable=false for release builds (default when using a release build type). Do not ship debug APKs to production.\n\n**Revalidate**\n\nBuild a release APK and re-run --sast; apk-debuggable should be absent when the manifest flag is false/unset for release."
+              }
+            },
+            {
+              "id": "apk-exported-intent-risk",
+              "name": "apk-exported-intent-risk",
+              "shortDescription": {
+                "text": "apk-exported-intent-risk"
+              },
+              "fullDescription": {
+                "text": "Exported activity without permission (intent/IPC risk): com.insecureshop.AboutUsActivity"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "severity": "high",
+                "maswe_id": "MASWE-0071",
+                "owasp_mobile": "M8:2024"
+              },
+              "help": {
+                "text": "Set android:exported=false when not needed, or require a signature/custom permission; validate Intent extras.\n\nRevalidate: Rebuild and re-scan with --sast; apk-exported-intent-risk should clear for activities no longer exported without permission.",
+                "markdown": "**Remediation**\n\nSet android:exported=false when not needed, or require a signature/custom permission; validate Intent extras.\n\n**Revalidate**\n\nRebuild and re-scan with --sast; apk-exported-intent-risk should clear for activities no longer exported without permission."
+              }
+            },
+            {
+              "id": "apk-exported-provider-unprotected",
+              "name": "apk-exported-provider-unprotected",
+              "shortDescription": {
+                "text": "apk-exported-provider-unprotected"
+              },
+              "fullDescription": {
+                "text": "Exported ContentProvider without permission (data IPC risk): com.insecureshop.contentProvider.InsecureShopProvider"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "severity": "critical",
+                "maswe_id": "MASWE-0072",
+                "owasp_mobile": "M8:2024"
+              },
+              "help": {
+                "text": "Protect ContentProviders with permissions or set exported=false; never expose sensitive data via open providers.\n\nRevalidate: Rebuild and re-scan with --sast; apk-exported-provider-unprotected should clear when providers are protected.",
+                "markdown": "**Remediation**\n\nProtect ContentProviders with permissions or set exported=false; never expose sensitive data via open providers.\n\n**Revalidate**\n\nRebuild and re-scan with --sast; apk-exported-provider-unprotected should clear when providers are protected."
+              }
+            },
+            {
+              "id": "apk-exported-unprotected",
+              "name": "apk-exported-unprotected",
+              "shortDescription": {
+                "text": "apk-exported-unprotected"
+              },
+              "fullDescription": {
+                "text": "Exported service without permission: net.gotev.uploadservice.UploadService"
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "severity": "medium",
+                "maswe_id": "MASWE-0070",
+                "owasp_mobile": "M8:2024"
+              },
+              "help": {
+                "text": "Add a permission (signature/custom) on exported components, or set android:exported=false if not needed by other apps.\n\nRevalidate: Rebuild and re-scan with --sast; apk-exported-unprotected should clear for components that are no longer exported without permission.",
+                "markdown": "**Remediation**\n\nAdd a permission (signature/custom) on exported components, or set android:exported=false if not needed by other apps.\n\n**Revalidate**\n\nRebuild and re-scan with --sast; apk-exported-unprotected should clear for components that are no longer exported without permission."
+              }
+            },
+            {
+              "id": "dex-cleartext",
+              "name": "dex-cleartext",
+              "shortDescription": {
+                "text": "dex-cleartext"
+              },
+              "fullDescription": {
+                "text": "Cleartext HTTP URL; prefer HTTPS. (seen: < must be ASCII only! Read http://stackoverflow.com/a/441033...)"
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "severity": "medium",
+                "maswe_id": "MASWE-0050",
+                "owasp_mobile": "M5:2024"
+              },
+              "help": {
+                "text": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.\n\nRevalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+                "markdown": "**Remediation**\n\nUse HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.\n\n**Revalidate**\n\nRebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match)."
+              }
+            },
+            {
+              "id": "dex-hardcoded-password",
+              "name": "dex-hardcoded-password",
+              "shortDescription": {
+                "text": "dex-hardcoded-password"
+              },
+              "fullDescription": {
+                "text": "Bare password token (info only; high FP \u2014 not a credential finding). (seen: ; password: )"
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "properties": {
+                "severity": "info",
+                "maswe_id": "MASWE-0001",
+                "owasp_mobile": "M1:2024"
+              },
+              "help": {
+                "text": "Remove hardcoded passwords from app binaries and resources. Use platform secret stores (Android Keystore / iOS Keychain) or authenticate via a backend; never ship production credentials in the APK/IPA/JAR.\n\nRevalidate: Rebuild the artifact, then re-run: python cli.py <path> --sast -o json. Expect this rule_id to be absent (or only leftover false-positive token hits at low/info). Compare finding counts for the same path.",
+                "markdown": "**Remediation**\n\nRemove hardcoded passwords from app binaries and resources. Use platform secret stores (Android Keystore / iOS Keychain) or authenticate via a backend; never ship production credentials in the APK/IPA/JAR.\n\n**Revalidate**\n\nRebuild the artifact, then re-run: python cli.py <path> --sast -o json. Expect this rule_id to be absent (or only leftover false-positive token hits at low/info). Compare finding counts for the same path."
+              }
+            },
+            {
+              "id": "dex-hardcoded-secret",
+              "name": "dex-hardcoded-secret",
+              "shortDescription": {
+                "text": "dex-hardcoded-secret"
+              },
+              "fullDescription": {
+                "text": "Possible secret reference (low confidence; high FP). (seen: This is the correct secret.)"
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "properties": {
+                "severity": "info",
+                "maswe_id": "MASWE-0001",
+                "owasp_mobile": "M1:2024"
+              },
+              "help": {
+                "text": "Remove embedded secrets/crypto keys from the binary. Load keys from a secure backend or hardware-backed store at runtime.\n\nRevalidate: Rebuild and re-run --sast; this rule_id should clear when the secret patterns are gone.",
+                "markdown": "**Remediation**\n\nRemove embedded secrets/crypto keys from the binary. Load keys from a secure backend or hardware-backed store at runtime.\n\n**Revalidate**\n\nRebuild and re-run --sast; this rule_id should clear when the secret patterns are gone."
+              }
+            },
+            {
+              "id": "dex-path-traversal",
+              "name": "dex-path-traversal",
+              "shortDescription": {
+                "text": "dex-path-traversal"
+              },
+              "fullDescription": {
+                "text": "Path traversal / file URI / external-storage path heuristic. (seen: )Environment.getExternalStorageDirectory())"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "severity": "high",
+                "maswe_id": "MASWE-0041",
+                "owasp_mobile": "M4:2024"
+              },
+              "help": {
+                "text": "Canonicalize and validate file paths; block ../ and unexpected file:// URIs; prefer app-private storage APIs.\n\nRevalidate: Rebuild and re-scan with --sast; path-traversal rule_ids should clear or drop when unsafe path construction is fixed.",
+                "markdown": "**Remediation**\n\nCanonicalize and validate file paths; block ../ and unexpected file:// URIs; prefer app-private storage APIs.\n\n**Revalidate**\n\nRebuild and re-scan with --sast; path-traversal rule_ids should clear or drop when unsafe path construction is fixed."
+              }
+            },
+            {
+              "id": "dex-storage-sharedprefs",
+              "name": "dex-storage-sharedprefs",
+              "shortDescription": {
+                "text": "dex-storage-sharedprefs"
+              },
+              "fullDescription": {
+                "text": "Uses SharedPreferences; ensure sensitive data is encrypted. (seen: %()Landroid/content/SharedPreferences;)"
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "properties": {
+                "severity": "info",
+                "maswe_id": "MASWE-0013",
+                "owasp_mobile": "M9:2024"
+              },
+              "help": {
+                "text": "Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.\n\nRevalidate: Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.",
+                "markdown": "**Remediation**\n\nDo not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.\n\n**Revalidate**\n\nRebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear."
+              }
+            },
+            {
+              "id": "dex-webview-js-bridge",
+              "name": "dex-webview-js-bridge",
+              "shortDescription": {
+                "text": "dex-webview-js-bridge"
+              },
+              "fullDescription": {
+                "text": "WebView addJavascriptInterface (JS bridge) \u2014 high-impact if content is untrusted. (in config.properties; seen: addJavascriptInterface(bridge))"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "severity": "critical",
+                "maswe_id": "MASWE-0075",
+                "owasp_mobile": "M8:2024"
+              },
+              "help": {
+                "text": "Avoid addJavascriptInterface on untrusted content; if required, expose minimal APIs and validate all inputs.\n\nRevalidate: Rebuild and re-scan with --sast; dex-webview-js-bridge should clear when the bridge is removed or no longer matched.",
+                "markdown": "**Remediation**\n\nAvoid addJavascriptInterface on untrusted content; if required, expose minimal APIs and validate all inputs.\n\n**Revalidate**\n\nRebuild and re-scan with --sast; dex-webview-js-bridge should clear when the bridge is removed or no longer matched."
+              }
+            },
+            {
+              "id": "ipa-cleartext",
+              "name": "ipa-cleartext",
+              "shortDescription": {
+                "text": "ipa-cleartext"
+              },
+              "fullDescription": {
+                "text": "Cleartext HTTP URL; prefer HTTPS. (seen: <!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http:/...)"
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "severity": "medium",
+                "maswe_id": "MASWE-0050",
+                "owasp_mobile": "M5:2024"
+              },
+              "help": {
+                "text": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.\n\nRevalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+                "markdown": "**Remediation**\n\nUse HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.\n\n**Revalidate**\n\nRebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match)."
+              }
+            },
+            {
+              "id": "ipa-hardcoded-password",
+              "name": "ipa-hardcoded-password",
+              "shortDescription": {
+                "text": "ipa-hardcoded-password"
+              },
+              "fullDescription": {
+                "text": "Bare password token (info only; high FP \u2014 not a credential finding). (seen: decrypt:password:)"
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "properties": {
+                "severity": "info",
+                "maswe_id": "MASWE-0001",
+                "owasp_mobile": "M1:2024"
+              },
+              "help": {
+                "text": "Remove hardcoded passwords from app binaries and resources. Use platform secret stores (Android Keystore / iOS Keychain) or authenticate via a backend; never ship production credentials in the APK/IPA/JAR.\n\nRevalidate: Rebuild the artifact, then re-run: python cli.py <path> --sast -o json. Expect this rule_id to be absent (or only leftover false-positive token hits at low/info). Compare finding counts for the same path.",
+                "markdown": "**Remediation**\n\nRemove hardcoded passwords from app binaries and resources. Use platform secret stores (Android Keystore / iOS Keychain) or authenticate via a backend; never ship production credentials in the APK/IPA/JAR.\n\n**Revalidate**\n\nRebuild the artifact, then re-run: python cli.py <path> --sast -o json. Expect this rule_id to be absent (or only leftover false-positive token hits at low/info). Compare finding counts for the same path."
+              }
+            },
+            {
+              "id": "ipa-hardcoded-secret",
+              "name": "ipa-hardcoded-secret",
+              "shortDescription": {
+                "text": "ipa-hardcoded-secret"
+              },
+              "fullDescription": {
+                "text": "Possible secret reference (low confidence; high FP). (seen: A Secret Is Found In The Hidden Label!)"
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "properties": {
+                "severity": "info",
+                "maswe_id": "MASWE-0001",
+                "owasp_mobile": "M1:2024"
+              },
+              "help": {
+                "text": "Remove embedded secrets/crypto keys from the binary. Load keys from a secure backend or hardware-backed store at runtime.\n\nRevalidate: Rebuild and re-run --sast; this rule_id should clear when the secret patterns are gone.",
+                "markdown": "**Remediation**\n\nRemove embedded secrets/crypto keys from the binary. Load keys from a secure backend or hardware-backed store at runtime.\n\n**Revalidate**\n\nRebuild and re-run --sast; this rule_id should clear when the secret patterns are gone."
+              }
+            },
+            {
+              "id": "jar-cleartext",
+              "name": "jar-cleartext",
+              "shortDescription": {
+                "text": "jar-cleartext"
+              },
+              "fullDescription": {
+                "text": "Cleartext HTTP URL; prefer HTTPS. (in META-INF/maven/com.google.code.gson/gson/pom.xml; seen: <project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi...)"
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "severity": "medium",
+                "maswe_id": "MASWE-0050",
+                "owasp_mobile": "M5:2024"
+              },
+              "help": {
+                "text": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.\n\nRevalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+                "markdown": "**Remediation**\n\nUse HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.\n\n**Revalidate**\n\nRebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match)."
+              }
+            },
+            {
+              "id": "jar-secret-aws-access-key",
+              "name": "jar-secret-aws-access-key",
+              "shortDescription": {
+                "text": "jar-secret-aws-access-key"
+              },
+              "fullDescription": {
+                "text": "AWS access key id-like string (AKIA\u2026). (in config.properties; seen: key=AKIAIOSFODNN7EXAMPLE)"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "severity": "critical",
+                "maswe_id": "MASWE-0001",
+                "owasp_mobile": "M1:2024"
+              },
+              "help": {
+                "text": "Rotate the AWS access key immediately. Remove it from the app; use Cognito/STS or a backend that vends temporary credentials.\n\nRevalidate: After rotation and rebuild, re-scan with --sast; secret-*/aws-access-key findings should be gone. Confirm key disabled in AWS IAM.",
+                "markdown": "**Remediation**\n\nRotate the AWS access key immediately. Remove it from the app; use Cognito/STS or a backend that vends temporary credentials.\n\n**Revalidate**\n\nAfter rotation and rebuild, re-scan with --sast; secret-*/aws-access-key findings should be gone. Confirm key disabled in AWS IAM."
+              }
+            },
+            {
+              "id": "jar-weak-crypto",
+              "name": "jar-weak-crypto",
+              "shortDescription": {
+                "text": "jar-weak-crypto"
+              },
+              "fullDescription": {
+                "text": "Weak or deprecated Cipher.getInstance transformation (e.g. DES/ECB/RC4). (in config.properties; seen: Cipher.getInstance(\"DES\"))"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "severity": "high",
+                "maswe_id": "MASWE-0026",
+                "owasp_mobile": "M10:2024"
+              },
+              "help": {
+                "text": "Remove weak crypto algorithm names from native/JAR code paths; use approved algorithms (AES-GCM, SHA-256+).\n\nRevalidate: Rebuild and re-scan with --sast; so-weak-crypto / jar-weak-crypto should clear when weak algorithm strings are gone.",
+                "markdown": "**Remediation**\n\nRemove weak crypto algorithm names from native/JAR code paths; use approved algorithms (AES-GCM, SHA-256+).\n\n**Revalidate**\n\nRebuild and re-scan with --sast; so-weak-crypto / jar-weak-crypto should clear when weak algorithm strings are gone."
+              }
+            },
+            {
+              "id": "sdk-sensitive-file",
+              "name": "sdk-sensitive-file",
+              "shortDescription": {
+                "text": "sdk-sensitive-file"
+              },
+              "fullDescription": {
+                "text": "Sensitive file in SDK: .env (ensure not committed or restrict access)."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "severity": "high",
+                "maswe_id": "MASWE-0001",
+                "owasp_mobile": "M1:2024"
+              },
+              "help": {
+                "text": "Remove keystores, PEM files, and credential-like filenames from the SDK distribution; load secrets at runtime from a vault.\n\nRevalidate: Re-scan the SDK path with --sast; sdk-sensitive-file should clear when those files are removed from the tree.",
+                "markdown": "**Remediation**\n\nRemove keystores, PEM files, and credential-like filenames from the SDK distribution; load secrets at runtime from a vault.\n\n**Revalidate**\n\nRe-scan the SDK path with --sast; sdk-sensitive-file should clear when those files are removed from the tree."
+              }
+            }
+          ]
+        }
+      },
+      "taxonomies": [
+        {
+          "name": "cwe",
+          "organization": "MITRE",
+          "informationUri": "https://cwe.mitre.org/"
+        },
+        {
+          "name": "maswe",
+          "organization": "OWASP",
+          "informationUri": "https://mas.owasp.org/MASWE/"
+        },
+        {
+          "name": "owasp-mobile-2024",
+          "organization": "OWASP",
+          "informationUri": "https://owasp.org/www-project-mobile-top-10/"
+        }
+      ],
+      "results": [
+        {
+          "ruleId": "jar-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (in META-INF/maven/com.google.code.gson/gson/pom.xml; seen: <project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi...)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/gson-2.8.9.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "jar-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (in META-INF/LICENSE.txt; seen:                         http://www.apache.org/licenses/)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/commons-lang3-3.12.0.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "jar-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (in META-INF/LICENSE.txt; seen:        http://www.apache.org/licenses/LICENSE-2.0)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/commons-lang3-3.12.0.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "jar-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (in META-INF/maven/org.apache.commons/commons-lang3/pom.xml; seen:       http://www.apache.org/licenses/LICENSE-2.0)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/commons-lang3-3.12.0.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "jar-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (in META-INF/maven/org.apache.commons/commons-lang3/pom.xml; seen:   xmlns=\"http://maven.apache.org/POM/4.0.0\")"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/commons-lang3-3.12.0.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "jar-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (in META-INF/maven/org.apache.commons/commons-lang3/pom.xml; seen:   xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http...)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/commons-lang3-3.12.0.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "jar-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (in META-INF/maven/org.apache.commons/commons-lang3/pom.xml; seen:     <connection>scm:git:http://gitbox.apache.org/repos/asf/c...)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/commons-lang3-3.12.0.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "jar-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (in META-INF/maven/org.apache.commons/commons-lang3/pom.xml; seen:             <link>http://docs.oracle.com/javaee/6/api/</link...)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/commons-lang3-3.12.0.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "jar-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (in config.properties; seen: url=http://evil.example.com/api)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/edu-weekly-sample.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "jar-weak-crypto",
+          "level": "error",
+          "message": {
+            "text": "Weak or deprecated Cipher.getInstance transformation (e.g. DES/ECB/RC4). (in config.properties; seen: Cipher.getInstance(\"DES\"))"
+          },
+          "properties": {
+            "severity": "high",
+            "severity_score": 8.0,
+            "cvss_estimate": {
+              "score": 5.9,
+              "vector": "AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Remove weak crypto algorithm names from native/JAR code paths; use approved algorithms (AES-GCM, SHA-256+).",
+            "revalidate": "Rebuild and re-scan with --sast; so-weak-crypto / jar-weak-crypto should clear when weak algorithm strings are gone.",
+            "cve": null,
+            "maswe_id": "MASWE-0026",
+            "owasp_mobile": "M10:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-327",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0026",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M10:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/edu-weekly-sample.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "jar-secret-aws-access-key",
+          "level": "error",
+          "message": {
+            "text": "AWS access key id-like string (AKIA\u2026). (in config.properties; seen: key=AKIAIOSFODNN7EXAMPLE)"
+          },
+          "properties": {
+            "severity": "critical",
+            "severity_score": 10.0,
+            "cvss_estimate": {
+              "score": 9.1,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Rotate the AWS access key immediately. Remove it from the app; use Cognito/STS or a backend that vends temporary credentials.",
+            "revalidate": "After rotation and rebuild, re-scan with --sast; secret-*/aws-access-key findings should be gone. Confirm key disabled in AWS IAM.",
+            "cve": null,
+            "maswe_id": "MASWE-0001",
+            "owasp_mobile": "M1:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-798",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0001",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M1:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/edu-weekly-sample.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-webview-js-bridge",
+          "level": "error",
+          "message": {
+            "text": "WebView addJavascriptInterface (JS bridge) \u2014 high-impact if content is untrusted. (in config.properties; seen: addJavascriptInterface(bridge))"
+          },
+          "properties": {
+            "severity": "critical",
+            "severity_score": 10.0,
+            "cvss_estimate": {
+              "score": 8.1,
+              "vector": "AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:L/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Avoid addJavascriptInterface on untrusted content; if required, expose minimal APIs and validate all inputs.",
+            "revalidate": "Rebuild and re-scan with --sast; dex-webview-js-bridge should clear when the bridge is removed or no longer matched.",
+            "cve": null,
+            "maswe_id": "MASWE-0075",
+            "owasp_mobile": "M8:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-749",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0075",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M8:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            },
+            {
+              "id": "M4:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/edu-weekly-sample.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "jar-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/LoggerFactory.class; seen: KSee http://www.slf4j.org/codes.html#StaticLoggerBinder for ...)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/slf4j-api-1.7.36.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "jar-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/LoggerFactory.class; seen: 9See also http://www.slf4j.org/codes.html#substituteLogger)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/slf4j-api-1.7.36.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "jar-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/LoggerFactory.class; seen: /See also http://www.slf4j.org/codes.html#replay)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/slf4j-api-1.7.36.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "jar-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/LoggerFactory.class; seen: ISee http://www.slf4j.org/codes.html#version_mismatch for fu...)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/slf4j-api-1.7.36.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "jar-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/LoggerFactory.class; seen: ISee http://www.slf4j.org/codes.html#multiple_bindings for a...)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/slf4j-api-1.7.36.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "jar-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/LoggerFactory.class; seen: ISee http://www.slf4j.org/codes.html#loggerNameMismatch for ...)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/slf4j-api-1.7.36.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "jar-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/LoggerFactory.class; seen: org.slf4j.LoggerFactory in failed state. Original exception ...)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/slf4j-api-1.7.36.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "jar-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/LoggerFactory.class; seen: http://www.slf4j.org/codes.html)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/slf4j-api-1.7.36.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "jar-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/LoggerFactory.class; seen: 2http://www.slf4j.org/codes.html#StaticLoggerBinder)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/slf4j-api-1.7.36.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "jar-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/LoggerFactory.class; seen: 1http://www.slf4j.org/codes.html#multiple_bindings)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/slf4j-api-1.7.36.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "jar-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/LoggerFactory.class; seen: 'http://www.slf4j.org/codes.html#null_LF)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/slf4j-api-1.7.36.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "jar-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/LoggerFactory.class; seen: 0http://www.slf4j.org/codes.html#version_mismatch)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/slf4j-api-1.7.36.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "jar-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/LoggerFactory.class; seen: 0http://www.slf4j.org/codes.html#substituteLogger)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/slf4j-api-1.7.36.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "jar-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/LoggerFactory.class; seen: 2http://www.slf4j.org/codes.html#loggerNameMismatch)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/slf4j-api-1.7.36.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "jar-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/LoggerFactory.class; seen: &http://www.slf4j.org/codes.html#replay)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/slf4j-api-1.7.36.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "jar-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/LoggerFactory.class; seen: 0http://www.slf4j.org/codes.html#unsuccessfulInit)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/slf4j-api-1.7.36.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "jar-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/MDC.class; seen: MMDCAdapter cannot be null. See also http://www.slf4j.org/co...)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/slf4j-api-1.7.36.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "jar-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/MDC.class; seen: MSee http://www.slf4j.org/codes.html#no_static_mdc_binder fo...)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/slf4j-api-1.7.36.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "jar-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/MDC.class; seen: )http://www.slf4j.org/codes.html#null_MDCA)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/slf4j-api-1.7.36.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "jar-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/MDC.class; seen: 4http://www.slf4j.org/codes.html#no_static_mdc_binder)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/slf4j-api-1.7.36.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "jar-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (in META-INF/maven/org.slf4j/slf4j-api/pom.xml; seen: <project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi...)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/slf4j-api-1.7.36.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "jar-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (in META-INF/maven/org.slf4j/slf4j-api/pom.xml; seen:   xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http...)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/slf4j-api-1.7.36.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "jar-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (in META-INF/maven/org.slf4j/slf4j-api/pom.xml; seen:   <url>http://www.slf4j.org</url>)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/slf4j-api-1.7.36.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "sdk-sensitive-file",
+          "level": "error",
+          "message": {
+            "text": "Sensitive file in SDK: .env (ensure not committed or restrict access)."
+          },
+          "properties": {
+            "severity": "high",
+            "severity_score": 8.0,
+            "cvss_estimate": {
+              "score": 6.5,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Remove keystores, PEM files, and credential-like filenames from the SDK distribution; load secrets at runtime from a vault.",
+            "revalidate": "Re-scan the SDK path with --sast; sdk-sensitive-file should clear when those files are removed from the tree.",
+            "cve": null,
+            "maswe_id": "MASWE-0001",
+            "owasp_mobile": "M1:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-312",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "CWE-200",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0001",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M1:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            },
+            {
+              "id": "M2:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/modules/weekly-training-sdk/config/.env"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "ipa-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (seen: <!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http:/...)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/ipa/UnCrackable-Level1.ipa"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "ipa-hardcoded-secret",
+          "level": "note",
+          "message": {
+            "text": "Possible secret reference (low confidence; high FP). (seen: A Secret Is Found In The Hidden Label!)"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 1.0,
+            "cvss_estimate": {
+              "score": 5.5,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Remove embedded secrets/crypto keys from the binary. Load keys from a secure backend or hardware-backed store at runtime.",
+            "revalidate": "Rebuild and re-run --sast; this rule_id should clear when the secret patterns are gone.",
+            "cve": null,
+            "maswe_id": "MASWE-0001",
+            "owasp_mobile": "M1:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-798",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "CWE-321",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0001",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "MASWE-0028",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M1:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            },
+            {
+              "id": "M10:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/ipa/UnCrackable-Level1.ipa"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "ipa-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (seen: %http://www.apple.com/appleca/root.crl0)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/ipa/UnCrackable-Level1.ipa"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "ipa-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (seen: http://crl.apple.com/iphone.crl0)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/ipa/UnCrackable-Level1.ipa"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "ipa-hardcoded-secret",
+          "level": "note",
+          "message": {
+            "text": "Possible secret reference (low confidence; high FP). (seen: You found the secret!!)"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 1.0,
+            "cvss_estimate": {
+              "score": 5.5,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Remove embedded secrets/crypto keys from the binary. Load keys from a secure backend or hardware-backed store at runtime.",
+            "revalidate": "Rebuild and re-run --sast; this rule_id should clear when the secret patterns are gone.",
+            "cve": null,
+            "maswe_id": "MASWE-0001",
+            "owasp_mobile": "M1:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-798",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "CWE-321",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0001",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "MASWE-0028",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M1:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            },
+            {
+              "id": "M10:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/ipa/UnCrackable-Level1.ipa"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "ipa-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (seen: http://crl.apple.com/root.crl0)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/ipa/UnCrackable-Level1.ipa"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "ipa-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (seen: #http://ocsp.apple.com/ocsp02-wwdr010)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/ipa/UnCrackable-Level1.ipa"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "ipa-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (seen: http://www.apple.com/appleca/0)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/ipa/UnCrackable-Level1.ipa"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "ipa-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (seen: <!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http:/...)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/ipa/UnCrackable-Level2.ipa"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "ipa-hardcoded-secret",
+          "level": "note",
+          "message": {
+            "text": "Possible secret reference (low confidence; high FP). (seen: Enter the Secret Message)"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 1.0,
+            "cvss_estimate": {
+              "score": 5.5,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Remove embedded secrets/crypto keys from the binary. Load keys from a secure backend or hardware-backed store at runtime.",
+            "revalidate": "Rebuild and re-run --sast; this rule_id should clear when the secret patterns are gone.",
+            "cve": null,
+            "maswe_id": "MASWE-0001",
+            "owasp_mobile": "M1:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-798",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "CWE-321",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0001",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "MASWE-0028",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M1:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            },
+            {
+              "id": "M10:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/ipa/UnCrackable-Level2.ipa"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "ipa-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (seen: %http://www.apple.com/appleca/root.crl0)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/ipa/UnCrackable-Level2.ipa"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "ipa-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (seen: http://crl.apple.com/iphone.crl0)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/ipa/UnCrackable-Level2.ipa"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "ipa-hardcoded-password",
+          "level": "note",
+          "message": {
+            "text": "Bare password token (info only; high FP \u2014 not a credential finding). (seen: decrypt:password:)"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 1.0,
+            "cvss_estimate": {
+              "score": 5.3,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Remove hardcoded passwords from app binaries and resources. Use platform secret stores (Android Keystore / iOS Keychain) or authenticate via a backend; never ship production credentials in the APK/IPA/JAR.",
+            "revalidate": "Rebuild the artifact, then re-run: python cli.py <path> --sast -o json. Expect this rule_id to be absent (or only leftover false-positive token hits at low/info). Compare finding counts for the same path.",
+            "cve": null,
+            "maswe_id": "MASWE-0001",
+            "owasp_mobile": "M1:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-798",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0001",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M1:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/ipa/UnCrackable-Level2.ipa"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "ipa-hardcoded-password",
+          "level": "note",
+          "message": {
+            "text": "Bare password token (info only; high FP \u2014 not a credential finding). (seen: encrypt:password:)"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 1.0,
+            "cvss_estimate": {
+              "score": 5.3,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Remove hardcoded passwords from app binaries and resources. Use platform secret stores (Android Keystore / iOS Keychain) or authenticate via a backend; never ship production credentials in the APK/IPA/JAR.",
+            "revalidate": "Rebuild the artifact, then re-run: python cli.py <path> --sast -o json. Expect this rule_id to be absent (or only leftover false-positive token hits at low/info). Compare finding counts for the same path.",
+            "cve": null,
+            "maswe_id": "MASWE-0001",
+            "owasp_mobile": "M1:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-798",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0001",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M1:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/ipa/UnCrackable-Level2.ipa"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "ipa-hardcoded-secret",
+          "level": "note",
+          "message": {
+            "text": "Possible secret reference (low confidence; high FP). (seen: You found the secret!!)"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 1.0,
+            "cvss_estimate": {
+              "score": 5.5,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Remove embedded secrets/crypto keys from the binary. Load keys from a secure backend or hardware-backed store at runtime.",
+            "revalidate": "Rebuild and re-run --sast; this rule_id should clear when the secret patterns are gone.",
+            "cve": null,
+            "maswe_id": "MASWE-0001",
+            "owasp_mobile": "M1:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-798",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "CWE-321",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0001",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "MASWE-0028",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M1:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            },
+            {
+              "id": "M10:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/ipa/UnCrackable-Level2.ipa"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "ipa-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (seen: http://crl.apple.com/root.crl0)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/ipa/UnCrackable-Level2.ipa"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "ipa-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (seen: #http://ocsp.apple.com/ocsp02-wwdr010)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/ipa/UnCrackable-Level2.ipa"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "ipa-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (seen: http://www.apple.com/appleca/0)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/ipa/UnCrackable-Level2.ipa"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "apk-debuggable",
+          "level": "error",
+          "message": {
+            "text": "Application is debuggable; increases reverse-engineering risk."
+          },
+          "properties": {
+            "severity": "high",
+            "severity_score": 8.4,
+            "cvss_estimate": {
+              "score": 7.5,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Set android:debuggable=false for release builds (default when using a release build type). Do not ship debug APKs to production.",
+            "revalidate": "Build a release APK and re-run --sast; apk-debuggable should be absent when the manifest flag is false/unset for release.",
+            "cve": null,
+            "maswe_id": "MASWE-0090",
+            "owasp_mobile": "M7:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-489",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0090",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M7:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/InsecureShop.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "apk-allow-backup",
+          "level": "warning",
+          "message": {
+            "text": "allowBackup is true; app data may be backed up unencrypted."
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 5.3,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Set android:allowBackup=false, or use a backup rules / data extraction rules file that excludes sensitive data.",
+            "revalidate": "Rebuild and re-scan with --sast; apk-allow-backup should clear when allowBackup is false or appropriately restricted.",
+            "cve": null,
+            "maswe_id": "MASWE-0014",
+            "owasp_mobile": "M9:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-200",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0014",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M9:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/InsecureShop.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "apk-exported-intent-risk",
+          "level": "error",
+          "message": {
+            "text": "Exported activity without permission (intent/IPC risk): com.insecureshop.AboutUsActivity"
+          },
+          "properties": {
+            "severity": "high",
+            "severity_score": 8.8,
+            "cvss_estimate": {
+              "score": 7.5,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:H/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Set android:exported=false when not needed, or require a signature/custom permission; validate Intent extras.",
+            "revalidate": "Rebuild and re-scan with --sast; apk-exported-intent-risk should clear for activities no longer exported without permission.",
+            "cve": null,
+            "maswe_id": "MASWE-0071",
+            "owasp_mobile": "M8:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-926",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0071",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M8:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            },
+            {
+              "id": "M3:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/InsecureShop.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "apk-exported-intent-risk",
+          "level": "error",
+          "message": {
+            "text": "Exported activity without permission (intent/IPC risk): com.insecureshop.ResultActivity"
+          },
+          "properties": {
+            "severity": "high",
+            "severity_score": 8.8,
+            "cvss_estimate": {
+              "score": 7.5,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:H/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Set android:exported=false when not needed, or require a signature/custom permission; validate Intent extras.",
+            "revalidate": "Rebuild and re-scan with --sast; apk-exported-intent-risk should clear for activities no longer exported without permission.",
+            "cve": null,
+            "maswe_id": "MASWE-0071",
+            "owasp_mobile": "M8:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-926",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0071",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M8:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            },
+            {
+              "id": "M3:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/InsecureShop.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "apk-exported-unprotected",
+          "level": "warning",
+          "message": {
+            "text": "Exported service without permission: net.gotev.uploadservice.UploadService"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.8,
+            "cvss_estimate": {
+              "score": 6.5,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Add a permission (signature/custom) on exported components, or set android:exported=false if not needed by other apps.",
+            "revalidate": "Rebuild and re-scan with --sast; apk-exported-unprotected should clear for components that are no longer exported without permission.",
+            "cve": null,
+            "maswe_id": "MASWE-0070",
+            "owasp_mobile": "M8:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-926",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0070",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "MASWE-0071",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M8:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            },
+            {
+              "id": "M3:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/InsecureShop.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "apk-exported-provider-unprotected",
+          "level": "error",
+          "message": {
+            "text": "Exported ContentProvider without permission (data IPC risk): com.insecureshop.contentProvider.InsecureShopProvider"
+          },
+          "properties": {
+            "severity": "critical",
+            "severity_score": 10.0,
+            "cvss_estimate": {
+              "score": 8.2,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Protect ContentProviders with permissions or set exported=false; never expose sensitive data via open providers.",
+            "revalidate": "Rebuild and re-scan with --sast; apk-exported-provider-unprotected should clear when providers are protected.",
+            "cve": null,
+            "maswe_id": "MASWE-0072",
+            "owasp_mobile": "M8:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-926",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "CWE-200",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0072",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M8:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            },
+            {
+              "id": "M9:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/InsecureShop.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (seen: < must be ASCII only! Read http://stackoverflow.com/a/441033...)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/InsecureShop.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-storage-sharedprefs",
+          "level": "note",
+          "message": {
+            "text": "Uses SharedPreferences; ensure sensitive data is encrypted. (seen: %()Landroid/content/SharedPreferences;)"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 0.7,
+            "cvss_estimate": {
+              "score": 4.0,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.",
+            "cve": null,
+            "maswe_id": "MASWE-0013",
+            "owasp_mobile": "M9:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-312",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0013",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M9:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/InsecureShop.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-storage-sharedprefs",
+          "level": "note",
+          "message": {
+            "text": "Uses SharedPreferences; ensure sensitive data is encrypted. (seen: &(Landroid/content/SharedPreferences;)V)"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 0.7,
+            "cvss_estimate": {
+              "score": 4.0,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.",
+            "cve": null,
+            "maswe_id": "MASWE-0013",
+            "owasp_mobile": "M9:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-312",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0013",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M9:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/InsecureShop.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-hardcoded-password",
+          "level": "note",
+          "message": {
+            "text": "Bare password token (info only; high FP \u2014 not a credential finding). (seen: ; password: )"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 0.7,
+            "cvss_estimate": {
+              "score": 5.3,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Remove hardcoded passwords from app binaries and resources. Use platform secret stores (Android Keystore / iOS Keychain) or authenticate via a backend; never ship production credentials in the APK/IPA/JAR.",
+            "revalidate": "Rebuild the artifact, then re-run: python cli.py <path> --sast -o json. Expect this rule_id to be absent (or only leftover false-positive token hits at low/info). Compare finding counts for the same path.",
+            "cve": null,
+            "maswe_id": "MASWE-0001",
+            "owasp_mobile": "M1:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-798",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0001",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M1:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/InsecureShop.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-path-traversal",
+          "level": "error",
+          "message": {
+            "text": "Path traversal / file URI / external-storage path heuristic. (seen: )Environment.getExternalStorageDirectory())"
+          },
+          "properties": {
+            "severity": "high",
+            "severity_score": 8.0,
+            "cvss_estimate": {
+              "score": 7.5,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Canonicalize and validate file paths; block ../ and unexpected file:// URIs; prefer app-private storage APIs.",
+            "revalidate": "Rebuild and re-scan with --sast; path-traversal rule_ids should clear or drop when unsafe path construction is fixed.",
+            "cve": null,
+            "maswe_id": "MASWE-0041",
+            "owasp_mobile": "M4:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-22",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0041",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M4:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/InsecureShop.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-hardcoded-password",
+          "level": "note",
+          "message": {
+            "text": "Bare password token (info only; high FP \u2014 not a credential finding). (seen: Invalid username and password)"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 0.7,
+            "cvss_estimate": {
+              "score": 5.3,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Remove hardcoded passwords from app binaries and resources. Use platform secret stores (Android Keystore / iOS Keychain) or authenticate via a backend; never ship production credentials in the APK/IPA/JAR.",
+            "revalidate": "Rebuild the artifact, then re-run: python cli.py <path> --sast -o json. Expect this rule_id to be absent (or only leftover false-positive token hits at low/info). Compare finding counts for the same path.",
+            "cve": null,
+            "maswe_id": "MASWE-0001",
+            "owasp_mobile": "M1:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-798",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0001",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M1:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/InsecureShop.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-storage-sharedprefs",
+          "level": "note",
+          "message": {
+            "text": "Uses SharedPreferences; ensure sensitive data is encrypted. (seen: *Landroid/content/SharedPreferences$Editor;)"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 0.7,
+            "cvss_estimate": {
+              "score": 4.0,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.",
+            "cve": null,
+            "maswe_id": "MASWE-0013",
+            "owasp_mobile": "M9:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-312",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0013",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M9:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/InsecureShop.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-storage-sharedprefs",
+          "level": "note",
+          "message": {
+            "text": "Uses SharedPreferences; ensure sensitive data is encrypted. (seen: #Landroid/content/SharedPreferences;)"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 0.7,
+            "cvss_estimate": {
+              "score": 4.0,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.",
+            "cve": null,
+            "maswe_id": "MASWE-0013",
+            "owasp_mobile": "M9:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-312",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0013",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M9:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/InsecureShop.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-storage-sharedprefs",
+          "level": "note",
+          "message": {
+            "text": "Uses SharedPreferences; ensure sensitive data is encrypted. (seen: CLandroidx/core/content/SharedPreferencesCompat$EditorCompat...)"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 0.7,
+            "cvss_estimate": {
+              "score": 4.0,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.",
+            "cve": null,
+            "maswe_id": "MASWE-0013",
+            "owasp_mobile": "M9:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-312",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0013",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M9:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/InsecureShop.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-storage-sharedprefs",
+          "level": "note",
+          "message": {
+            "text": "Uses SharedPreferences; ensure sensitive data is encrypted. (seen: <Landroidx/core/content/SharedPreferencesCompat$EditorCompat...)"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 0.7,
+            "cvss_estimate": {
+              "score": 4.0,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.",
+            "cve": null,
+            "maswe_id": "MASWE-0013",
+            "owasp_mobile": "M9:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-312",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0013",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M9:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/InsecureShop.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-storage-sharedprefs",
+          "level": "note",
+          "message": {
+            "text": "Uses SharedPreferences; ensure sensitive data is encrypted. (seen: /Landroidx/core/content/SharedPreferencesCompat;)"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 0.7,
+            "cvss_estimate": {
+              "score": 4.0,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.",
+            "cve": null,
+            "maswe_id": "MASWE-0013",
+            "owasp_mobile": "M9:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-312",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0013",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M9:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/InsecureShop.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-storage-sharedprefs",
+          "level": "note",
+          "message": {
+            "text": "Uses SharedPreferences; ensure sensitive data is encrypted. (seen: +Landroidx/core/content/SharedPreferencesKt;)"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 0.7,
+            "cvss_estimate": {
+              "score": 4.0,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.",
+            "cve": null,
+            "maswe_id": "MASWE-0013",
+            "owasp_mobile": "M9:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-312",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0013",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M9:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/InsecureShop.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-storage-sharedprefs",
+          "level": "note",
+          "message": {
+            "text": "Uses SharedPreferences; ensure sensitive data is encrypted. (seen: SharedPreferences.kt)"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 0.7,
+            "cvss_estimate": {
+              "score": 4.0,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.",
+            "cve": null,
+            "maswe_id": "MASWE-0013",
+            "owasp_mobile": "M9:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-312",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0013",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M9:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/InsecureShop.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-storage-sharedprefs",
+          "level": "note",
+          "message": {
+            "text": "Uses SharedPreferences; ensure sensitive data is encrypted. (seen: + 1 SharedPreferences.kt)"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 0.7,
+            "cvss_estimate": {
+              "score": 4.0,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.",
+            "cve": null,
+            "maswe_id": "MASWE-0013",
+            "owasp_mobile": "M9:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-312",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0013",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M9:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/InsecureShop.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-storage-sharedprefs",
+          "level": "note",
+          "message": {
+            "text": "Uses SharedPreferences; ensure sensitive data is encrypted. (seen: androidx/core/content/SharedPreferencesKt)"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 0.7,
+            "cvss_estimate": {
+              "score": 4.0,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.",
+            "cve": null,
+            "maswe_id": "MASWE-0013",
+            "owasp_mobile": "M9:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-312",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0013",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M9:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/InsecureShop.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-storage-sharedprefs",
+          "level": "note",
+          "message": {
+            "text": "Uses SharedPreferences; ensure sensitive data is encrypted. (seen: SharedPreferencesCompat.java)"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 0.7,
+            "cvss_estimate": {
+              "score": 4.0,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.",
+            "cve": null,
+            "maswe_id": "MASWE-0013",
+            "owasp_mobile": "M9:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-312",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0013",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M9:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/InsecureShop.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-path-traversal",
+          "level": "error",
+          "message": {
+            "text": "Path traversal / file URI / external-storage path heuristic. (seen: file:///android_asset/)"
+          },
+          "properties": {
+            "severity": "high",
+            "severity_score": 8.0,
+            "cvss_estimate": {
+              "score": 7.5,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Canonicalize and validate file paths; block ../ and unexpected file:// URIs; prefer app-private storage APIs.",
+            "revalidate": "Rebuild and re-scan with --sast; path-traversal rule_ids should clear or drop when unsafe path construction is fixed.",
+            "cve": null,
+            "maswe_id": "MASWE-0041",
+            "owasp_mobile": "M4:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-22",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0041",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M4:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/InsecureShop.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-path-traversal",
+          "level": "error",
+          "message": {
+            "text": "Path traversal / file URI / external-storage path heuristic. (seen: getExternalFilesDir)"
+          },
+          "properties": {
+            "severity": "high",
+            "severity_score": 8.0,
+            "cvss_estimate": {
+              "score": 7.5,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Canonicalize and validate file paths; block ../ and unexpected file:// URIs; prefer app-private storage APIs.",
+            "revalidate": "Rebuild and re-scan with --sast; path-traversal rule_ids should clear or drop when unsafe path construction is fixed.",
+            "cve": null,
+            "maswe_id": "MASWE-0041",
+            "owasp_mobile": "M4:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-22",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0041",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M4:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/InsecureShop.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-path-traversal",
+          "level": "error",
+          "message": {
+            "text": "Path traversal / file URI / external-storage path heuristic. (seen: getExternalFilesDirs)"
+          },
+          "properties": {
+            "severity": "high",
+            "severity_score": 8.0,
+            "cvss_estimate": {
+              "score": 7.5,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Canonicalize and validate file paths; block ../ and unexpected file:// URIs; prefer app-private storage APIs.",
+            "revalidate": "Rebuild and re-scan with --sast; path-traversal rule_ids should clear or drop when unsafe path construction is fixed.",
+            "cve": null,
+            "maswe_id": "MASWE-0041",
+            "owasp_mobile": "M4:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-22",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0041",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M4:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/InsecureShop.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-path-traversal",
+          "level": "error",
+          "message": {
+            "text": "Path traversal / file URI / external-storage path heuristic. (seen: getExternalStorageDirectory)"
+          },
+          "properties": {
+            "severity": "high",
+            "severity_score": 8.0,
+            "cvss_estimate": {
+              "score": 7.5,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Canonicalize and validate file paths; block ../ and unexpected file:// URIs; prefer app-private storage APIs.",
+            "revalidate": "Rebuild and re-scan with --sast; path-traversal rule_ids should clear or drop when unsafe path construction is fixed.",
+            "cve": null,
+            "maswe_id": "MASWE-0041",
+            "owasp_mobile": "M4:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-22",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0041",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M4:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/InsecureShop.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-storage-sharedprefs",
+          "level": "note",
+          "message": {
+            "text": "Uses SharedPreferences; ensure sensitive data is encrypted. (seen: getSharedPreferences)"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 0.7,
+            "cvss_estimate": {
+              "score": 4.0,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.",
+            "cve": null,
+            "maswe_id": "MASWE-0013",
+            "owasp_mobile": "M9:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-312",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0013",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M9:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/InsecureShop.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-hardcoded-password",
+          "level": "note",
+          "message": {
+            "text": "Bare password token (info only; high FP \u2014 not a credential finding). (seen: password)"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 0.7,
+            "cvss_estimate": {
+              "score": 5.3,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Remove hardcoded passwords from app binaries and resources. Use platform secret stores (Android Keystore / iOS Keychain) or authenticate via a backend; never ship production credentials in the APK/IPA/JAR.",
+            "revalidate": "Rebuild the artifact, then re-run: python cli.py <path> --sast -o json. Expect this rule_id to be absent (or only leftover false-positive token hits at low/info). Compare finding counts for the same path.",
+            "cve": null,
+            "maswe_id": "MASWE-0001",
+            "owasp_mobile": "M1:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-798",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0001",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M1:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/InsecureShop.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-storage-sharedprefs",
+          "level": "note",
+          "message": {
+            "text": "Uses SharedPreferences; ensure sensitive data is encrypted. (seen: setSharedpreferences)"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 0.7,
+            "cvss_estimate": {
+              "score": 4.0,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.",
+            "cve": null,
+            "maswe_id": "MASWE-0013",
+            "owasp_mobile": "M9:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-312",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0013",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M9:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/InsecureShop.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-storage-sharedprefs",
+          "level": "note",
+          "message": {
+            "text": "Uses SharedPreferences; ensure sensitive data is encrypted. (seen: sharedpreferences)"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 0.7,
+            "cvss_estimate": {
+              "score": 4.0,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.",
+            "cve": null,
+            "maswe_id": "MASWE-0013",
+            "owasp_mobile": "M9:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-312",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0013",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M9:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/InsecureShop.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-storage-sharedprefs",
+          "level": "note",
+          "message": {
+            "text": "Uses SharedPreferences; ensure sensitive data is encrypted. (seen: eFilter;\":\"e3c12317\",\"Landroidx/core/content/PermissionCheck...)"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 0.7,
+            "cvss_estimate": {
+              "score": 4.0,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.",
+            "cve": null,
+            "maswe_id": "MASWE-0013",
+            "owasp_mobile": "M9:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-312",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0013",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M9:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/InsecureShop.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-storage-sharedprefs",
+          "level": "note",
+          "message": {
+            "text": "Uses SharedPreferences; ensure sensitive data is encrypted. (seen: orCompat$Helper;\":\"4a108208\",\"Landroidx/core/content/SharedP...)"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 0.7,
+            "cvss_estimate": {
+              "score": 4.0,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.",
+            "cve": null,
+            "maswe_id": "MASWE-0013",
+            "owasp_mobile": "M9:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-312",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0013",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M9:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/InsecureShop.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "apk-allow-backup",
+          "level": "warning",
+          "message": {
+            "text": "allowBackup is true; app data may be backed up unencrypted."
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 5.3,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Set android:allowBackup=false, or use a backup rules / data extraction rules file that excludes sensitive data.",
+            "revalidate": "Rebuild and re-scan with --sast; apk-allow-backup should clear when allowBackup is false or appropriately restricted.",
+            "cve": null,
+            "maswe_id": "MASWE-0014",
+            "owasp_mobile": "M9:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-200",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0014",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M9:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/UnCrackable-Level2.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-hardcoded-password",
+          "level": "note",
+          "message": {
+            "text": "Bare password token (info only; high FP \u2014 not a credential finding). (seen: ; password: )"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 0.7,
+            "cvss_estimate": {
+              "score": 5.3,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Remove hardcoded passwords from app binaries and resources. Use platform secret stores (Android Keystore / iOS Keychain) or authenticate via a backend; never ship production credentials in the APK/IPA/JAR.",
+            "revalidate": "Rebuild the artifact, then re-run: python cli.py <path> --sast -o json. Expect this rule_id to be absent (or only leftover false-positive token hits at low/info). Compare finding counts for the same path.",
+            "cve": null,
+            "maswe_id": "MASWE-0001",
+            "owasp_mobile": "M1:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-798",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0001",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M1:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/UnCrackable-Level2.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-hardcoded-secret",
+          "level": "note",
+          "message": {
+            "text": "Possible secret reference (low confidence; high FP). (seen: This is the correct secret.)"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 0.7,
+            "cvss_estimate": {
+              "score": 5.5,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Remove embedded secrets/crypto keys from the binary. Load keys from a secure backend or hardware-backed store at runtime.",
+            "revalidate": "Rebuild and re-run --sast; this rule_id should clear when the secret patterns are gone.",
+            "cve": null,
+            "maswe_id": "MASWE-0001",
+            "owasp_mobile": "M1:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-798",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "CWE-321",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0001",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "MASWE-0028",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M1:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            },
+            {
+              "id": "M10:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/UnCrackable-Level2.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "apk-allow-backup",
+          "level": "warning",
+          "message": {
+            "text": "allowBackup is true; app data may be backed up unencrypted."
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 5.3,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Set android:allowBackup=false, or use a backup rules / data extraction rules file that excludes sensitive data.",
+            "revalidate": "Rebuild and re-scan with --sast; apk-allow-backup should clear when allowBackup is false or appropriately restricted.",
+            "cve": null,
+            "maswe_id": "MASWE-0014",
+            "owasp_mobile": "M9:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-200",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0014",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M9:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/UnCrackable-Level1.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-hardcoded-secret",
+          "level": "note",
+          "message": {
+            "text": "Possible secret reference (low confidence; high FP). (seen: This is the correct secret.)"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 0.7,
+            "cvss_estimate": {
+              "score": 5.5,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Remove embedded secrets/crypto keys from the binary. Load keys from a secure backend or hardware-backed store at runtime.",
+            "revalidate": "Rebuild and re-run --sast; this rule_id should clear when the secret patterns are gone.",
+            "cve": null,
+            "maswe_id": "MASWE-0001",
+            "owasp_mobile": "M1:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-798",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "CWE-321",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0001",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "MASWE-0028",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M1:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            },
+            {
+              "id": "M10:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/UnCrackable-Level1.apk"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "properties": {
+        "summary": {
+          "artifacts": 11,
+          "findings": 91,
+          "by_severity": {
+            "critical": 3,
+            "high": 10,
+            "medium": 49,
+            "low": 0,
+            "info": 29
+          },
+          "max_severity_score": 10.0,
+          "avg_severity_score": 4.44
+        }
+      }
+    }
+  ]
+}
