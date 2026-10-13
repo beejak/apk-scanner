@@ -1,0 +1,11 @@
+# Core: scanner has fallbacks if missing; install for full metadata and SAST
+apk-info==1.0.10
+pyelftools==0.32
+androguard>=4.0
+
+# Optional: DAST (--dynamic). Uncomment to run Android runtime hooks.
+# frida-tools  # CLI only; script runs but findings not captured
+# frida        # Python API; needed to capture SSL trust-all etc.
+
+# Dev: tests
+pytest>=7.0

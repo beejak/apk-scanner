@@ -1,0 +1,19 @@
+{
+  "metadata": [
+    {
+      "path": "C:\\Users\\Master\\Git Projects\\apk scanner\\tests\\fixtures\\InsecureBankv2.apk",
+      "type": "apk",
+      "size_bytes": 3462429,
+      "metadata": {
+        "file_count": 555,
+        "has_android_manifest": true,
+        "has_manifest_mf": true
+      }
+    }
+  ],
+  "findings": [],
+  "summary": {
+    "artifacts": 1,
+    "findings": 0
+  }
+}
