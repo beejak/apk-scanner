@@ -8,8 +8,8 @@ Sanitized reports from disposable temp sandboxes. **APK / IPA / similar binaries
 2. Or paste a `file:///` URL (encode spaces as `%20`), e.g.  
    `file:///C:/Users/…/apk%20scanner/docs/results/capability_run_20261014/manager_report.html`
 3. **Self-contained** pages (inline CSS/data) work under `file://` with no server:
-   - `capability_run_*/manager_report.html` — manager POV
-   - `sandbox_*/report.html` (enriched CLI HTML) — technical POV with scores / fix / revalidate
+   - `capability_run_*/manager_report.html` — manager POV **with** per-finding scores / fix / revalidate
+   - `capability_run_*/report.html` and `sandbox_*/report.html` — enriched CLI HTML (same fields)
 4. Older pages that `fetch()` a sibling JSON may fail under `file://` (browser CORS). Prefer the manager report or enriched `report.html`, or serve the folder with a tiny static server.
 
 Also linked from [`index.html`](index.html) and [`../capabilities.html`](../capabilities.html).
@@ -18,9 +18,9 @@ Also linked from [`index.html`](index.html) and [`../capabilities.html`](../capa
 
 | Kind | File | Audience | Contents |
 |------|------|----------|----------|
-| **Manager** | `capability_run_20261014/manager_report.html` | Exec / program | KPIs, capability checklist (discovery all types, pytest, DAST skipped), themes, top rules — **not** a per-finding dump |
+| **Manager (enriched)** | `capability_run_20261014/manager_report.html` | Exec / program | KPIs, capability checklist, themes, top rules, **plus** per-finding severity / `severity_score` / taxonomy / `cvss_estimate` / **How to fix** / **How to revalidate** |
 | **Technical (enriched)** | `sandbox_20261013/report.html` | Engineers | CLI-style report: severity bands, `severity_score`, taxonomy, **CVSS-estimate** (rule-based, not NVD CVE CVSS), **How to fix** / **How to revalidate** |
-| **Technical (capability dump)** | `capability_run_20261014/report.html` | Engineers | CLI HTML from the 5×-type run; **pre-enrichment snapshot** (severity bands + taxonomy in messages; no `severity_score` / remediation fields in JSON) |
+| **Technical (capability, enriched)** | `capability_run_20261014/report.html` | Engineers | Same enriched CLI HTML for the 5×-type run (re-enriched from `report.json` without re-scanning) |
 
 New scans with current `cli.py --sast -o html` always emit the enriched technical format.
 
@@ -28,7 +28,7 @@ New scans with current `cli.py --sast -o html` always emit the enriched technica
 
 | Path | Contents |
 |------|----------|
-| [`capability_run_20261014/`](capability_run_20261014/) | Full-type run (5 APK + 5 IPA + 5 JAR + 5 .so + 5 SDK). **`manager_report.html`**, `summary.json`, `report.json` / `.html` / `.csv` / `.txt`. Sandbox purged after copy. |
+| [`capability_run_20261014/`](capability_run_20261014/) | Full-type run (5 APK + 5 IPA + 5 JAR + 5 .so + 5 SDK). **`manager_report.html`** + `report.*` **re-enriched** (`severity_score`, `cvss_estimate`, `remediation`, `revalidate`, `cve: null`) from existing JSON — no APK re-download. Sandbox purged after original copy. |
 | [`sandbox_20261013/`](sandbox_20261013/) | Earlier APK-only training set (14 apps). **`report.*` regenerated with enrichment** (`severity_score`, `cvss_estimate`, `remediation`, `revalidate`, `cve: null`). |
 | [`index.html`](index.html) | Results index → latest manager report |
 | [`../capabilities.html`](../capabilities.html) | Shortcut entry |

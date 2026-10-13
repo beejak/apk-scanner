@@ -10,7 +10,7 @@
 | Metadata | **Implemented with gaps:** APK strong only with `apk-info` (Python 3.10+; ZIP crumbs without it); IPA/JAR OK (stdlib); `.so` via pyelftools with **wired stdlib fallback**; SDK is a file counter |
 | SAST | **Constrained pattern scan:** regex/metadata heuristics in `scanner/sast/*` (exported unprotected, weak Cipher, WebView bridge, cleartext flags, trust-all, AWS/Google-key-like formats). Vague `password`/`secret` demoted to low/info. Androguard improves string tables only |
 | DAST | **Scaffold:** one Android Frida check (`SSLContext.init` null TrustManager); Frida CLI captures nothing; iOS stub |
-| Reports | JSON/text/CSV/HTML/SARIF; per finding: taxonomy, `severity_score`, rule-based `cvss_estimate` (**not** NVD CVE CVSS), `remediation`/`revalidate`, `cve: null`. HTML is executive-friendly. Showcase: `docs/results/capability_run_20261014/` (manager HTML) + enriched `sandbox_20261013/` |
+| Reports | JSON/text/CSV/HTML/SARIF; per finding: taxonomy, `severity_score`, rule-based `cvss_estimate` (**not** NVD CVE CVSS), `remediation`/`revalidate`, `cve: null`. HTML is executive-friendly. Showcase: enriched `docs/results/capability_run_20261014/` (manager + CLI HTML) + enriched `sandbox_20261013/` |
 | Tests | Discovery/taxonomy/report + **synthetic SAST fixtures** (scores/remediation covered); DAST suite still thin; integration often `sast=False` without downloaded APKs |
 
 **Useful today for:** inventorying binaries, cleartext/exported/WebView/crypto-string leads, high-confidence secret-format hits, scored reports with fix/revalidate text, CI SARIF scaffolding.  

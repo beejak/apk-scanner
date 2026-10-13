@@ -21,7 +21,7 @@ Without apk-info, APK scan falls back to ZIP-only metadata. Without pyelftools, 
 
 | Showcase | What it is |
 |----------|------------|
-| [`docs/results/capability_run_20261014/manager_report.html`](docs/results/capability_run_20261014/manager_report.html) | Manager POV: 5× APK/IPA/JAR/.so/SDK (25 artifacts, 325 findings); self-contained HTML |
+| [`docs/results/capability_run_20261014/manager_report.html`](docs/results/capability_run_20261014/manager_report.html) | Manager POV: 5× APK/IPA/JAR/.so/SDK (25 artifacts, 325 findings) with scores / fix / revalidate; self-contained HTML |
 | [`docs/results/sandbox_20261013/report.html`](docs/results/sandbox_20261013/report.html) | Technical enriched HTML (APK-only training set) with scores, CVSS-estimate, fix/revalidate |
 | [`docs/results/index.html`](docs/results/index.html) | Results index |
 
@@ -60,7 +60,7 @@ CLI `-o html` and showcase HTML are **self-contained** (inline CSS; no server re
 2. Paste a `file:///` path into the browser (encode spaces as `%20`), e.g.  
    `file:///C:/Users/…/apk%20scanner/docs/results/capability_run_20261014/manager_report.html`
 
-Prefer **`manager_report.html`** for an executive summary of a capability run, and CLI / sandbox **`report.html`** for per-finding technical detail (scores, taxonomy, how to fix / revalidate). Pages that `fetch()` JSON can break under `file://` — the shipped manager report and enriched `report.html` do not need that.
+Prefer **`manager_report.html`** for the capability-run executive view (KPIs plus per-finding scores / taxonomy / how to fix / revalidate), and CLI / sandbox **`report.html`** for the same technical fields in CLI layout. Pages that `fetch()` JSON can break under `file://` — the shipped manager report and enriched `report.html` do not need that.
 
 ## What it detects
 
