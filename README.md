@@ -56,10 +56,15 @@ Taxonomy per finding: CWE, NIST, OWASP, **MASWE**, **OWASP Mobile Top 10 2024**,
 ## CI
 
 - **Push/PR:** pytest (`.github/workflows/ci.yml`, Python 3.12)
-- **Weekly (Mon 06:00 UTC) + manual:** allowlist-only download → SAST → `docs/results/weekly_YYYYMMDD/` → purge binaries → commit reports (`.github/workflows/weekly-sandbox-scan.yml`). Allowlist: [`tests/fixtures/sources.json`](tests/fixtures/sources.json). Soft-fail on findings; never commits APK/IPA.
+- **Weekly (Mon 06:00 UTC) + `workflow_dispatch`:** allowlist-only sandbox scan (`.github/workflows/weekly-sandbox-scan.yml`)
+  - Allowlist: [`tests/fixtures/sources.json`](tests/fixtures/sources.json) — **`primary`** then **`fallback`** (`max_artifacts` ≤ 15)
+  - Dedupe: [`tests/fixtures/scan_history.json`](tests/fixtures/scan_history.json) skips same `id`+version (or sha256/ETag) unless publisher version/URL/content changes or `force: true`
+  - Types: apk / ipa / jar / **sdk** (`generate` recipe or zip URL) / **.so** (https URL or `extract_from_apk`)
+  - Writes `docs/results/weekly_YYYYMMDD/` (manager HTML + JSON/SARIF), updates history JSON, purges binaries; soft-fail on findings
+  - Manual: **Actions → Weekly sandbox scan → Run workflow**. Needs **Settings → Actions → General → Workflow permissions → Read and write** so the bot can commit reports/history
 - **Optional manual synthetic SARIF:** `.github/workflows/sandbox-sast.yml`
 
-GitHub-only maintenance (edit rules/allowlist via web UI/PRs, rely on Actions): see **GitHub-only maintenance** in [`docs/USAGE.md`](docs/USAGE.md). No in-browser emulator.
+SAST Critical/High are **pattern-scan leads**, not confirmed vulns (see [`docs/USAGE.md`](docs/USAGE.md)). GitHub-only maintenance (edit rules/allowlist via web UI/PRs): same doc. **No** in-browser emulator or cloud device farm.
 
 ## Project layout
 

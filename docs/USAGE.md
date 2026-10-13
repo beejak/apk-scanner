@@ -176,10 +176,16 @@ Self-contained (inline CSS). Prefer `docs/results/capability_run_*/manager_repor
 - **Push/PR:** `.github/workflows/ci.yml` — `pytest`
 - **Optional manual:** `.github/workflows/sandbox-sast.yml` — temp sandbox → `--sast` → SARIF artifact → **purge** (no APKs committed)
 - **Weekly (cron + manual):** `.github/workflows/weekly-sandbox-scan.yml` — Monday 06:00 UTC + `workflow_dispatch`
-  - Allowlist only: `tests/fixtures/sources.json` (HTTPS training/Maven URLs; not an internet crawl)
-  - Downloads into `$RUNNER_TEMP`, runs `python scripts/weekly_sandbox_scan.py` (`--sast`), writes `docs/results/weekly_YYYYMMDD/`
-  - Purges binaries; commits **reports only** with `GITHUB_TOKEN` (needs Actions write permission)
-  - Soft-fail: findings do not fail the job; keep allowlist ≤ ~15 for runner disk/time
+  - Allowlist only: `tests/fixtures/sources.json` (not an internet crawl)
+  - **`primary`** entries tried first; **`fallback`** fills `max_artifacts` (≤ 15) when primary is exhausted (already scanned at same version) or materialize fails
+  - **History dedupe:** `tests/fixtures/scan_history.json` records `id`, `version` / etag / sha256, `last_scan_date`, `last_report_dir`. Same id+version skipped unless `version`/URL changes, remote ETag/SHA differs, or `force: true`. Optional `min_interval_days`.
+  - **SDK:** https zip URL, or `{ "type": "sdk", "generate": true, "files": [...] }` → tiny tree in TEMP (no binary commit)
+  - **.so:** public https URL, or `extract_from_apk: { "url", "member" }` (download APK to temp, extract `.so`, delete APK)
+  - Logic shared via `scanner/sources_allowlist.py` (weekly + capability scripts)
+  - Downloads into `$RUNNER_TEMP`, runs `python scripts/weekly_sandbox_scan.py` (`--sast`)
+  - Writes **`docs/results/weekly_YYYYMMDD/`** (`manager_report.html`, JSON/text/SARIF/summary)
+  - Commits **reports + `scan_history.json`** with `GITHUB_TOKEN` (needs Actions write permission); purges binaries
+  - Soft-fail: findings do not fail the job. Critical/High in reports are **pattern-scan leads**, not confirmed vulns
 
 ### GitHub-only maintenance (~6 months without IDE)
 
@@ -189,9 +195,9 @@ Keep improving scanner/signatures from GitHub alone (no local IDE required):
    - Patterns: `scanner/sast/patterns.py`, `scanner/sast/__init__.py`  
    - Taxonomy / MASWE: `scanner/taxonomy.py`, `scanner/taxonomy_maswe.py`
 2. **PR validation** — `ci.yml` runs pytest on every PR; merge when green.
-3. **Tweak allowlist** — edit `tests/fixtures/sources.json` (https training/Maven URLs only; keep `max_artifacts` ≤ 15). Enforced by `tests/test_sources_allowlist.py`.
+3. **Tweak allowlist** — edit `tests/fixtures/sources.json` (`primary` / `fallback`, https-only; keep `max_artifacts` ≤ 15). History: `tests/fixtures/scan_history.json`. Enforced by `tests/test_sources_allowlist.py`.
 4. **Cron / manual weekly scan** — schedule is `0 6 * * 1` in `weekly-sandbox-scan.yml`. Re-run: **Actions → Weekly sandbox scan → Run workflow**.
-5. **Read results** — `docs/results/weekly_YYYYMMDD/manager_report.html` (or SARIF artifact). Enable **Actions → Workflow permissions → Read and write** so the job can commit reports.
+5. **Read results** — `docs/results/weekly_YYYYMMDD/manager_report.html` (or SARIF artifact). If the bot cannot push: **Settings → Actions → General → Workflow permissions → Read and write**.
 
 Honest limits: allowlist only (no random crawl); no in-browser emulator; no cloud device farm; no binaries in git.
 
@@ -200,7 +206,7 @@ Local:
 ```bash
 python -m pytest tests/ -v
 python cli.py <sandbox> --sast -o sarif --out-file scan.sarif.json
-# Dry-run weekly job locally (downloads to TEMP, writes docs/results/weekly_*, purges):
+# Dry-run weekly job locally (downloads to TEMP, writes docs/results/weekly_*, updates history, purges):
 python scripts/weekly_sandbox_scan.py
 ```
 
