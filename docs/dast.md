@@ -58,9 +58,9 @@ Then run the scanner with `--dynamic`.
 
 ## Report
 
-- Findings from DAST use the same schema as SAST: `rule_id`, `severity`, `message`, `location`, optional `evidence`.
+- Findings from DAST use the same schema as SAST and pass through the same enrichment: `rule_id`, `severity`, `severity_score`, `message`, `location`, optional `evidence`, plus `classification`, `cvss_estimate` (rule-based, not NVD CVE CVSS), `remediation`, `revalidate`, and `cve: null`.
 - Each finding has **`source`: `"dynamic"`** so you can filter or highlight runtime findings.
-- Text report appends ` (dynamic)` to the finding line; CSV has a `source` column.
+- Text report appends ` (dynamic)` to the finding line; CSV has a `source` column; HTML shows fix/revalidate blocks when present.
 
 ## Exit code and logging
 
