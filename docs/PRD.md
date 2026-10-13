@@ -8,13 +8,14 @@
 |-------|----------------|
 | Discovery | **Implemented:** apk/ipa/jar/so/sdk via `scanner/discovery.py` |
 | Metadata | **Implemented with gaps:** APK strong only with `apk-info` (Python 3.10+; ZIP crumbs without it); IPA/JAR OK (stdlib); `.so` via pyelftools with **wired stdlib fallback**; SDK is a file counter |
-| SAST | **Constrained pattern scan:** regex/metadata heuristics in `scanner/sast/*` (exported unprotected, weak Cipher, WebView bridge, cleartext flags, trust-all, AWS/Google-key-like formats). Vague `password`/`secret` demoted to low/info. Androguard improves string tables only |
-| DAST | **Scaffold:** one Android Frida check (`SSLContext.init` null TrustManager); Frida CLI captures nothing; iOS stub |
-| Reports | JSON/text/CSV/HTML/SARIF; per finding: taxonomy, `severity_score`, rule-based `cvss_estimate` (**not** NVD CVE CVSS), `remediation`/`revalidate`, `cve: null`. HTML is executive-friendly. Showcase: enriched `docs/results/capability_run_20261014/` (manager + CLI HTML) + enriched `sandbox_20261013/` |
-| Tests | Discovery/taxonomy/report + **synthetic SAST fixtures** (scores/remediation covered); DAST suite still thin; integration often `sast=False` without downloaded APKs |
+| SAST | **Constrained pattern scan with Critical/High bands:** WebView JS bridge, Runtime.exec, trust-all, SQL concat, unsafe deserialization, path/file URI, exported intent/provider risks, weak crypto, secret formats. Vague password → info (assignment-shaped low). Optional plugins: `--apkid` / `--semgrep` / `--mobsfscan` (skip if missing) |
+| SCA | **[Partial]** `--sca` real OSV lookups when component+version extracted; cache + rate delay; never invents CVE IDs; offline skip |
+| DAST | **Scaffold:** Android Frida hooks for SSL trust-all, sensitive log, cleartext URL when adb+Python frida; CLI Frida captures nothing; iOS stub |
+| Reports | JSON/text/CSV/HTML/SARIF 2.1 (ruleId/level/locations/help/taxa); taxonomy includes **MASWE** + **OWASP Mobile Top 10 2024**; scores, remediation/revalidate; CVE only from SCA. How-to: `docs/USAGE.md`. CI: pytest on push/PR; optional sandbox→SARIF workflow |
+| Tests | Synthetic SAST + taxonomy + plugins/SCA (mocked) + DAST skip-path tests; integration without APKs in git |
 
-**Useful today for:** inventorying binaries, cleartext/exported/WebView/crypto-string leads, high-confidence secret-format hits, scored reports with fix/revalidate text, CI SARIF scaffolding.  
-**Not useful today for:** confirmed vuln triage, real CVE assignment (needs SCA), call-graph/API-misuse proof, production DAST.
+**Useful today for:** inventory, high-impact pattern leads (Critical/High), taxonomy packaging, scored fix/revalidate reports, CI SARIF, optional plugins/SCA.  
+**Not useful today for:** confirmed triage, invented CVEs, call-graph proof, production DAST, in-browser emulation.
 
 The sections below describe the **product vision** and requirements. Status tags: **[Implemented]**, **[Partial]**, **[Planned]**.
 
@@ -69,31 +70,31 @@ A **full-blown code and runtime vulnerability scanner** for Android (APK/AAB), i
 
 ### 3.2 Static analysis (SAST)
 
-- **FR-S1** **Android (APK):** **[Partial — constrained pattern scan]** DEX/ZIP string rules + metadata (exported unprotected, cleartext traffic). Weak Cipher/MessageDigest, WebView bridge, trust-all, secret formats. **Not** full DEX decompile → Java/Smali rule engine.
-- **FR-S2** **JAR:** **[Partial — constrained pattern scan]** ZIP/string scan of class/config bytes; **not** bytecode AST / decompiler-based rules.
-- **FR-S3** **IPA / native:** **[Partial]** Plist ATS checks (incl. exception insecure HTTP) + binary string patterns; **not** full Mach-O misuse analysis.
+- **FR-S1** **Android (APK):** **[Partial — constrained pattern scan]** DEX/ZIP + metadata; Critical/High rules (JS bridge, exec, trust-all, exported intent/provider, SQL/deser/path). **Not** full decompile rule engine.
+- **FR-S2** **JAR:** **[Partial — constrained pattern scan]** ZIP/string scan; **not** bytecode AST.
+- **FR-S3** **IPA / native:** **[Partial]** Plist ATS + binary strings; **not** full Mach-O misuse analysis.
 - **FR-S4** **.so:** **[Partial]** String patterns for secrets/weak crypto/JNI; deeper symbol misuse **planned**.
-- **FR-S5** **Rule engine:** **[Partial]** Built-in constrained pattern rules. Configurable Semgrep/mobsfscan / custom rule paths **planned** (`--rules` not implemented). Findings include rule ID, severity, location, message (line often null).
-- **FR-S6** Map findings to OWASP MASVS control groups and/or MASWE. **[Partial — Implemented taxonomy lookup]** CWE, NIST SP 800-53, OWASP, CAPEC, CISA, NSA labels per finding; plus `severity_score`, rule-based `cvss_estimate`, `remediation`/`revalidate`. MASWE IDs and **CVE/SCA** still backlog (no invented CVE IDs); not a substitute for deeper detection.
+- **FR-S5** **Rule engine:** **[Partial]** Built-in patterns + optional `--apkid`/`--semgrep`/`--mobsfscan` subprocess backends (skip if missing). Custom `--rules` path **not** implemented.
+- **FR-S6** Taxonomy: **[Implemented lookup]** CWE, NIST, OWASP, **MASWE**, **OWASP Mobile Top 10 2024**, CAPEC, CISA, NSA; scores; remediation/revalidate. **CVE/SCA:** **[Partial]** `--sca` + OSV when name+version extracted (no invented CVEs).
 
 ### 3.3 Dynamic analysis (DAST)
 
-- **FR-DA1** **Android:** **[Partial — scaffold]** adb install + optional Frida; **one** check (`SSLContext.init` null TrustManager). No scripted flows / broad observation suite.
+- **FR-DA1** **Android:** **[Partial — scaffold]** adb install + Frida observation (SSL trust-all, sensitive log, cleartext URL). No scripted UI flows.
 - **FR-DA2** **iOS:** **[Planned]** Stub only (`run_ios_dast` → `[]`).
-- **FR-DA3** **Runtime checks:** **[Partial]** Only the SSL trust-all check above; pinning bypass suite, auth bypass, IPC, clipboard, etc. **planned**.
-- **FR-DA4** **[Implemented]** DAST optional via `--dynamic` (environment-dependent; skipped cleanly if adb/device missing).
+- **FR-DA3** **Runtime checks:** **[Partial]** Three observation hooks above; broader suite **planned** (no exploit docs).
+- **FR-DA4** **[Implemented]** `--dynamic`; skipped cleanly if adb/device missing.
 
 ### 3.4 Reporting and output
 
-- **FR-R1** **Formats:** **[Implemented]** JSON, text, CSV, HTML, SARIF 2.1.0; `scan_timestamp`; `--out-file` with `{timestamp}`. JSON/text richest; CSV omits full metadata; HTML is executive-friendly (scores, taxonomy, fix/revalidate); SARIF carries scores/remediation in properties.
-- **FR-R2** **Content:** **[Implemented]** Per-artifact metadata + findings + summary (`by_severity`, max/avg `severity_score`); enrichment fields per finding; depth of detection still depends on SAST/DAST quality above.
-- **FR-R3** **Exit code:** **[Partial]** 0 on success (with or without findings); non-zero on fatal error or invalid path. Severity-based exit (`--severity-threshold`) **planned**.
+- **FR-R1** **Formats:** **[Implemented]** JSON, text, CSV, HTML, SARIF 2.1 (`ruleId`, level, locations, help, taxa); `{timestamp}` out-file.
+- **FR-R2** **Content:** **[Implemented]** metadata + findings + `by_severity` (incl. critical) + enrichment.
+- **FR-R3** **Exit code:** **[Partial]** 0 on success; non-zero on fatal/invalid path. Severity gate **planned**.
 - **FR-R4** **[Implemented]** Logging to stderr; report to stdout or file.
 
 ### 3.5 CLI and integration
 
-- **FR-C1** CLI: **[Partial]** path; `--types`; `-o` text|json|csv|html|sarif; `-j`; `--no-recursive`; `-v`/`--quiet`; `--sast`; `--dynamic`. **`--rules` planned / not implemented.**
-- **FR-C2** Optional web UI: **[Planned]** Static HTML/JS drop-zone that shells out to or talks to local `cli.py` (cannot run Python in-browser alone; companion local server or Tauri later). Not built yet.
+- **FR-C1** CLI: **[Implemented]** `--sast`, `--dynamic`, `--apkid`, `--semgrep`, `--mobsfscan`, `--sca`, `--sca-offline`, formats, types, jobs. See `docs/USAGE.md`.
+- **FR-C2** Optional web UI: **[Out of scope / not shipped]** — no in-repo browser emulator or web main page for DAST.
 
 ---
 
