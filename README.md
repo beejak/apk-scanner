@@ -6,6 +6,8 @@ CLI for **discovery**, **metadata**, optional **pattern-scan SAST**, optional **
 
 **Deep guide:** [`docs/USAGE.md`](docs/USAGE.md) — install, per-type scanning, flags, SCA, CI, **weekly allowlist scan**, GitHub-only maintenance, honesty limits.
 
+**Landscape / backlog:** [`docs/LANDSCAPE.md`](docs/LANDSCAPE.md) — competitor survey vs MobSF/Quark/APKiD/mobsfscan/etc., gaps, top-5 incorporations (6 months).
+
 **Honest capability:** solid inventory + constrained SAST with Critical/High signal rules — **not** a full SAST/DAST product. Useful for binary inventory, high-impact pattern leads, scored reports with fix/revalidate, CI SARIF. **Not** useful for confirmed triage, invented CVEs, or production DAST.
 
 ## Requirements
@@ -71,6 +73,7 @@ SAST Critical/High are **pattern-scan leads**, not confirmed vulns (see [`docs/U
 - `cli.py` — entrypoint
 - `scanner/` — discovery, metadata, sast, plugins, sca, dast, taxonomy, report, run
 - `docs/USAGE.md` — full how-to
+- `docs/LANDSCAPE.md` — competitive landscape + recommended backlog
 - `docs/PRD.md`, `docs/dast.md`, `docs/results/`
 
 ## Tests

@@ -1,6 +1,6 @@
 # How to use apk-scanner
 
-In-depth guide matching **shipped** code only. Entry overview: [README.md](../README.md). Product status: [PRD.md](PRD.md). DAST details: [dast.md](dast.md).
+In-depth guide matching **shipped** code only. Entry overview: [README.md](../README.md). Product status: [PRD.md](PRD.md). DAST details: [dast.md](dast.md). Competitive landscape + 6-month backlog: [LANDSCAPE.md](LANDSCAPE.md).
 
 ## Install
 
@@ -198,6 +198,7 @@ Keep improving scanner/signatures from GitHub alone (no local IDE required):
 3. **Tweak allowlist** — edit `tests/fixtures/sources.json` (`primary` / `fallback`, https-only; keep `max_artifacts` ≤ 15). History: `tests/fixtures/scan_history.json`. Enforced by `tests/test_sources_allowlist.py`.
 4. **Cron / manual weekly scan** — schedule is `0 6 * * 1` in `weekly-sandbox-scan.yml`. Re-run: **Actions → Weekly sandbox scan → Run workflow**.
 5. **Read results** — `docs/results/weekly_YYYYMMDD/manager_report.html` (or SARIF artifact). If the bot cannot push: **Settings → Actions → General → Workflow permissions → Read and write**.
+6. **Monthly landscape refresh (docs only)** — update [LANDSCAPE.md](LANDSCAPE.md) competitor stars/releases via `gh api` (checklist in that file). PR: `docs: monthly landscape refresh YYYY-MM`. **No** random internet downloads or new allowlist crawls.
 
 Honest limits: allowlist only (no random crawl); no in-browser emulator; no cloud device farm; no binaries in git.
 
