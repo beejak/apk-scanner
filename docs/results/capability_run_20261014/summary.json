@@ -19,10 +19,11 @@
     "so": 5
   },
   "by_severity": {
+    "critical": 0,
     "high": 28,
     "medium": 98,
-    "info": 62,
-    "low": 137
+    "low": 137,
+    "info": 62
   },
   "by_rule_id": {
     "ipa-hardcoded-password": 95,
@@ -284,5 +285,15 @@
     "One JAR (edu-secrets-sample.jar) was built locally for SAST coverage; others from Maven Central.",
     "Native .so samples extracted from public training APKs (not standalone upstream .so releases).",
     "Binaries purged from temp sandbox after report copy; not stored in git."
-  ]
+  ],
+  "max_severity_score": 9.2,
+  "avg_severity_score": 3.8,
+  "enrichment": {
+    "severity_score": true,
+    "cvss_estimate": true,
+    "remediation": true,
+    "revalidate": true,
+    "cve": null,
+    "note": "Re-enriched from report.json without re-scanning binaries (taxonomy lookup)."
+  }
 }
