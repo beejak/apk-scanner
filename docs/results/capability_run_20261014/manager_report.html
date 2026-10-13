@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>APK Scanner — Capability Run 2026-10-14 (Manager Report)</title>
+  <style>
+    :root {
+      --ink: #1c1c1c;
+      --muted: #5c5c5c;
+      --line: #d0d0d0;
+      --bg: #f3f1ec;
+      --panel: #fffcf7;
+      --accent: #0a4d8c;
+      --ok: #1b6b3a;
+      --warn: #8a5a00;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "IBM Plex Sans", "Segoe UI", Tahoma, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 500px at 10% -10%, #dfe9f5 0%, transparent 55%),
+        linear-gradient(180deg, #ebe6dc 0%, var(--bg) 35%, #e8eef5 100%);
+      line-height: 1.45;
+    }
+    main { max-width: 1100px; margin: 0 auto; padding: 2rem 1.25rem 3.5rem; }
+    h1 { font-size: 1.85rem; margin: 0 0 0.25rem; letter-spacing: -0.02em; }
+    h2 {
+      font-size: 1.2rem; margin: 2rem 0 0.55rem;
+      border-bottom: 1px solid var(--line); padding-bottom: 0.3rem;
+    }
+    .lead { color: var(--muted); max-width: 46rem; margin: 0 0 1rem; }
+    .meta { font-size: 0.92rem; color: var(--muted); margin-bottom: 1.25rem; }
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 0.75rem;
+      margin: 1rem 0 1.5rem;
+    }
+    .kpi {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      padding: 0.85rem 0.9rem;
+    }
+    .kpi .label {
+      font-size: 0.78rem; text-transform: uppercase;
+      letter-spacing: 0.04em; color: var(--muted);
+    }
+    .kpi .value {
+      font-size: 1.55rem; font-weight: 650;
+      font-variant-numeric: tabular-nums; margin-top: 0.15rem;
+    }
+    table {
+      width: 100%; border-collapse: collapse; background: var(--panel);
+      border: 1px solid var(--line); font-size: 0.9rem; margin-bottom: 0.5rem;
+    }
+    th, td {
+      text-align: left; padding: 0.42rem 0.6rem;
+      border-bottom: 1px solid var(--line); vertical-align: top;
+    }
+    th { background: #ebe4d6; font-weight: 650; }
+    tr:last-child td { border-bottom: none; }
+    .num { text-align: right; font-variant-numeric: tabular-nums; }
+    .notes { color: var(--muted); font-size: 0.85rem; }
+    code { font-family: "IBM Plex Mono", Consolas, monospace; font-size: 0.86em; }
+    .sev {
+      display: inline-block; min-width: 4.5rem; font-weight: 650;
+      text-transform: uppercase; font-size: 0.78rem;
+    }
+    .sev-high { color: #b33; }
+    .sev-medium { color: #c27803; }
+    .sev-low { color: #5a6a7a; }
+    .sev-info { color: #3a6ea5; }
+    .callout {
+      border-left: 4px solid var(--accent);
+      background: rgba(255,255,255,0.7);
+      padding: 0.85rem 1rem; margin: 1rem 0;
+      color: var(--muted); font-size: 0.92rem;
+    }
+    .ok { color: var(--ok); font-weight: 650; }
+    .skip { color: var(--warn); font-weight: 650; }
+    ul.lim { margin: 0.4rem 0 0 1.1rem; color: var(--muted); }
+    ul.lim li { margin: 0.25rem 0; }
+    footer { margin-top: 2rem; font-size: 0.85rem; color: var(--muted); }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Capability run — manager report</h1>
+    <p class="lead">
+      End-to-end exercise of discovery, metadata, and pattern-scan SAST across all five supported
+      artifact types (APK, IPA, JAR, native .so, SDK directories). Results are <strong>leads</strong>,
+      not confirmed vulnerabilities.
+    </p>
+    <p class="meta">
+      Run ID: <code>capability_run_20261014</code> ·
+      Scan: <code>2026-10-13T19:15:00.824515+00:00</code> ·
+      Repo: <a href="https://github.com/beejak/apk-scanner">beejak/apk-scanner</a>
+    </p>
+
+    <div class="kpis">
+      <div class="kpi"><div class="label">Artifacts</div><div class="value">25</div></div>
+      <div class="kpi"><div class="label">Findings</div><div class="value">325</div></div>
+      <div class="kpi"><div class="label">High</div><div class="value">28</div></div>
+      <div class="kpi"><div class="label">Medium</div><div class="value">98</div></div>
+      <div class="kpi"><div class="label">Low / Info</div><div class="value">199</div></div>
+      <div class="kpi"><div class="label">Pytest</div><div class="value" style="font-size:1.15rem">41 passed</div></div>
+    </div>
+
+    <h2>1. Executive summary</h2>
+    <p>
+      The scanner successfully discovered <strong>25</strong> artifacts
+      (5 of each type) in a disposable temp sandbox and produced
+      <strong>325</strong> pattern-scan findings.
+      Unit tests: <span class="ok">41 passed</span> (1.17s).
+      DAST: <span class="skip">skipped</span> — adb not on PATH; device not available — DAST scaffold skipped (not forced).
+    </p>
+    <div class="callout">
+      Honest capability: solid inventory + metadata + constrained regex/metadata SAST.
+      Not a full SAST/DAST product. Many hits (especially vague password strings) are noisy low/info leads.
+    </div>
+
+    <h2>2. What was tested</h2>
+    <table>
+      <thead><tr><th>Capability</th><th>Status</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Discovery (all types)</td><td class="ok">PASS</td><td>25 artifacts under sandbox</td></tr>
+        <tr><td>Metadata extraction</td><td class="ok">PASS</td><td>apk-info / plist / MANIFEST / ELF / SDK counters</td></tr>
+        <tr><td>SAST — APK</td><td class="ok">PASS</td><td>Manifest heuristics + DEX ZIP string patterns</td></tr>
+        <tr><td>SAST — IPA</td><td class="ok">PASS</td><td>Info.plist ATS + binary string patterns</td></tr>
+        <tr><td>SAST — JAR</td><td class="ok">PASS</td><td>Class/config patterns; edu-secrets sample</td></tr>
+        <tr><td>SAST — .so</td><td class="ok">PASS</td><td>Native string patterns + ELF metadata</td></tr>
+        <tr><td>SAST — SDK</td><td class="ok">PASS</td><td>Sensitive filenames + credential-like configs</td></tr>
+        <tr><td>Report formats</td><td class="ok">PASS</td><td>json / html / csv / text via CLI</td></tr>
+        <tr><td>DAST scaffold</td><td class="skip">SKIP</td><td>adb not available; not installed for this run</td></tr>
+        <tr><td>Pytest suite</td><td class="ok">PASS</td><td>python -m pytest tests/ -v → 41 passed</td></tr>
+      </tbody>
+    </table>
+
+    <h2>3. Coverage by type</h2>
+    <table>
+      <thead><tr><th>Type</th><th class="num">Downloaded</th><th class="num">Discovered</th><th>Sources</th></tr></thead>
+      <tbody>
+        <tr><td>apk</td><td class="num">5</td><td class="num">5</td><td>InsecureShop, AndroGoat, DIVA, UnCrackable L1, OVAA (public training)</td></tr><tr><td>ipa</td><td class="num">5</td><td class="num">5</td><td>OWASP UnCrackable L1/L2, DVIA-v2 (x2), iGoat-Swift</td></tr><tr><td>jar</td><td class="num">5</td><td class="num">5</td><td>Maven Central (junit, commons-lang3, slf4j, gson) + local edu-secrets-sample.jar</td></tr><tr><td>so</td><td class="num">5</td><td class="num">5</td><td>Extracted from DIVA/OVAA/UnCrackable L2/L3/InjuredAndroid (training APKs)</td></tr><tr><td>sdk</td><td class="num">5</td><td class="num">5</td><td>NDK hello-jni layout, gson/slf4j source snapshots, training + vuln-config demo SDKs</td></tr>
+      </tbody>
+    </table>
+
+    <h2>4. Risk-style counts by severity</h2>
+    <p class="notes">Severity labels come from pattern rules — not CVSS or confirmed risk.</p>
+    <table>
+      <thead><tr><th>Severity</th><th class="num">Count</th></tr></thead>
+      <tbody><tr><td><span class="sev sev-high">high</span></td><td class="num">28</td></tr><tr><td><span class="sev sev-medium">medium</span></td><td class="num">98</td></tr><tr><td><span class="sev sev-low">low</span></td><td class="num">137</td></tr><tr><td><span class="sev sev-info">info</span></td><td class="num">62</td></tr></tbody>
+    </table>
+
+    <h2>5. Top findings themes</h2>
+    <table>
+      <thead><tr><th>Theme</th><th class="num">Hits</th></tr></thead>
+      <tbody><tr><td>password/secret noise</td><td class="num">153</td></tr><tr><td>cleartext / ATS</td><td class="num">81</td></tr><tr><td>storage</td><td class="num">47</td></tr><tr><td>SSL / trust</td><td class="num">19</td></tr><tr><td>exported / platform</td><td class="num">11</td></tr><tr><td>backup / debug</td><td class="num">9</td></tr><tr><td>SDK sensitive files</td><td class="num">4</td></tr><tr><td>other pattern hits</td><td class="num">1</td></tr></tbody>
+    </table>
+    <h3 style="font-size:1rem;margin:1rem 0 0.4rem">Top rule_id (top 20)</h3>
+    <table>
+      <thead><tr><th>rule_id</th><th class="num">Count</th></tr></thead>
+      <tbody><tr><td><code>ipa-hardcoded-password</code></td><td class="num">95</td></tr><tr><td><code>ipa-cleartext</code></td><td class="num">61</td></tr><tr><td><code>dex-storage-sharedprefs</code></td><td class="num">47</td></tr><tr><td><code>dex-hardcoded-password</code></td><td class="num">29</td></tr><tr><td><code>dex-ssl-trust</code></td><td class="num">19</td></tr><tr><td><code>jar-cleartext</code></td><td class="num">14</td></tr><tr><td><code>ipa-hardcoded-secret</code></td><td class="num">12</td></tr><tr><td><code>apk-exported-unprotected</code></td><td class="num">11</td></tr><tr><td><code>ipa-hardcoded-apikey</code></td><td class="num">11</td></tr><tr><td><code>dex-cleartext</code></td><td class="num">6</td></tr><tr><td><code>apk-allow-backup</code></td><td class="num">5</td></tr><tr><td><code>apk-debuggable</code></td><td class="num">4</td></tr><tr><td><code>dex-hardcoded-secret</code></td><td class="num">2</td></tr><tr><td><code>sdk-sensitive-file</code></td><td class="num">2</td></tr><tr><td><code>sdk-exposed-credential</code></td><td class="num">2</td></tr><tr><td><code>secret-aws-access-key</code></td><td class="num">1</td></tr><tr><td><code>jar-secret-aws-access-key</code></td><td class="num">1</td></tr><tr><td><code>jar-hardcoded-apikey</code></td><td class="num">1</td></tr><tr><td><code>jar-hardcoded-password</code></td><td class="num">1</td></tr><tr><td><code>so-jni</code></td><td class="num">1</td></tr></tbody>
+    </table>
+
+    <h2>6. Per-artifact results</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Artifact</th><th>Type</th><th>Package / ID</th><th>Version</th>
+          <th class="num">Findings</th><th>Metadata notes</th>
+        </tr>
+      </thead>
+      <tbody><tr><td><code>ipa/iGoat-Swift.ipa</code></td><td>ipa</td><td>—</td><td>—</td><td class="num">64</td><td class="notes">—</td></tr><tr><td><code>apk/AndroGoat.apk</code></td><td>apk</td><td>owasp.sat.agoat</td><td>1.0</td><td class="num">53</td><td class="notes">debuggable=true, allowBackup=true</td></tr><tr><td><code>ipa/DVIA-v2.ipa</code></td><td>ipa</td><td>—</td><td>—</td><td class="num">50</td><td class="notes">—</td></tr><tr><td><code>ipa/DVIA-v2-swift.ipa</code></td><td>ipa</td><td>—</td><td>—</td><td class="num">47</td><td class="notes">—</td></tr><tr><td><code>apk/InsecureShop.apk</code></td><td>apk</td><td>com.insecureshop</td><td>1.0</td><td class="num">27</td><td class="notes">debuggable=true, allowBackup=true</td></tr><tr><td><code>apk/ovaa-debug.apk</code></td><td>apk</td><td>oversecured.ovaa</td><td>1.0</td><td class="num">23</td><td class="notes">debuggable=true, allowBackup=true</td></tr><tr><td><code>apk/diva-beta.apk</code></td><td>apk</td><td>jakhar.aseem.diva</td><td>1.0</td><td class="num">19</td><td class="notes">debuggable=true, allowBackup=true</td></tr><tr><td><code>ipa/UnCrackable-Level2.ipa</code></td><td>ipa</td><td>—</td><td>—</td><td class="num">10</td><td class="notes">—</td></tr><tr><td><code>ipa/UnCrackable-Level1.ipa</code></td><td>ipa</td><td>—</td><td>—</td><td class="num">8</td><td class="notes">—</td></tr><tr><td><code>jar/commons-lang3-3.14.0.jar</code></td><td>jar</td><td>—</td><td>3.14.0</td><td class="num">6</td><td class="notes">—</td></tr><tr><td><code>jar/slf4j-api-2.0.12.jar</code></td><td>jar</td><td>—</td><td>2.0.12</td><td class="num">6</td><td class="notes">—</td></tr><tr><td><code>jar/edu-secrets-sample.jar</code></td><td>jar</td><td>—</td><td>—</td><td class="num">4</td><td class="notes">—</td></tr><tr><td><code>apk/UnCrackable-Level1.apk</code></td><td>apk</td><td>owasp.mstg.uncrackable1</td><td>1.0</td><td class="num">2</td><td class="notes">allowBackup=true</td></tr><tr><td><code>kits/training-mobile-sdk</code></td><td>sdk</td><td>directory</td><td>—</td><td class="num">2</td><td class="notes">entries=7, size=180</td></tr><tr><td><code>kits/vuln-config-demo-sdk</code></td><td>sdk</td><td>directory</td><td>—</td><td class="num">2</td><td class="notes">entries=7, size=2928</td></tr><tr><td><code>jar/gson-2.10.1.jar</code></td><td>jar</td><td>—</td><td>—</td><td class="num">1</td><td class="notes">—</td></tr><tr><td><code>so/diva-beta__libdivajni.so</code></td><td>so</td><td>—</td><td>—</td><td class="num">1</td><td class="notes">machine=AArch64, elf=64</td></tr><tr><td><code>jar/junit-4.13.2.jar</code></td><td>jar</td><td>—</td><td>4.13.2</td><td class="num">0</td><td class="notes">—</td></tr><tr><td><code>kits/android-ndk-hello-jni-sdk</code></td><td>sdk</td><td>directory</td><td>—</td><td class="num">0</td><td class="notes">entries=42, size=73467</td></tr><tr><td><code>kits/gson-java-sdk</code></td><td>sdk</td><td>directory</td><td>—</td><td class="num">0</td><td class="notes">entries=6, size=4785</td></tr><tr><td><code>kits/slf4j-logging-sdk</code></td><td>sdk</td><td>directory</td><td>—</td><td class="num">0</td><td class="notes">entries=6, size=2861</td></tr><tr><td><code>so/InjuredAndroid__libapp.so</code></td><td>so</td><td>—</td><td>—</td><td class="num">0</td><td class="notes">machine=AArch64, elf=64</td></tr><tr><td><code>so/UnCrackable-Level2__libfoo.so</code></td><td>so</td><td>—</td><td>—</td><td class="num">0</td><td class="notes">machine=AArch64, elf=64</td></tr><tr><td><code>so/UnCrackable-Level3__libfoo.so</code></td><td>so</td><td>—</td><td>—</td><td class="num">0</td><td class="notes">machine=ARM, elf=32</td></tr><tr><td><code>so/ovaa-debug__libovaa.so</code></td><td>so</td><td>—</td><td>—</td><td class="num">0</td><td class="notes">machine=AArch64, elf=64</td></tr></tbody>
+    </table>
+
+    <h2>7. Limitations / caveats</h2>
+    <ul class="lim"><li>Pattern-scan / metadata heuristics only — not confirmed vulnerability triage.</li><li>Vague password/secret/apikey tokens are low/info noise by design.</li><li>No decompilation, call-graph, or API-misuse proof.</li><li>DEX strings via ZIP scan (androguard off); same constrained rules.</li><li>DAST not exercised (no adb/device).</li><li>One JAR (edu-secrets-sample.jar) was built locally for SAST coverage; others from Maven Central.</li><li>Native .so samples extracted from public training APKs (not standalone upstream .so releases).</li><li>Binaries purged from temp sandbox after report copy; not stored in git.</li></ul>
+
+    <h2>8. How to open this report</h2>
+    <div class="callout">
+      Double-click <code>manager_report.html</code> in Explorer, or open via
+      <code>file:///…/docs/results/capability_run_20261014/manager_report.html</code>.
+      This page is self-contained (inline CSS + data) and works without a web server.
+      Companion CLI dumps: <code>report.json</code>, <code>report.html</code>,
+      <code>report.csv</code>, <code>report.txt</code>, <code>summary.json</code>.
+    </div>
+
+    <footer>
+      Generated for capability demonstration. Binaries were held only in a temp sandbox and purged
+      after copying reports. No exploit steps included.
+    </footer>
+  </main>
+</body>
+</html>

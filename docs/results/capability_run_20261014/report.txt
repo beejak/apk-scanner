@@ -1,0 +1,957 @@
+Scan time: 2026-10-13T19:15:00.824515+00:00
+
+=== APK (5) ===
+  <sandbox>\apk\AndroGoat.apk
+    size: 6 MB
+    package: owasp.sat.agoat
+    version_code: 1
+    version_name: 1.0
+    min_sdk: 19
+    target_sdk: 33
+    permissions: ['android.permission.INTERNET', 'android.permission.CAMERA', 'android.permission.USE_FINGERPRINT', 'android.permission.WRITE_EXTERNAL_STORAGE', 'owasp.sat.agoat.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION', 'android.permission.READ_EXTERNAL_STORAGE', 'android.permission.USE_BIOMETRIC']
+    main_activity: owasp.sat.agoat.SplashActivity
+    main_activities: ['owasp.sat.agoat.SplashActivity']
+    debuggable: true
+    allow_backup: true
+    multidex: True
+    activities: [{'name': 'owasp.sat.agoat.QRCodeXSSActivity', 'exported': False, 'permission': None}, {'name': 'owasp.sat.agoat.BioMetricAuthActivity', 'exported': False, 'permission': None}, {'name': 'owasp.sat.agoat.CloudServicesActivity', 'exported': False, 'permission': None}, {'name': 'owasp.sat.agoat.HardcodeViewActivity', 'exported': False, 'permission': None}, {'name': 'owasp.sat.agoat.SplashActivity', 'exported': True, 'permission': None}, {'name': 'owasp.sat.agoat.MainActivity', 'exported': None, 'permission': None}, {'name': 'owasp.sat.agoat.RootDetectionActivity', 'exported': None, 'permission': None}, {'name': 'owasp.sat.agoat.InsecureLoggingActivity', 'exported': None, 'permission': None}, {'name': 'owasp.sat.agoat.XSSActivity', 'exported': None, 'permission': None}, {'name': 'owasp.sat.agoat.SQLinjectionActivity', 'exported': None, 'permission': None}, {'name': 'owasp.sat.agoat.InsecureStorageSharedPrefs', 'exported': None, 'permission': None}, {'name': 'owasp.sat.agoat.InsecureStorageTempActivity', 'exported': None, 'permission': None}, {'name': 'owasp.sat.agoat.AccessControlIssue1Activity', 'exported': None, 'permission': None}, {'name': 'owasp.sat.agoat.AccessControl1ViewActivity', 'exported': True, 'permission': None}, {'name': 'owasp.sat.agoat.HardCodeActivity', 'exported': None, 'permission': None}, {'name': 'owasp.sat.agoat.InsecureStorageSQLiteActivity', 'exported': None, 'permission': None}, {'name': 'owasp.sat.agoat.InsecureStorageSharedPrefs1Activity', 'exported': None, 'permission': None}, {'name': 'owasp.sat.agoat.TrafficActivity', 'exported': None, 'permission': None}, {'name': 'owasp.sat.agoat.ContentProviderActivity', 'exported': None, 'permission': None}, {'name': 'owasp.sat.agoat.EmulatorDetectionActivity', 'exported': None, 'permission': None}, {'name': 'owasp.sat.agoat.InsecureStorageSDCardActivity', 'exported': None, 'permission': None}, {'name': 'owasp.sat.agoat.InputValidationsWebViewURLActivity', 'exported': None, 'permission': None}, {'name': 'owasp.sat.agoat.InputValidationsOSCMDInjectionMain2Activity', 'exported': None, 'permission': None}, {'name': 'owasp.sat.agoat.BinaryPatchingActivity', 'exported': None, 'permission': None}, {'name': 'owasp.sat.agoat.ClipboardActivity', 'exported': None, 'permission': None}, {'name': 'owasp.sat.agoat.InsecureStorageActivity', 'exported': None, 'permission': None}, {'name': 'owasp.sat.agoat.SideChannelDataLeakageActivity', 'exported': None, 'permission': None}, {'name': 'owasp.sat.agoat.InputValidationsActivity', 'exported': None, 'permission': None}, {'name': 'owasp.sat.agoat.KeyboardCacheActivity', 'exported': None, 'permission': None}, {'name': 'owasp.sat.agoat.AIChatActivity', 'exported': None, 'permission': None}]
+    services: [{'name': 'owasp.sat.agoat.DownloadInvoiceService', 'exported': True, 'permission': None}]
+    receivers: [{'name': 'owasp.sat.agoat.ShowDataReceiver', 'exported': True, 'permission': None}, {'name': 'androidx.profileinstaller.ProfileInstallReceiver', 'exported': True, 'permission': 'android.permission.DUMP'}]
+    providers: [{'name': 'owasp.sat.agoat.ContentProviderActivity', 'exported': True, 'permission': None}, {'name': 'androidx.startup.InitializationProvider', 'exported': False, 'permission': None}]
+    signatures: [{'subject': 'CN=Android Debug O=Android C=US', 'issuer': 'CN=Android Debug O=Android C=US', 'valid_until': 'Nov 15 05:10:06 2055 GMT'}, {'subject': 'CN=Android Debug O=Android C=US', 'issuer': 'CN=Android Debug O=Android C=US', 'valid_until': 'Nov 15 05:10:06 2055 GMT'}]
+  <sandbox>\apk\diva-beta.apk
+    size: 1 MB
+    package: jakhar.aseem.diva
+    version_code: 1
+    version_name: 1.0
+    min_sdk: 15
+    target_sdk: 23
+    permissions: ['android.permission.WRITE_EXTERNAL_STORAGE', 'android.permission.INTERNET', 'android.permission.READ_EXTERNAL_STORAGE']
+    main_activity: jakhar.aseem.diva.MainActivity
+    main_activities: ['jakhar.aseem.diva.MainActivity']
+    debuggable: true
+    allow_backup: true
+    multidex: False
+    activities: [{'name': 'jakhar.aseem.diva.MainActivity', 'exported': None, 'permission': None}, {'name': 'jakhar.aseem.diva.LogActivity', 'exported': None, 'permission': None}, {'name': 'jakhar.aseem.diva.HardcodeActivity', 'exported': None, 'permission': None}, {'name': 'jakhar.aseem.diva.InsecureDataStorage1Activity', 'exported': None, 'permission': None}, {'name': 'jakhar.aseem.diva.InsecureDataStorage2Activity', 'exported': None, 'permission': None}, {'name': 'jakhar.aseem.diva.InsecureDataStorage3Activity', 'exported': None, 'permission': None}, {'name': 'jakhar.aseem.diva.InsecureDataStorage4Activity', 'exported': None, 'permission': None}, {'name': 'jakhar.aseem.diva.SQLInjectionActivity', 'exported': None, 'permission': None}, {'name': 'jakhar.aseem.diva.InputValidation2URISchemeActivity', 'exported': None, 'permission': None}, {'name': 'jakhar.aseem.diva.AccessControl1Activity', 'exported': None, 'permission': None}, {'name': 'jakhar.aseem.diva.APICredsActivity', 'exported': None, 'permission': None}, {'name': 'jakhar.aseem.diva.AccessControl2Activity', 'exported': None, 'permission': None}, {'name': 'jakhar.aseem.diva.APICreds2Activity', 'exported': None, 'permission': None}, {'name': 'jakhar.aseem.diva.AccessControl3Activity', 'exported': None, 'permission': None}, {'name': 'jakhar.aseem.diva.Hardcode2Activity', 'exported': None, 'permission': None}, {'name': 'jakhar.aseem.diva.AccessControl3NotesActivity', 'exported': None, 'permission': None}, {'name': 'jakhar.aseem.diva.InputValidation3Activity', 'exported': None, 'permission': None}]
+    services: []
+    receivers: []
+    providers: [{'name': 'jakhar.aseem.diva.NotesProvider', 'exported': True, 'permission': None}]
+    signatures: []
+  <sandbox>\apk\InsecureShop.apk
+    size: 4 MB
+    package: com.insecureshop
+    version_code: 1
+    version_name: 1.0
+    min_sdk: 16
+    target_sdk: 29
+    permissions: ['android.permission.READ_CONTACTS', 'android.permission.INTERNET', 'android.permission.WRITE_EXTERNAL_STORAGE', 'android.permission.WAKE_LOCK', 'android.permission.READ_EXTERNAL_STORAGE']
+    main_activity: com.insecureshop.ProductListActivity
+    main_activities: ['com.insecureshop.ProductListActivity']
+    debuggable: true
+    allow_backup: true
+    multidex: False
+    activities: [{'name': 'com.insecureshop.ChooserActivity', 'exported': None, 'permission': None}, {'name': 'com.insecureshop.AboutUsActivity', 'exported': True, 'permission': None}, {'name': 'com.insecureshop.CartListActivity', 'exported': None, 'permission': None}, {'name': 'com.insecureshop.ProductListActivity', 'exported': None, 'permission': None}, {'name': 'com.insecureshop.LoginActivity', 'exported': None, 'permission': None}, {'name': 'com.insecureshop.WebViewActivity', 'exported': None, 'permission': None}, {'name': 'com.insecureshop.WebView2Activity', 'exported': None, 'permission': None}, {'name': 'com.insecureshop.PrivateActivity', 'exported': False, 'permission': None}, {'name': 'com.insecureshop.SendingDataViaActionActivity', 'exported': None, 'permission': None}, {'name': 'com.insecureshop.ResultActivity', 'exported': True, 'permission': None}]
+    services: [{'name': 'net.gotev.uploadservice.UploadService', 'exported': True, 'permission': None}]
+    receivers: []
+    providers: [{'name': 'com.insecureshop.contentProvider.InsecureShopProvider', 'exported': True, 'permission': None}, {'name': 'androidx.core.content.FileProvider', 'exported': False, 'permission': None}]
+    signatures: [{'subject': 'CN=Android Debug O=Android C=US', 'issuer': 'CN=Android Debug O=Android C=US', 'valid_until': 'Aug 30 10:14:25 2046 GMT'}, {'subject': 'CN=Android Debug O=Android C=US', 'issuer': 'CN=Android Debug O=Android C=US', 'valid_until': 'Aug 30 10:14:25 2046 GMT'}]
+  <sandbox>\apk\ovaa-debug.apk
+    size: 2 MB
+    package: oversecured.ovaa
+    version_code: 1
+    version_name: 1.0
+    min_sdk: 17
+    target_sdk: 28
+    permissions: ['android.permission.WRITE_EXTERNAL_STORAGE', 'android.permission.INTERNET', 'android.permission.READ_EXTERNAL_STORAGE']
+    main_activity: oversecured.ovaa.activities.EntranceActivity
+    main_activities: ['oversecured.ovaa.activities.EntranceActivity']
+    debuggable: true
+    allow_backup: true
+    multidex: False
+    activities: [{'name': 'oversecured.ovaa.activities.DeeplinkActivity', 'exported': None, 'permission': None}, {'name': 'oversecured.ovaa.activities.WebViewActivity', 'exported': False, 'permission': None}, {'name': 'oversecured.ovaa.activities.LoginActivity', 'exported': None, 'permission': None}, {'name': 'oversecured.ovaa.activities.EntranceActivity', 'exported': None, 'permission': None}, {'name': 'oversecured.ovaa.activities.MainActivity', 'exported': None, 'permission': None}]
+    services: [{'name': 'oversecured.ovaa.services.InsecureLoggerService', 'exported': None, 'permission': None}]
+    receivers: [{'name': 'oversecured.ovaa.receivers.UselessReceiver', 'exported': False, 'permission': None}]
+    providers: [{'name': 'oversecured.ovaa.providers.TheftOverwriteProvider', 'exported': True, 'permission': None}, {'name': 'oversecured.ovaa.providers.CredentialsProvider', 'exported': False, 'permission': None}, {'name': 'androidx.core.content.FileProvider', 'exported': False, 'permission': None}]
+    signatures: [{'subject': 'CN=Android Debug O=Android C=US', 'issuer': 'CN=Android Debug O=Android C=US', 'valid_until': 'Jan 11 06:15:12 2051 GMT'}, {'subject': 'CN=Android Debug O=Android C=US', 'issuer': 'CN=Android Debug O=Android C=US', 'valid_until': 'Jan 11 06:15:12 2051 GMT'}]
+  <sandbox>\apk\UnCrackable-Level1.apk
+    size: 65 KB
+    package: owasp.mstg.uncrackable1
+    version_code: 1
+    version_name: 1.0
+    min_sdk: 19
+    target_sdk: 28
+    permissions: []
+    main_activity: sg.vantagepoint.uncrackable1.MainActivity
+    main_activities: ['sg.vantagepoint.uncrackable1.MainActivity']
+    debuggable: None
+    allow_backup: true
+    multidex: False
+    activities: [{'name': 'sg.vantagepoint.uncrackable1.MainActivity', 'exported': None, 'permission': None}]
+    services: []
+    receivers: []
+    providers: []
+    signatures: [{'subject': 'C=NL L=Amsterdam O=OWASP OU=OMTG CN=Jeroen Willemsen', 'issuer': 'C=NL L=Amsterdam O=OWASP OU=OMTG CN=Jeroen Willemsen', 'valid_until': 'Aug 21 21:01:01 2043 GMT'}, {'subject': 'C=NL L=Amsterdam O=OWASP OU=OMTG CN=Jeroen Willemsen', 'issuer': 'C=NL L=Amsterdam O=OWASP OU=OMTG CN=Jeroen Willemsen', 'valid_until': 'Aug 21 21:01:01 2043 GMT'}]
+
+=== IPA (5) ===
+  <sandbox>\ipa\DVIA-v2-swift.ipa
+    size: 19 MB
+    bundle_id: None
+    version: None
+    build: None
+    display_name: None
+    min_os_version: None
+    file_count: 386
+  <sandbox>\ipa\DVIA-v2.ipa
+    size: 9 MB
+    bundle_id: None
+    version: None
+    build: None
+    display_name: None
+    min_os_version: None
+    file_count: 231
+  <sandbox>\ipa\iGoat-Swift.ipa
+    size: 15 MB
+    bundle_id: None
+    version: None
+    build: None
+    display_name: None
+    min_os_version: None
+    file_count: 243
+  <sandbox>\ipa\UnCrackable-Level1.ipa
+    size: 280 KB
+    bundle_id: None
+    version: None
+    build: None
+    display_name: None
+    min_os_version: None
+    file_count: 42
+  <sandbox>\ipa\UnCrackable-Level2.ipa
+    size: 282 KB
+    bundle_id: None
+    version: None
+    build: None
+    display_name: None
+    min_os_version: None
+    file_count: 42
+
+=== JAR (5) ===
+  <sandbox>\jar\commons-lang3-3.14.0.jar
+    size: 642 KB
+    file_count: 436
+    manifest_version: 1.0
+    main_class: None
+    created_by: Apache Maven Bundle Plugin 5.1.9
+    Build-Jdk-Spec: 21
+    Specification-Title: Apache Commons Lang
+    Specification-Version: 3.14
+    Specification-Vendor: The Apache Software Foundation
+    Implementation-Title: Apache Commons Lang
+    Implementation-Version: 3.14.0
+    Implementation-Vendor: The Apache Software Foundation
+    Automatic-Module-Name: org.apache.commons.lang3
+    Bundle-Description: Apache Commons Lang, a package of Java utility classes for the  classes that are in java.lang's hierarchy, or are considered to be so  standard as to justify existence in java.lang.
+    Bundle-DocURL: https://commons.apache.org/proper/commons-lang/
+    Bundle-License: https://www.apache.org/licenses/LICENSE-2.0.txt
+    Bundle-ManifestVersion: 2
+    Bundle-Name: Apache Commons Lang
+    Bundle-SymbolicName: org.apache.commons.lang3
+    Bundle-Vendor: The Apache Software Foundation
+    Bundle-Version: 3.14.0
+    Export-Package: org.apache.commons.lang3;version="3.14.0",org.apache.commons.lang3.arch;version="3.14.0",org.apache.commons.lang3.builder;version="3.14.0",org.apache.commons.lang3.compare;version="3.14.0",org.apache.commons.lang3.concurrent;version="3.14.0",org.apache.commons.lang3.concurrent.locks;version="3.14.0",org.apache.commons.lang3.event;version="3.14.0",org.apache.commons.lang3.exception;version="3.14.0",org.apache.commons.lang3.function;version="3.14.0",org.apache.commons.lang3.math;version="3.14.0",org.apache.commons.lang3.mutable;version="3.14.0",org.apache.commons.lang3.reflect;version="3.14.0",org.apache.commons.lang3.stream;version="3.14.0",org.apache.commons.lang3.text;version="3.14.0",org.apache.commons.lang3.text.translate;version="3.14.0",org.apache.commons.lang3.time;version="3.14.0",org.apache.commons.lang3.tuple;version="3.14.0",org.apache.commons.lang3.util;version="3.14.0"
+    Include-Resource: META-INF/LICENSE.txt=LICENSE.txt,META-INF/NOTICE.txt=NOTICE.txt
+    Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.8))"
+    Tool: Bnd-6.4.1.202306080939
+    Multi-Release: true
+  <sandbox>\jar\edu-secrets-sample.jar
+    size: 394 B
+    file_count: 2
+    manifest_version: 1.0
+    main_class: None
+    created_by: apk-scanner-capability-run
+  <sandbox>\jar\gson-2.10.1.jar
+    size: 276 KB
+    file_count: 238
+    manifest_version: 1.0
+    main_class: None
+    created_by: 11.0.16.1 (Azul Systems, Inc.)
+    Build-Jdk-Spec: 11
+    Bnd-LastModified: 1673019830620
+    Bundle-ContactAddress: https://github.com/google/gson
+    Bundle-Description: Gson JSON library
+    Bundle-Developers: google;organization=Google;organizationUrl="https://www.google.com"
+    Bundle-DocURL: https://github.com/google/gson/gson
+    Bundle-License: "Apache-2.0";link="https://www.apache.org/licenses/LICENSE-2.0.txt"
+    Bundle-ManifestVersion: 2
+    Bundle-Name: Gson
+    Bundle-RequiredExecutionEnvironment: JavaSE-1.7, JavaSE-1.8
+    Bundle-SCM: url="https://github.com/google/gson/gson/",connection="scm:git:https://github.com/google/gson.git/gson",developer-connection="scm:git:git@github.com:google/gson.git/gson",tag="gson-parent-2.10.1"
+    Bundle-SymbolicName: com.google.gson
+    Bundle-Vendor: Google Gson Project
+    Bundle-Version: 2.10.1
+    Export-Package: com.google.gson;uses:="com.google.gson.reflect,com.google.gson.stream";version="2.10.1",com.google.gson.annotations;version="2.10.1",com.google.gson.reflect;version="2.10.1",com.google.gson.stream;version="2.10.1"
+    Import-Package: sun.misc;resolution:=optional,com.google.gson.annotations
+    Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.7))"
+    Tool: Bnd-6.4.0.202211291949
+    Multi-Release: true
+  <sandbox>\jar\junit-4.13.2.jar
+    size: 375 KB
+    file_count: 389
+    manifest_version: 1.0
+    main_class: None
+    created_by: Apache Maven 3.1.1
+    Implementation-Vendor: JUnit
+    Implementation-Title: JUnit
+    Automatic-Module-Name: junit
+    Implementation-Version: 4.13.2
+    Implementation-Vendor-Id: junit
+    Built-By: marc
+    Build-Jdk: 1.6.0_65
+    Implementation-URL: http://junit.org
+    Archiver-Version: Plexus Archiver
+  <sandbox>\jar\slf4j-api-2.0.12.jar
+    size: 66 KB
+    file_count: 70
+    manifest_version: 1.0
+    main_class: None
+    created_by: Apache Maven Bundle Plugin 5.1.9
+    Build-Jdk-Spec: 21
+    Bundle-Description: The slf4j API
+    Bundle-DocURL: http://www.slf4j.org
+    Bundle-License: http://www.opensource.org/licenses/mit-license.php
+    Bundle-ManifestVersion: 2
+    Bundle-Name: SLF4J API Module
+    Bundle-SymbolicName: slf4j.api
+    Bundle-Vendor: SLF4J.ORG
+    Bundle-Version: 2.0.12
+    Export-Package: org.slf4j;uses:="org.slf4j.event,org.slf4j.helpers,org.slf4j.spi";version="2.0.12",org.slf4j.event;uses:="org.slf4j,org.slf4j.helpers";version="2.0.12",org.slf4j.helpers;uses:="org.slf4j,org.slf4j.event,org.slf4j.spi";version="2.0.12",org.slf4j.spi;uses:="org.slf4j,org.slf4j.event,org.slf4j.helpers";version="2.0.12",org.slf4j;version="1.7.36",org.slf4j.helpers;version="1.7.36"
+    Implementation-Title: slf4j-api
+    Implementation-Version: 2.0.12
+    Import-Package: org.slf4j.spi;version="[2.0.12,3)"
+    Multi-Release: true
+    Require-Capability: osgi.extender;filter:="(&(osgi.extender=osgi.serviceloader.processor)(version>=1.0.0)(!(version>=2.0.0)))",osgi.serviceloader;filter:="(osgi.serviceloader=org.slf4j.spi.SLF4JServiceProvider)";osgi.serviceloader="org.slf4j.spi.SLF4JServiceProvider",osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.8))"
+    Tool: Bnd-6.3.1.202206071316
+    X-Compile-Source-JDK: 8
+    X-Compile-Target-JDK: 8
+
+=== SO (5) ===
+  <sandbox>\so\diva-beta__libdivajni.so
+    size: 5 KB
+    elf_class: 64
+    machine: AArch64
+    needed: ['libstdc++.so', 'libm.so', 'libc.so', 'libdl.so']
+    soname: libdivajni.so
+    has_jni_exports: True
+    stripped: True
+  <sandbox>\so\InjuredAndroid__libapp.so
+    size: 5 MB
+    elf_class: 64
+    machine: AArch64
+    needed: []
+    soname: None
+    has_jni_exports: False
+    stripped: True
+  <sandbox>\so\ovaa-debug__libovaa.so
+    size: 5 KB
+    elf_class: 64
+    machine: AArch64
+    needed: ['libm.so', 'libdl.so', 'libc.so']
+    soname: libovaa.so
+    has_jni_exports: True
+    stripped: True
+  <sandbox>\so\UnCrackable-Level2__libfoo.so
+    size: 13 KB
+    elf_class: 64
+    machine: AArch64
+    needed: ['libm.so', 'libdl.so', 'libc.so']
+    soname: libfoo.so
+    has_jni_exports: True
+    stripped: True
+  <sandbox>\so\UnCrackable-Level3__libfoo.so
+    size: 21 KB
+    elf_class: 32
+    machine: ARM
+    needed: ['liblog.so', 'libm.so', 'libdl.so', 'libc.so']
+    soname: libfoo.so
+    has_jni_exports: True
+    stripped: True
+
+=== SDK (5) ===
+  <sandbox>\kits\android-ndk-hello-jni-sdk
+    size: 71 KB
+    directory: True
+    entry_count: 42
+    size_bytes: 73467
+  <sandbox>\kits\gson-java-sdk
+    size: 4 KB
+    directory: True
+    entry_count: 6
+    size_bytes: 4785
+  <sandbox>\kits\slf4j-logging-sdk
+    size: 2 KB
+    directory: True
+    entry_count: 6
+    size_bytes: 2861
+  <sandbox>\kits\training-mobile-sdk
+    size: 180 B
+    directory: True
+    entry_count: 7
+    size_bytes: 180
+  <sandbox>\kits\vuln-config-demo-sdk
+    size: 2 KB
+    directory: True
+    entry_count: 7
+    size_bytes: 2928
+
+=== FINDINGS (325) ===
+  [high] apk-debuggable: Application is debuggable; increases reverse-engineering risk. @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-489 (Active debug code); CM-7 (Least functionality); RA-5 (Vulnerability scanning); MASVS-RESILIENCE-1 (App not debuggable in release); M9 (Reverse engineering (Mobile Top 10)); CAPEC-169 (Footprinting); SecureBuild (Disable debug in production (CISA)); MobileApp (Release builds: no debug (NSA))
+  [medium] apk-allow-backup: allowBackup is true; app data may be backed up unencrypted. @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-200 (Information exposure); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data not in backups); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); Backup (Restrict backup of sensitive app data); MobileApp (Control backup exposure (NSA))
+  [medium] apk-exported-unprotected: Exported activity without permission: owasp.sat.agoat.SplashActivity @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-926 (Improper export of Android component); AC-4 (Information flow enforcement); AC-17 (Remote access); MASVS-PLATFORM-1 (Platform interaction / exported components); M8 (Security misconfiguration / IPC); CAPEC-180 (Exploiting software via component vulnerability); LeastPriv (Least privilege; protect exported components); MobileApp (Secure IPC and exports (NSA))
+  [medium] apk-exported-unprotected: Exported activity without permission: owasp.sat.agoat.AccessControl1ViewActivity @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-926 (Improper export of Android component); AC-4 (Information flow enforcement); AC-17 (Remote access); MASVS-PLATFORM-1 (Platform interaction / exported components); M8 (Security misconfiguration / IPC); CAPEC-180 (Exploiting software via component vulnerability); LeastPriv (Least privilege; protect exported components); MobileApp (Secure IPC and exports (NSA))
+  [medium] apk-exported-unprotected: Exported service without permission: owasp.sat.agoat.DownloadInvoiceService @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-926 (Improper export of Android component); AC-4 (Information flow enforcement); AC-17 (Remote access); MASVS-PLATFORM-1 (Platform interaction / exported components); M8 (Security misconfiguration / IPC); CAPEC-180 (Exploiting software via component vulnerability); LeastPriv (Least privilege; protect exported components); MobileApp (Secure IPC and exports (NSA))
+  [medium] apk-exported-unprotected: Exported receiver without permission: owasp.sat.agoat.ShowDataReceiver @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-926 (Improper export of Android component); AC-4 (Information flow enforcement); AC-17 (Remote access); MASVS-PLATFORM-1 (Platform interaction / exported components); M8 (Security misconfiguration / IPC); CAPEC-180 (Exploiting software via component vulnerability); LeastPriv (Least privilege; protect exported components); MobileApp (Secure IPC and exports (NSA))
+  [medium] apk-exported-unprotected: Exported provider without permission: owasp.sat.agoat.ContentProviderActivity @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-926 (Improper export of Android component); AC-4 (Information flow enforcement); AC-17 (Remote access); MASVS-PLATFORM-1 (Platform interaction / exported components); M8 (Security misconfiguration / IPC); CAPEC-180 (Exploiting software via component vulnerability); LeastPriv (Least privilege; protect exported components); MobileApp (Secure IPC and exports (NSA))
+  [high] dex-ssl-trust: Trust-all / disabled certificate validation heuristic. (seen: "()Ljavax/net/ssl/X509TrustManager;) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-295 (Improper certificate validation); SC-8 (Transmission confidentiality); SC-23 (Session authenticity); MASVS-NETWORK-2 (Certificate pinning / secure channel); M3 (Insecure communication); CAPEC-94 (Man in the middle); ValidateCerts (Validate TLS certificates; no trust-all); TLS (Proper certificate validation (NSA))
+  [high] dex-ssl-trust: Trust-all / disabled certificate validation heuristic. (seen: #(Ljavax/net/ssl/X509TrustManager;)V) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-295 (Improper certificate validation); SC-8 (Transmission confidentiality); SC-23 (Session authenticity); MASVS-NETWORK-2 (Certificate pinning / secure channel); M3 (Insecure communication); CAPEC-94 (Man in the middle); ValidateCerts (Validate TLS certificates; no trust-all); TLS (Proper certificate validation (NSA))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: *Landroid/content/SharedPreferences$Editor;) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: #Landroid/content/SharedPreferences;) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [high] dex-ssl-trust: Trust-all / disabled certificate validation heuristic. (seen:  Ljavax/net/ssl/X509TrustManager;) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-295 (Improper certificate validation); SC-8 (Transmission confidentiality); SC-23 (Session authenticity); MASVS-NETWORK-2 (Certificate pinning / secure channel); M3 (Insecure communication); CAPEC-94 (Man in the middle); ValidateCerts (Validate TLS certificates; no trust-all); TLS (Proper certificate validation (NSA))
+  [high] dex-ssl-trust: Trust-all / disabled certificate validation heuristic. (seen: BUse the sslSocketFactory overload that accepts a X509TrustM...) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-295 (Improper certificate validation); SC-8 (Transmission confidentiality); SC-23 (Session authenticity); MASVS-NETWORK-2 (Certificate pinning / secure channel); M3 (Insecure communication); CAPEC-94 (Man in the middle); ValidateCerts (Validate TLS certificates; no trust-all); TLS (Proper certificate validation (NSA))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: getSharedPreferences) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [high] dex-ssl-trust: Trust-all / disabled certificate validation heuristic. (seen:  getX509TrustManagerOrNull$okhttp) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-295 (Improper certificate validation); SC-8 (Transmission confidentiality); SC-23 (Session authenticity); MASVS-NETWORK-2 (Certificate pinning / secure channel); M3 (Insecure communication); CAPEC-94 (Man in the middle); ValidateCerts (Validate TLS certificates; no trust-all); TLS (Proper certificate validation (NSA))
+  [low] dex-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: password) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage (Mobile Top 10)); CAPEC-114 (Credential stuffing); StrongAuth (Use strong authentication; no hardcoded secrets); MobileApp (Mobile app: avoid hardcoded credentials (NSA mobile guidance))
+  [high] dex-ssl-trust: Trust-all / disabled certificate validation heuristic. (seen:  setX509TrustManagerOrNull$okhttp) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-295 (Improper certificate validation); SC-8 (Transmission confidentiality); SC-23 (Session authenticity); MASVS-NETWORK-2 (Certificate pinning / secure channel); M3 (Insecure communication); CAPEC-94 (Man in the middle); ValidateCerts (Validate TLS certificates; no trust-all); TLS (Proper certificate validation (NSA))
+  [high] dex-ssl-trust: Trust-all / disabled certificate validation heuristic. (seen: x509TrustManager) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-295 (Improper certificate validation); SC-8 (Transmission confidentiality); SC-23 (Session authenticity); MASVS-NETWORK-2 (Certificate pinning / secure channel); M3 (Insecure communication); CAPEC-94 (Man in the middle); ValidateCerts (Validate TLS certificates; no trust-all); TLS (Proper certificate validation (NSA))
+  [high] dex-ssl-trust: Trust-all / disabled certificate validation heuristic. (seen: x509TrustManager == null) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-295 (Improper certificate validation); SC-8 (Transmission confidentiality); SC-23 (Session authenticity); MASVS-NETWORK-2 (Certificate pinning / secure channel); M3 (Insecure communication); CAPEC-94 (Man in the middle); ValidateCerts (Validate TLS certificates; no trust-all); TLS (Proper certificate validation (NSA))
+  [high] dex-ssl-trust: Trust-all / disabled certificate validation heuristic. (seen: x509TrustManagerOrNull) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-295 (Improper certificate validation); SC-8 (Transmission confidentiality); SC-23 (Session authenticity); MASVS-NETWORK-2 (Certificate pinning / secure channel); M3 (Insecure communication); CAPEC-94 (Man in the middle); ValidateCerts (Validate TLS certificates; no trust-all); TLS (Proper certificate validation (NSA))
+  [low] dex-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen:  Password -) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage (Mobile Top 10)); CAPEC-114 (Credential stuffing); StrongAuth (Use strong authentication; no hardcoded secrets); MobileApp (Mobile app: avoid hardcoded credentials (NSA mobile guidance))
+  [low] dex-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen:  and Password: ) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage (Mobile Top 10)); CAPEC-114 (Credential stuffing); StrongAuth (Use strong authentication; no hardcoded secrets); MobileApp (Mobile app: avoid hardcoded credentials (NSA mobile guidance))
+  [info] dex-hardcoded-secret: Possible secret reference (low confidence; high FP). (seen:  and secret key ) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-798 (Hard-coded credentials); CWE-321 (Hard-coded cryptographic key); SC-28 (Protection of information at rest); IA-5 (Authenticator management); MASVS-CRYPTO-1 (Standard crypto; no hardcoded keys); M2 (Insecure data storage (Mobile Top 10)); CAPEC-116 (Excavation); NoSecrets (Secrets in secure vault; not in code); MobileApp (Mobile: protect cryptographic keys)
+  [low] dex-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: &$i$a$-apply-HttpUrl$Builder$password$1) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage (Mobile Top 10)); CAPEC-114 (Credential stuffing); StrongAuth (Use strong authentication; no hardcoded secrets); MobileApp (Mobile app: avoid hardcoded credentials (NSA mobile guidance))
+  [low] dex-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: $password) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage (Mobile Top 10)); CAPEC-114 (Credential stuffing); StrongAuth (Use strong authentication; no hardcoded secrets); MobileApp (Mobile app: avoid hardcoded credentials (NSA mobile guidance))
+  [high] dex-ssl-trust: Trust-all / disabled certificate validation heuristic. (seen: P(Ljavax/net/ssl/X509TrustManager;Landroid/net/http/X509Trus...) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-295 (Improper certificate validation); SC-8 (Transmission confidentiality); SC-23 (Session authenticity); MASVS-NETWORK-2 (Certificate pinning / secure channel); M3 (Insecure communication); CAPEC-94 (Man in the middle); ValidateCerts (Validate TLS certificates; no trust-all); TLS (Proper certificate validation (NSA))
+  [high] dex-ssl-trust: Trust-all / disabled certificate validation heuristic. (seen: =(Ljavax/net/ssl/X509TrustManager;Ljava/lang/reflect/Method;...) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-295 (Improper certificate validation); SC-8 (Transmission confidentiality); SC-23 (Session authenticity); MASVS-NETWORK-2 (Certificate pinning / secure channel); M3 (Insecure communication); CAPEC-94 (Man in the middle); ValidateCerts (Validate TLS certificates; no trust-all); TLS (Proper certificate validation (NSA))
+  [low] dex-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: ) password: () @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage (Mobile Top 10)); CAPEC-114 (Credential stuffing); StrongAuth (Use strong authentication; no hardcoded secrets); MobileApp (Mobile app: avoid hardcoded credentials (NSA mobile guidance))
+  [low] dex-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: ; password: ) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage (Mobile Top 10)); CAPEC-114 (Credential stuffing); StrongAuth (Use strong authentication; no hardcoded secrets); MobileApp (Mobile app: avoid hardcoded credentials (NSA mobile guidance))
+  [high] secret-aws-access-key: AWS access key id-like string (AKIA…). (seen: AKIAX56QKKOLPQ7G7ABC) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (Do not embed cloud keys in apps); MobileApp (Protect cloud credentials (NSA))
+  [low] dex-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: tCREATE TABLE IF NOT EXISTS users (ID INTEGER NOT NULL PRIMA...) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage (Mobile Top 10)); CAPEC-114 (Credential stuffing); StrongAuth (Use strong authentication; no hardcoded secrets); MobileApp (Mobile app: avoid hardcoded credentials (NSA mobile guidance))
+  [low] dex-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: /INSERT INTO users (username, password) VALUES(') @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage (Mobile Top 10)); CAPEC-114 (Credential stuffing); StrongAuth (Use strong authentication; no hardcoded secrets); MobileApp (Mobile app: avoid hardcoded credentials (NSA mobile guidance))
+  [high] dex-ssl-trust: Trust-all / disabled certificate validation heuristic. (seen: -Landroid/net/http/X509TrustManagerExtensions;) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-295 (Improper certificate validation); SC-8 (Transmission confidentiality); SC-23 (Session authenticity); MASVS-NETWORK-2 (Certificate pinning / secure channel); M3 (Insecure communication); CAPEC-94 (Man in the middle); ValidateCerts (Validate TLS certificates; no trust-all); TLS (Proper certificate validation (NSA))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: CLandroidx/core/content/SharedPreferencesCompat$EditorCompat...) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: <Landroidx/core/content/SharedPreferencesCompat$EditorCompat...) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: /Landroidx/core/content/SharedPreferencesCompat;) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: +Landroidx/core/content/SharedPreferencesKt;) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: SharedPreferences.kt) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: SharedPreferencesCompat.java) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [low] dex-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: ;There is an issue while verifying the username and password) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage (Mobile Top 10)); CAPEC-114 (Credential stuffing); StrongAuth (Use strong authentication; no hardcoded secrets); MobileApp (Mobile app: avoid hardcoded credentials (NSA mobile guidance))
+  [low] dex-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: >There is an issue while verifying the username and password...) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage (Mobile Top 10)); CAPEC-114 (Credential stuffing); StrongAuth (Use strong authentication; no hardcoded secrets); MobileApp (Mobile app: avoid hardcoded credentials (NSA mobile guidance))
+  [low] dex-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: =There is an issue while verifying the username and password...) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage (Mobile Top 10)); CAPEC-114 (Credential stuffing); StrongAuth (Use strong authentication; no hardcoded secrets); MobileApp (Mobile app: avoid hardcoded credentials (NSA mobile guidance))
+  [low] dex-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: "Username and Password are verified) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage (Mobile Top 10)); CAPEC-114 (Credential stuffing); StrongAuth (Use strong authentication; no hardcoded secrets); MobileApp (Mobile app: avoid hardcoded credentials (NSA mobile guidance))
+  [low] dex-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: GUsername is CrazyUser, Password is CrazyPassword and Key is...) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage (Mobile Top 10)); CAPEC-114 (Credential stuffing); StrongAuth (Use strong authentication; no hardcoded secrets); MobileApp (Mobile app: avoid hardcoded credentials (NSA mobile guidance))
+  [low] dex-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: auth.password) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage (Mobile Top 10)); CAPEC-114 (Credential stuffing); StrongAuth (Use strong authentication; no hardcoded secrets); MobileApp (Mobile app: avoid hardcoded credentials (NSA mobile guidance))
+  [medium] dex-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: http://demo.testfire.net) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit (e.g. TLS)); M3 (Insecure communication (Mobile Top 10)); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit (CISA secure our world)); Encrypt (Use TLS for all network traffic (NSA guidance))
+  [high] dex-ssl-trust: Trust-all / disabled certificate validation heuristic. (seen: Cnull cannot be cast to non-null type javax.net.ssl.X509Trus...) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-295 (Improper certificate validation); SC-8 (Transmission confidentiality); SC-23 (Session authenticity); MASVS-NETWORK-2 (Certificate pinning / secure channel); M3 (Insecure communication); CAPEC-94 (Man in the middle); ValidateCerts (Validate TLS certificates; no trust-all); TLS (Proper certificate validation (NSA))
+  [low] dex-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: password is ) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage (Mobile Top 10)); CAPEC-114 (Credential stuffing); StrongAuth (Use strong authentication; no hardcoded secrets); MobileApp (Mobile app: avoid hardcoded credentials (NSA mobile guidance))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: sharedPreferences) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [high] dex-ssl-trust: Trust-all / disabled certificate validation heuristic. (seen: x509TrustManagerExtensions) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-295 (Improper certificate validation); SC-8 (Transmission confidentiality); SC-23 (Session authenticity); MASVS-NETWORK-2 (Certificate pinning / secure channel); M3 (Insecure communication); CAPEC-94 (Man in the middle); ValidateCerts (Validate TLS certificates; no trust-all); TLS (Proper certificate validation (NSA))
+  [high] dex-ssl-trust: Trust-all / disabled certificate validation heuristic. (seen: 2x509TrustManagerExtensio) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-295 (Improper certificate validation); SC-8 (Transmission confidentiality); SC-23 (Session authenticity); MASVS-NETWORK-2 (Certificate pinning / secure channel); M3 (Insecure communication); CAPEC-94 (Man in the middle); ValidateCerts (Validate TLS certificates; no trust-all); TLS (Proper certificate validation (NSA))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: ,"Landroidx/core/content/PermissionChecker;":"afa4d865","Lan...) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: "cd92211a","Landroidx/core/content/SharedPreferencesCompat;"...) @ <sandbox>\apk\AndroGoat.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [high] apk-debuggable: Application is debuggable; increases reverse-engineering risk. @ <sandbox>\apk\diva-beta.apk
+    Classification: CWE-489 (Active debug code); CM-7 (Least functionality); RA-5 (Vulnerability scanning); MASVS-RESILIENCE-1 (App not debuggable in release); M9 (Reverse engineering (Mobile Top 10)); CAPEC-169 (Footprinting); SecureBuild (Disable debug in production (CISA)); MobileApp (Release builds: no debug (NSA))
+  [medium] apk-allow-backup: allowBackup is true; app data may be backed up unencrypted. @ <sandbox>\apk\diva-beta.apk
+    Classification: CWE-200 (Information exposure); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data not in backups); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); Backup (Restrict backup of sensitive app data); MobileApp (Control backup exposure (NSA))
+  [medium] apk-exported-unprotected: Exported provider without permission: jakhar.aseem.diva.NotesProvider @ <sandbox>\apk\diva-beta.apk
+    Classification: CWE-926 (Improper export of Android component); AC-4 (Information flow enforcement); AC-17 (Remote access); MASVS-PLATFORM-1 (Platform interaction / exported components); M8 (Security misconfiguration / IPC); CAPEC-180 (Exploiting software via component vulnerability); LeastPriv (Least privilege; protect exported components); MobileApp (Secure IPC and exports (NSA))
+  [low] dex-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: ; password: ) @ <sandbox>\apk\diva-beta.apk
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage (Mobile Top 10)); CAPEC-114 (Credential stuffing); StrongAuth (Use strong authentication; no hardcoded secrets); MobileApp (Mobile app: avoid hardcoded credentials (NSA mobile guidance))
+  [low] dex-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: API Password: p@ssword) @ <sandbox>\apk\diva-beta.apk
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage (Mobile Top 10)); CAPEC-114 (Credential stuffing); StrongAuth (Use strong authentication; no hardcoded secrets); MobileApp (Mobile app: avoid hardcoded credentials (NSA mobile guidance))
+  [low] dex-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: BCREATE TABLE IF NOT EXISTS myuser(user VARCHAR, password VA...) @ <sandbox>\apk\diva-beta.apk
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage (Mobile Top 10)); CAPEC-114 (Credential stuffing); StrongAuth (Use strong authentication; no hardcoded secrets); MobileApp (Mobile app: avoid hardcoded credentials (NSA mobile guidance))
+  [low] dex-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: YCREATE TABLE IF NOT EXISTS sqliuser(user VARCHAR, password ...) @ <sandbox>\apk\diva-beta.apk
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage (Mobile Top 10)); CAPEC-114 (Credential stuffing); StrongAuth (Use strong authentication; no hardcoded secrets); MobileApp (Mobile app: avoid hardcoded credentials (NSA mobile guidance))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: *Landroid/content/SharedPreferences$Editor;) @ <sandbox>\apk\diva-beta.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: #Landroid/content/SharedPreferences;) @ <sandbox>\apk\diva-beta.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: 6Landroid/support/v4/content/SharedPreferencesCompat$1;) @ <sandbox>\apk\diva-beta.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: VLandroid/support/v4/content/SharedPreferencesCompat$EditorC...) @ <sandbox>\apk\diva-beta.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: HLandroid/support/v4/content/SharedPreferencesCompat$EditorC...) @ <sandbox>\apk\diva-beta.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: ALandroid/support/v4/content/SharedPreferencesCompat$EditorC...) @ <sandbox>\apk\diva-beta.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: 4Landroid/support/v4/content/SharedPreferencesCompat;) @ <sandbox>\apk\diva-beta.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [medium] dex-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: TRegister yourself at http://payatu.com to get your PIN and ...) @ <sandbox>\apk\diva-beta.apk
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit (e.g. TLS)); M3 (Insecure communication (Mobile Top 10)); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit (CISA secure our world)); Encrypt (Use TLS for all network traffic (NSA guidance))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: SharedPreferencesCompat.java) @ <sandbox>\apk\diva-beta.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [low] dex-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: API Password: p@ssword2) @ <sandbox>\apk\diva-beta.apk
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage (Mobile Top 10)); CAPEC-114 (Credential stuffing); StrongAuth (Use strong authentication; no hardcoded secrets); MobileApp (Mobile app: avoid hardcoded credentials (NSA mobile guidance))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: getDefaultSharedPreferences) @ <sandbox>\apk\diva-beta.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [low] dex-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: password) @ <sandbox>\apk\diva-beta.apk
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage (Mobile Top 10)); CAPEC-114 (Credential stuffing); StrongAuth (Use strong authentication; no hardcoded secrets); MobileApp (Mobile app: avoid hardcoded credentials (NSA mobile guidance))
+  [high] apk-debuggable: Application is debuggable; increases reverse-engineering risk. @ <sandbox>\apk\InsecureShop.apk
+    Classification: CWE-489 (Active debug code); CM-7 (Least functionality); RA-5 (Vulnerability scanning); MASVS-RESILIENCE-1 (App not debuggable in release); M9 (Reverse engineering (Mobile Top 10)); CAPEC-169 (Footprinting); SecureBuild (Disable debug in production (CISA)); MobileApp (Release builds: no debug (NSA))
+  [medium] apk-allow-backup: allowBackup is true; app data may be backed up unencrypted. @ <sandbox>\apk\InsecureShop.apk
+    Classification: CWE-200 (Information exposure); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data not in backups); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); Backup (Restrict backup of sensitive app data); MobileApp (Control backup exposure (NSA))
+  [medium] apk-exported-unprotected: Exported activity without permission: com.insecureshop.AboutUsActivity @ <sandbox>\apk\InsecureShop.apk
+    Classification: CWE-926 (Improper export of Android component); AC-4 (Information flow enforcement); AC-17 (Remote access); MASVS-PLATFORM-1 (Platform interaction / exported components); M8 (Security misconfiguration / IPC); CAPEC-180 (Exploiting software via component vulnerability); LeastPriv (Least privilege; protect exported components); MobileApp (Secure IPC and exports (NSA))
+  [medium] apk-exported-unprotected: Exported activity without permission: com.insecureshop.ResultActivity @ <sandbox>\apk\InsecureShop.apk
+    Classification: CWE-926 (Improper export of Android component); AC-4 (Information flow enforcement); AC-17 (Remote access); MASVS-PLATFORM-1 (Platform interaction / exported components); M8 (Security misconfiguration / IPC); CAPEC-180 (Exploiting software via component vulnerability); LeastPriv (Least privilege; protect exported components); MobileApp (Secure IPC and exports (NSA))
+  [medium] apk-exported-unprotected: Exported service without permission: net.gotev.uploadservice.UploadService @ <sandbox>\apk\InsecureShop.apk
+    Classification: CWE-926 (Improper export of Android component); AC-4 (Information flow enforcement); AC-17 (Remote access); MASVS-PLATFORM-1 (Platform interaction / exported components); M8 (Security misconfiguration / IPC); CAPEC-180 (Exploiting software via component vulnerability); LeastPriv (Least privilege; protect exported components); MobileApp (Secure IPC and exports (NSA))
+  [medium] apk-exported-unprotected: Exported provider without permission: com.insecureshop.contentProvider.InsecureShopProvider @ <sandbox>\apk\InsecureShop.apk
+    Classification: CWE-926 (Improper export of Android component); AC-4 (Information flow enforcement); AC-17 (Remote access); MASVS-PLATFORM-1 (Platform interaction / exported components); M8 (Security misconfiguration / IPC); CAPEC-180 (Exploiting software via component vulnerability); LeastPriv (Least privilege; protect exported components); MobileApp (Secure IPC and exports (NSA))
+  [medium] dex-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: < must be ASCII only! Read http://stackoverflow.com/a/441033...) @ <sandbox>\apk\InsecureShop.apk
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit (e.g. TLS)); M3 (Insecure communication (Mobile Top 10)); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit (CISA secure our world)); Encrypt (Use TLS for all network traffic (NSA guidance))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: %()Landroid/content/SharedPreferences;) @ <sandbox>\apk\InsecureShop.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: &(Landroid/content/SharedPreferences;)V) @ <sandbox>\apk\InsecureShop.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [low] dex-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: ; password: ) @ <sandbox>\apk\InsecureShop.apk
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage (Mobile Top 10)); CAPEC-114 (Credential stuffing); StrongAuth (Use strong authentication; no hardcoded secrets); MobileApp (Mobile app: avoid hardcoded credentials (NSA mobile guidance))
+  [low] dex-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: Invalid username and password) @ <sandbox>\apk\InsecureShop.apk
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage (Mobile Top 10)); CAPEC-114 (Credential stuffing); StrongAuth (Use strong authentication; no hardcoded secrets); MobileApp (Mobile app: avoid hardcoded credentials (NSA mobile guidance))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: *Landroid/content/SharedPreferences$Editor;) @ <sandbox>\apk\InsecureShop.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: #Landroid/content/SharedPreferences;) @ <sandbox>\apk\InsecureShop.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: CLandroidx/core/content/SharedPreferencesCompat$EditorCompat...) @ <sandbox>\apk\InsecureShop.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: <Landroidx/core/content/SharedPreferencesCompat$EditorCompat...) @ <sandbox>\apk\InsecureShop.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: /Landroidx/core/content/SharedPreferencesCompat;) @ <sandbox>\apk\InsecureShop.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: +Landroidx/core/content/SharedPreferencesKt;) @ <sandbox>\apk\InsecureShop.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: SharedPreferences.kt) @ <sandbox>\apk\InsecureShop.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: + 1 SharedPreferences.kt) @ <sandbox>\apk\InsecureShop.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: androidx/core/content/SharedPreferencesKt) @ <sandbox>\apk\InsecureShop.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: SharedPreferencesCompat.java) @ <sandbox>\apk\InsecureShop.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: getSharedPreferences) @ <sandbox>\apk\InsecureShop.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [low] dex-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: password) @ <sandbox>\apk\InsecureShop.apk
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage (Mobile Top 10)); CAPEC-114 (Credential stuffing); StrongAuth (Use strong authentication; no hardcoded secrets); MobileApp (Mobile app: avoid hardcoded credentials (NSA mobile guidance))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: setSharedpreferences) @ <sandbox>\apk\InsecureShop.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: sharedpreferences) @ <sandbox>\apk\InsecureShop.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: eFilter;":"e3c12317","Landroidx/core/content/PermissionCheck...) @ <sandbox>\apk\InsecureShop.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: orCompat$Helper;":"4a108208","Landroidx/core/content/SharedP...) @ <sandbox>\apk\InsecureShop.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [high] apk-debuggable: Application is debuggable; increases reverse-engineering risk. @ <sandbox>\apk\ovaa-debug.apk
+    Classification: CWE-489 (Active debug code); CM-7 (Least functionality); RA-5 (Vulnerability scanning); MASVS-RESILIENCE-1 (App not debuggable in release); M9 (Reverse engineering (Mobile Top 10)); CAPEC-169 (Footprinting); SecureBuild (Disable debug in production (CISA)); MobileApp (Release builds: no debug (NSA))
+  [medium] apk-allow-backup: allowBackup is true; app data may be backed up unencrypted. @ <sandbox>\apk\ovaa-debug.apk
+    Classification: CWE-200 (Information exposure); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data not in backups); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); Backup (Restrict backup of sensitive app data); MobileApp (Control backup exposure (NSA))
+  [medium] apk-exported-unprotected: Exported provider without permission: oversecured.ovaa.providers.TheftOverwriteProvider @ <sandbox>\apk\ovaa-debug.apk
+    Classification: CWE-926 (Improper export of Android component); AC-4 (Information flow enforcement); AC-17 (Remote access); MASVS-PLATFORM-1 (Platform interaction / exported components); M8 (Security misconfiguration / IPC); CAPEC-180 (Exploiting software via component vulnerability); LeastPriv (Least privilege; protect exported components); MobileApp (Secure IPC and exports (NSA))
+  [low] dex-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: ; password: ) @ <sandbox>\apk\ovaa-debug.apk
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage (Mobile Top 10)); CAPEC-114 (Credential stuffing); StrongAuth (Use strong authentication; no hardcoded secrets); MobileApp (Mobile app: avoid hardcoded credentials (NSA mobile guidance))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: *Landroid/content/SharedPreferences$Editor;) @ <sandbox>\apk\ovaa-debug.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: #Landroid/content/SharedPreferences;) @ <sandbox>\apk\ovaa-debug.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: CLandroidx/core/content/SharedPreferencesCompat$EditorCompat...) @ <sandbox>\apk\ovaa-debug.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: <Landroidx/core/content/SharedPreferencesCompat$EditorCompat...) @ <sandbox>\apk\ovaa-debug.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: /Landroidx/core/content/SharedPreferencesCompat;) @ <sandbox>\apk\ovaa-debug.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [high] dex-ssl-trust: Trust-all / disabled certificate validation heuristic. (seen:  Ljavax/net/ssl/X509TrustManager;) @ <sandbox>\apk\ovaa-debug.apk
+    Classification: CWE-295 (Improper certificate validation); SC-8 (Transmission confidentiality); SC-23 (Session authenticity); MASVS-NETWORK-2 (Certificate pinning / secure channel); M3 (Insecure communication); CAPEC-94 (Man in the middle); ValidateCerts (Validate TLS certificates; no trust-all); TLS (Proper certificate validation (NSA))
+  [low] dex-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: Password is emply!) @ <sandbox>\apk\ovaa-debug.apk
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage (Mobile Top 10)); CAPEC-114 (Credential stuffing); StrongAuth (Use strong authentication; no hardcoded secrets); MobileApp (Mobile app: avoid hardcoded credentials (NSA mobile guidance))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: SharedPreferencesCompat.java) @ <sandbox>\apk\ovaa-debug.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [high] dex-ssl-trust: Trust-all / disabled certificate validation heuristic. (seen: +android.net.http.X509TrustManagerExtensions) @ <sandbox>\apk\ovaa-debug.apk
+    Classification: CWE-295 (Improper certificate validation); SC-8 (Transmission confidentiality); SC-23 (Session authenticity); MASVS-NETWORK-2 (Certificate pinning / secure channel); M3 (Insecure communication); CAPEC-94 (Man in the middle); ValidateCerts (Validate TLS certificates; no trust-all); TLS (Proper certificate validation (NSA))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: getSharedPreferences) @ <sandbox>\apk\ovaa-debug.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [medium] dex-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: http://example.com./?token=) @ <sandbox>\apk\ovaa-debug.apk
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit (e.g. TLS)); M3 (Insecure communication (Mobile Top 10)); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit (CISA secure our world)); Encrypt (Use TLS for all network traffic (NSA guidance))
+  [medium] dex-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: http://example.com./api/v1/) @ <sandbox>\apk\ovaa-debug.apk
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit (e.g. TLS)); M3 (Insecure communication (Mobile Top 10)); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit (CISA secure our world)); Encrypt (Use TLS for all network traffic (NSA guidance))
+  [medium] dex-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: http://localhost/) @ <sandbox>\apk\ovaa-debug.apk
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit (e.g. TLS)); M3 (Insecure communication (Mobile Top 10)); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit (CISA secure our world)); Encrypt (Use TLS for all network traffic (NSA guidance))
+  [low] dex-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: password) @ <sandbox>\apk\ovaa-debug.apk
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage (Mobile Top 10)); CAPEC-114 (Credential stuffing); StrongAuth (Use strong authentication; no hardcoded secrets); MobileApp (Mobile app: avoid hardcoded credentials (NSA mobile guidance))
+  [low] dex-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: password == null) @ <sandbox>\apk\ovaa-debug.apk
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage (Mobile Top 10)); CAPEC-114 (Credential stuffing); StrongAuth (Use strong authentication; no hardcoded secrets); MobileApp (Mobile app: avoid hardcoded credentials (NSA mobile guidance))
+  [high] dex-ssl-trust: Trust-all / disabled certificate validation heuristic. (seen: x509TrustManager) @ <sandbox>\apk\ovaa-debug.apk
+    Classification: CWE-295 (Improper certificate validation); SC-8 (Transmission confidentiality); SC-23 (Session authenticity); MASVS-NETWORK-2 (Certificate pinning / secure channel); M3 (Insecure communication); CAPEC-94 (Man in the middle); ValidateCerts (Validate TLS certificates; no trust-all); TLS (Proper certificate validation (NSA))
+  [high] dex-ssl-trust: Trust-all / disabled certificate validation heuristic. (seen: x509TrustManagerExtensions) @ <sandbox>\apk\ovaa-debug.apk
+    Classification: CWE-295 (Improper certificate validation); SC-8 (Transmission confidentiality); SC-23 (Session authenticity); MASVS-NETWORK-2 (Certificate pinning / secure channel); M3 (Insecure communication); CAPEC-94 (Man in the middle); ValidateCerts (Validate TLS certificates; no trust-all); TLS (Proper certificate validation (NSA))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: lter;":"976e9dd7","Landroidx/core/content/PermissionChecker$...) @ <sandbox>\apk\ovaa-debug.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [info] dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: ompat$Helper;":"5340fa7e","Landroidx/core/content/SharedPref...) @ <sandbox>\apk\ovaa-debug.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+  [medium] apk-allow-backup: allowBackup is true; app data may be backed up unencrypted. @ <sandbox>\apk\UnCrackable-Level1.apk
+    Classification: CWE-200 (Information exposure); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data not in backups); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); Backup (Restrict backup of sensitive app data); MobileApp (Control backup exposure (NSA))
+  [info] dex-hardcoded-secret: Possible secret reference (low confidence; high FP). (seen: This is the correct secret.) @ <sandbox>\apk\UnCrackable-Level1.apk
+    Classification: CWE-798 (Hard-coded credentials); CWE-321 (Hard-coded cryptographic key); SC-28 (Protection of information at rest); IA-5 (Authenticator management); MASVS-CRYPTO-1 (Standard crypto; no hardcoded keys); M2 (Insecure data storage (Mobile Top 10)); CAPEC-116 (Excavation); NoSecrets (Secrets in secure vault; not in code); MobileApp (Mobile: protect cryptographic keys)
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http:/...) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: A user is often asked to enter their iTunes password by iOS....) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen:  running apps. Users are generally unaware of the fact that ...) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: Tapping the button below will load a tutorial on runtime man...) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: Password) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: %http://www.apple.com/appleca/root.crl0) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: )http://www.apple.com/certificateauthority0) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: $http://crl.apple.com/codesigning.crl0) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: Enter dummy password here) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: You should reveal this file, read its contents, find out the...) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: Enter password from the cookies) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: http://damnvulnerableiosapp.com) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: .http://crl3.digicert.com/sha2-ha-server-g4.crl04) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: .http://crl4.digicert.com/sha2-ha-server-g4.crl0L) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: http://ocsp.digicert.com0M) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: Ahttp://cacerts.digicert.com/DigiCertSHA2HighAssuranceServer...) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: Enter your password here) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: Welcome new user. Set up a password as a new user to get sta...) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: Welcome returning user. Enter your password to log in) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: Enter a password when you visit the challenge page for the f...) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: http://crl.apple.com/root.crl0) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: #http://ocsp.apple.com/ocsp03-wwdr010) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: *http://www.apple.com/certificateauthority/0) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: credentialsWithUsername:password:register:) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: Unable to saveEventually a PFUser with dirty password.) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: Cannot sign up without a password.) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: Email should be provided to request password reset.) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: logInUserCommandWithUsername:password:revocableSession:) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: logInCurrentUserAsyncWithUsername:password:revocableSession:) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: logInWithUsernameInBackground:password:) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: logInWithUsernameInBackground:password:block:) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: logInWithUsername:password:error:) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: logInWithUsername:password:) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: logInWithUsernameInBackground:password:target:selector:) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-apikey: Possible API key reference (low confidence unless format match). (seen: Flurry: Trim white space and use apiKey[%@]) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); CAPEC-114 (Credential stuffing); NoSecrets (No API keys in IPA); MobileApp (Protect API keys (NSA))
+  [low] ipa-hardcoded-apikey: Possible API key reference (low confidence unless format match). (seen: Flurry: Start session called with apiKey[%@]) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); CAPEC-114 (Credential stuffing); NoSecrets (No API keys in IPA); MobileApp (Protect API keys (NSA))
+  [low] ipa-hardcoded-apikey: Possible API key reference (low confidence unless format match). (seen: Flurry: Finish starting session with apiKey[%@]) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); CAPEC-114 (Credential stuffing); NoSecrets (No API keys in IPA); MobileApp (Protect API keys (NSA))
+  [low] ipa-hardcoded-apikey: Possible API key reference (low confidence unless format match). (seen: -[FlurryWatchSession apiKey]) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); CAPEC-114 (Credential stuffing); NoSecrets (No API keys in IPA); MobileApp (Protect API keys (NSA))
+  [low] ipa-hardcoded-apikey: Possible API key reference (low confidence unless format match). (seen: -[FlurryGlobalVariableStorage apiKey]) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); CAPEC-114 (Credential stuffing); NoSecrets (No API keys in IPA); MobileApp (Protect API keys (NSA))
+  [low] ipa-hardcoded-apikey: Possible API key reference (low confidence unless format match). (seen: -[FlurryImpl apiKey]) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); CAPEC-114 (Credential stuffing); NoSecrets (No API keys in IPA); MobileApp (Protect API keys (NSA))
+  [low] ipa-hardcoded-apikey: Possible API key reference (low confidence unless format match). (seen: -[FlurrySession apiKey]) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); CAPEC-114 (Credential stuffing); NoSecrets (No API keys in IPA); MobileApp (Protect API keys (NSA))
+  [low] ipa-hardcoded-apikey: Possible API key reference (low confidence unless format match). (seen: +[FlurryWatch apiKey]) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); CAPEC-114 (Credential stuffing); NoSecrets (No API keys in IPA); MobileApp (Protect API keys (NSA))
+  [low] ipa-hardcoded-apikey: Possible API key reference (low confidence unless format match). (seen: ___21+[FlurryWatch apiKey]_block_invoke) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); CAPEC-114 (Credential stuffing); NoSecrets (No API keys in IPA); MobileApp (Protect API keys (NSA))
+  [low] ipa-hardcoded-apikey: Possible API key reference (low confidence unless format match). (seen: -[FlurryFileCache apiKey]) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); CAPEC-114 (Credential stuffing); NoSecrets (No API keys in IPA); MobileApp (Protect API keys (NSA))
+  [low] ipa-hardcoded-apikey: Possible API key reference (low confidence unless format match). (seen: _OBJC_IVAR_$_FlurryImpl.apiKey) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); CAPEC-114 (Credential stuffing); NoSecrets (No API keys in IPA); MobileApp (Protect API keys (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: 1) A couple of properties with the name "Password" & "Userna...) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: http://crl.apple.com/iphone.crl0) @ <sandbox>\ipa\DVIA-v2-swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http:/...) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: A user is often asked to enter their iTunes password by iOS....) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen:  running apps. Users are generally unaware of the fact that ...) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: Password) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: Tapping the button below will load a tutorial on runtime man...) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: Enter dummy password here) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: Enter password from the cookies) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: You should reveal this file, read its contents, find out the...) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: http://damnvulnerableiosapp.com) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: .http://crl3.digicert.com/sha2-ha-server-g4.crl04) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: .http://crl4.digicert.com/sha2-ha-server-g4.crl0L) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: http://ocsp.digicert.com0M) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: Ahttp://cacerts.digicert.com/DigiCertSHA2HighAssuranceServer...) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: Welcome returning user. Enter your password to log in) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: Enter your password here) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: Welcome new user. Set up a password as a new user to get sta...) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: Enter a password when you visit the challenge page for the f...) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: credentialsWithUsername:password:register:) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: (http://ocsp.apple.com/ocsp03-applerootca0.) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: http://crl.apple.com/root.crl0) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: !http://certs.apple.com/wwdrg3.der01) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: %http://ocsp.apple.com/ocsp03-wwdrg3040) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: Unable to saveEventually a PFUser with dirty password.) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: Cannot sign up without a password.) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: Email should be provided to request password reset.) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: logInWithUsername:password:) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: logInWithUsernameInBackground:password:target:selector:) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: logInCurrentUserAsyncWithUsername:password:revocableSession:) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: logInUserCommandWithUsername:password:revocableSession:error...) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: logInWithUsername:password:error:) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: logInWithUsernameInBackground:password:) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: logInWithUsernameInBackground:password:block:) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: +[PFRESTUserCommand logInUserCommandWithUsername:password:re...) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: +[PFUser logInWithUsernameInBackground:password:]) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: +[PFUser logInWithUsernameInBackground:password:block:]) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: +[PFUser(Synchronous) logInWithUsername:password:]) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: +[PFUser(Synchronous) logInWithUsername:password:error:]) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: +[PFUser(Deprecated) logInWithUsernameInBackground:password:...) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: ___77+[PFUser(Deprecated) logInWithUsernameInBackground:pass...) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: -[PFUserController logInCurrentUserAsyncWithUsername:passwor...) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: ___80-[PFUserController logInCurrentUserAsyncWithUsername:pa...) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: _objc_msgSend$logInCurrentUserAsyncWithUsername:password:rev...) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: _objc_msgSend$logInUserCommandWithUsername:password:revocabl...) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: _objc_msgSend$logInWithUsername:password:error:) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: _objc_msgSend$logInWithUsernameInBackground:password:) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: _objc_msgSend$logInWithUsernameInBackground:password:block:) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: _objc_msgSend$password) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: 1) A couple of properties with the name "Password" & "Userna...) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: $http://ocsp.apple.com/ocsp03-aipca070/) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: http://crl.apple.com/aipca.crl0) @ <sandbox>\ipa\DVIA-v2.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http:/...) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: Password) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen:             <a href="http://www.linkedin.com/profile/view?id...) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: Enter you password) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen:         <a href="http://www.krvw.com">http://www.krvw.com</a...) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen:         <a href="http://www.arxan.com">http://www.arxan.com<...) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen:      For more info, visit <a href="http://www.igoatapp.com">...) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: http://localhost:8081/checkout/) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: http://localhost:8080/igoat/user) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: http://s3.us-east-2.amazonaws.com/igoat774396510/catty.gif) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: Password Field empty!!) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: http://localhost:8080/igoat/token?username=) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: Error reading password from keychain - ) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: Incorrect Password) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: Enter the correct password) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: http://localhost:8081/webkit.php) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [info] ipa-hardcoded-secret: Possible secret reference (low confidence; high FP). (seen: You found the secret!!) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); CWE-321 (Hard-coded cryptographic key); SC-28 (Protection of information at rest); IA-5 (Authenticator management); MASVS-CRYPTO-1 (No hardcoded keys); M2 (Insecure data storage); CAPEC-116 (Excavation); NoSecrets (Secrets in secure vault); MobileApp (Protect keys (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: CREATE TABLE IF NOT EXISTS creds (id INTEGER PRIMARY KEY AUT...) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: INSERT INTO creds(username, password) VALUES(?, ?)) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: UPDATE creds SET username=?, password=? WHERE id=?) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: Username and Password must not be blank) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: http://www.github.com/OWASP/iGoat) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: http://localhost:8081/cryptoKey.php) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [info] ipa-hardcoded-secret: Possible secret reference (low confidence; high FP). (seen: Key "%@" Secret:"%@") @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); CWE-321 (Hard-coded cryptographic key); SC-28 (Protection of information at rest); IA-5 (Authenticator management); MASVS-CRYPTO-1 (No hardcoded keys); M2 (Insecure data storage); CAPEC-116 (Excavation); NoSecrets (Secrets in secure vault); MobileApp (Protect keys (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: Huh, couldn't get password of %@; trying again) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: %@: Unable to get password of credential %@) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: basicAuthenticatorWithName:password:) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [info] ipa-hardcoded-secret: Possible secret reference (low confidence; high FP). (seen: initWithKey:secret:) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); CWE-321 (Hard-coded cryptographic key); SC-28 (Protection of information at rest); IA-5 (Authenticator management); MASVS-CRYPTO-1 (No hardcoded keys); M2 (Insecure data storage); CAPEC-116 (Excavation); NoSecrets (Secrets in secure vault); MobileApp (Protect keys (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: credentialWithUser:password:persistence:) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: initWithUser:password:) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [info] ipa-hardcoded-secret: Possible secret reference (low confidence; high FP). (seen: initWithKey:secret:session:duration:attributes:created:renew...) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); CWE-321 (Hard-coded cryptographic key); SC-28 (Protection of information at rest); IA-5 (Authenticator management); MASVS-CRYPTO-1 (No hardcoded keys); M2 (Insecure data storage); CAPEC-116 (Excavation); NoSecrets (Secrets in secure vault); MobileApp (Protect keys (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: fromRequest:getUsername:password:) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: Password reset security questions...) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: Your Single Sign On Password) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen:                     your username and password can be interc...) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen:                     password, and session token have been ex...) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen:                     just login with a username of "donkey" a...) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: ETry logging in with a username of "donkey" and a password o...) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: In this exercise, you will need a binary patching tool to ch...) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: A very common password. _) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: IUse Hopper or other similar tools to change the password to...) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [info] ipa-hardcoded-secret: Possible secret reference (low confidence; high FP). (seen: 3The correct key will decrypt the secret passphrase._) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); CWE-321 (Hard-coded cryptographic key); SC-28 (Protection of information at rest); IA-5 (Authenticator management); MASVS-CRYPTO-1 (No hardcoded keys); M2 (Insecure data storage); CAPEC-116 (Excavation); NoSecrets (Secrets in secure vault); MobileApp (Protect keys (NSA))
+  [info] ipa-hardcoded-secret: Possible secret reference (low confidence; high FP). (seen: In this exercise, we are trying to extract a secret piece of...) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); CWE-321 (Hard-coded cryptographic key); SC-28 (Protection of information at rest); IA-5 (Authenticator management); MASVS-CRYPTO-1 (No hardcoded keys); M2 (Insecure data storage); CAPEC-116 (Excavation); NoSecrets (Secrets in secure vault); MobileApp (Protect keys (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen:                         To see a demo of how to bypass iTune...) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: http://m.youtube.com/watch?v=GvqnJmTb9HU">here</a>.<br/><br/...) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: To brute force PIN or password at runtime, a hacker needs to...) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: In this exercise, you will need to hook GDB to find out the ...) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [info] ipa-hardcoded-secret: Possible secret reference (low confidence; high FP). (seen: In this exercise, you will need to hook GDB to find out the ...) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); CWE-321 (Hard-coded cryptographic key); SC-28 (Protection of information at rest); IA-5 (Authenticator management); MASVS-CRYPTO-1 (No hardcoded keys); M2 (Insecure data storage); CAPEC-116 (Excavation); NoSecrets (Secrets in secure vault); MobileApp (Protect keys (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: -Use GDB to get the password.) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: kIn this exercise, you will study both ways of authenticatio...) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [info] ipa-hardcoded-secret: Possible secret reference (low confidence; high FP). (seen: A Secret Is Found In The Hidden Label!) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); CWE-321 (Hard-coded cryptographic key); SC-28 (Protection of information at rest); IA-5 (Authenticator management); MASVS-CRYPTO-1 (No hardcoded keys); M2 (Insecure data storage); CAPEC-116 (Excavation); NoSecrets (Secrets in secure vault); MobileApp (Protect keys (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: http://crl.apple.com/root.crl0) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: #http://ocsp.apple.com/ocsp03-wwdr190) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: *http://www.apple.com/certificateauthority/0) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: +[RLMSyncCredentials credentialsWithUsername:password:regist...) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen:                         http://www.apache.org/licenses/) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen:   http://realm.io/pricing/.) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen:   user's password if using Realm's 'password' authentication...) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen:   `+[RLMSyncCredential credentialWithUsername:password:actio...) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen:   `+[RLMSyncCredential credentialsWithUsername:password:regi...) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: # http://www.apache.org/licenses/LICENSE-2.0) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: %http://www.apple.com/appleca/root.crl0) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: http://crl.apple.com/iphone.crl0) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: Below is Bank Password) @ <sandbox>\ipa\iGoat-Swift.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http:/...) @ <sandbox>\ipa\UnCrackable-Level1.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [info] ipa-hardcoded-secret: Possible secret reference (low confidence; high FP). (seen: A Secret Is Found In The Hidden Label!) @ <sandbox>\ipa\UnCrackable-Level1.ipa
+    Classification: CWE-798 (Hard-coded credentials); CWE-321 (Hard-coded cryptographic key); SC-28 (Protection of information at rest); IA-5 (Authenticator management); MASVS-CRYPTO-1 (No hardcoded keys); M2 (Insecure data storage); CAPEC-116 (Excavation); NoSecrets (Secrets in secure vault); MobileApp (Protect keys (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: %http://www.apple.com/appleca/root.crl0) @ <sandbox>\ipa\UnCrackable-Level1.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: http://crl.apple.com/iphone.crl0) @ <sandbox>\ipa\UnCrackable-Level1.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [info] ipa-hardcoded-secret: Possible secret reference (low confidence; high FP). (seen: You found the secret!!) @ <sandbox>\ipa\UnCrackable-Level1.ipa
+    Classification: CWE-798 (Hard-coded credentials); CWE-321 (Hard-coded cryptographic key); SC-28 (Protection of information at rest); IA-5 (Authenticator management); MASVS-CRYPTO-1 (No hardcoded keys); M2 (Insecure data storage); CAPEC-116 (Excavation); NoSecrets (Secrets in secure vault); MobileApp (Protect keys (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: http://crl.apple.com/root.crl0) @ <sandbox>\ipa\UnCrackable-Level1.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: #http://ocsp.apple.com/ocsp02-wwdr010) @ <sandbox>\ipa\UnCrackable-Level1.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: http://www.apple.com/appleca/0) @ <sandbox>\ipa\UnCrackable-Level1.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http:/...) @ <sandbox>\ipa\UnCrackable-Level2.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [info] ipa-hardcoded-secret: Possible secret reference (low confidence; high FP). (seen: Enter the Secret Message) @ <sandbox>\ipa\UnCrackable-Level2.ipa
+    Classification: CWE-798 (Hard-coded credentials); CWE-321 (Hard-coded cryptographic key); SC-28 (Protection of information at rest); IA-5 (Authenticator management); MASVS-CRYPTO-1 (No hardcoded keys); M2 (Insecure data storage); CAPEC-116 (Excavation); NoSecrets (Secrets in secure vault); MobileApp (Protect keys (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: %http://www.apple.com/appleca/root.crl0) @ <sandbox>\ipa\UnCrackable-Level2.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: http://crl.apple.com/iphone.crl0) @ <sandbox>\ipa\UnCrackable-Level2.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: decrypt:password:) @ <sandbox>\ipa\UnCrackable-Level2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [low] ipa-hardcoded-password: Possible password/credential reference (low confidence; high FP). (seen: encrypt:password:) @ <sandbox>\ipa\UnCrackable-Level2.ipa
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in IPA); MobileApp (Protect credentials (NSA))
+  [info] ipa-hardcoded-secret: Possible secret reference (low confidence; high FP). (seen: You found the secret!!) @ <sandbox>\ipa\UnCrackable-Level2.ipa
+    Classification: CWE-798 (Hard-coded credentials); CWE-321 (Hard-coded cryptographic key); SC-28 (Protection of information at rest); IA-5 (Authenticator management); MASVS-CRYPTO-1 (No hardcoded keys); M2 (Insecure data storage); CAPEC-116 (Excavation); NoSecrets (Secrets in secure vault); MobileApp (Protect keys (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: http://crl.apple.com/root.crl0) @ <sandbox>\ipa\UnCrackable-Level2.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: #http://ocsp.apple.com/ocsp02-wwdr010) @ <sandbox>\ipa\UnCrackable-Level2.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] ipa-cleartext: Cleartext HTTP URL; prefer HTTPS. (seen: http://www.apple.com/appleca/0) @ <sandbox>\ipa\UnCrackable-Level2.ipa
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in META-INF/LICENSE.txt; seen:                         http://www.apache.org/licenses/) @ <sandbox>\jar\commons-lang3-3.14.0.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in META-INF/LICENSE.txt; seen:        http://www.apache.org/licenses/LICENSE-2.0) @ <sandbox>\jar\commons-lang3-3.14.0.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in META-INF/maven/org.apache.commons/commons-lang3/pom.xml; seen:       http://www.apache.org/licenses/LICENSE-2.0) @ <sandbox>\jar\commons-lang3-3.14.0.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in META-INF/maven/org.apache.commons/commons-lang3/pom.xml; seen:   xmlns="http://maven.apache.org/POM/4.0.0") @ <sandbox>\jar\commons-lang3-3.14.0.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in META-INF/maven/org.apache.commons/commons-lang3/pom.xml; seen:   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http...) @ <sandbox>\jar\commons-lang3-3.14.0.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in META-INF/maven/org.apache.commons/commons-lang3/pom.xml; seen:     <connection>scm:git:http://gitbox.apache.org/repos/asf/c...) @ <sandbox>\jar\commons-lang3-3.14.0.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [high] jar-secret-aws-access-key: AWS access key id-like string (AKIA…). (in config.properties; seen: api_key=AKIAIOSFODNN7EXAMPLE) @ <sandbox>\jar\edu-secrets-sample.jar
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); CAPEC-114 (Credential stuffing); NoSecrets (No cloud keys in JAR); AppSec (Protect cloud credentials (NSA))
+  [low] jar-hardcoded-apikey: Possible API key reference (low confidence unless format match). (in config.properties; seen: api_key=AKIAIOSFODNN7EXAMPLE) @ <sandbox>\jar\edu-secrets-sample.jar
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); CAPEC-114 (Credential stuffing); NoSecrets (No API keys in JAR); AppSec (Protect API keys (NSA))
+  [low] jar-hardcoded-password: Possible password/credential reference (low confidence; high FP). (in config.properties; seen: password=trainingsample) @ <sandbox>\jar\edu-secrets-sample.jar
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage); CAPEC-114 (Credential stuffing); NoSecrets (No hardcoded credentials in JAR); AppSec (Application security: protect credentials (NSA))
+  [medium] jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in config.properties; seen: url=http://example.invalid/api) @ <sandbox>\jar\edu-secrets-sample.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in META-INF/maven/com.google.code.gson/gson/pom.xml; seen: <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi...) @ <sandbox>\jar\gson-2.10.1.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/MDC.class; seen: MMDCAdapter cannot be null. See also http://www.slf4j.org/co...) @ <sandbox>\jar\slf4j-api-2.0.12.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/MDC.class; seen: )http://www.slf4j.org/codes.html#null_MDCA) @ <sandbox>\jar\slf4j-api-2.0.12.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in org/slf4j/MDC.class; seen: 4http://www.slf4j.org/codes.html#no_static_mdc_binder) @ <sandbox>\jar\slf4j-api-2.0.12.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in META-INF/maven/org.slf4j/slf4j-api/pom.xml; seen: <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi...) @ <sandbox>\jar\slf4j-api-2.0.12.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in META-INF/maven/org.slf4j/slf4j-api/pom.xml; seen:   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http...) @ <sandbox>\jar\slf4j-api-2.0.12.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [medium] jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in META-INF/maven/org.slf4j/slf4j-api/pom.xml; seen:   <url>http://www.slf4j.org</url>) @ <sandbox>\jar\slf4j-api-2.0.12.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+  [high] sdk-sensitive-file: Sensitive file in SDK: .env (ensure not committed or restrict access). @ <sandbox>\kits\training-mobile-sdk\.env
+    Classification: CWE-312 (Cleartext storage of sensitive information); CWE-200 (Information exposure); SC-28 (Protection of information at rest); CM-7 (Least functionality); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); NoSecrets (Do not commit keys or credentials to SDK); SupplyChain (Secure SDK contents (NSA supply chain))
+  [medium] sdk-exposed-credential: Secret pattern in SDK file. File: config.properties @ <sandbox>\kits\training-mobile-sdk\config.properties
+    Classification: CWE-798 (Hard-coded credentials); CWE-312 (Cleartext storage of sensitive information); IA-5 (Authenticator management); SC-28 (Protection of information at rest); MASVS-AUTH-4 (No sensitive data in credentials); M2 (Insecure data storage); CAPEC-114 (Credential stuffing); CAPEC-37 (Retrieve embedded sensitive data); NoSecrets (No credentials in config or source (CISA)); SupplyChain (No credentials in SDK (NSA))
+  [high] sdk-sensitive-file: Sensitive file in SDK: credentials.env (ensure not committed or restrict access). @ <sandbox>\kits\vuln-config-demo-sdk\credentials.env
+    Classification: CWE-312 (Cleartext storage of sensitive information); CWE-200 (Information exposure); SC-28 (Protection of information at rest); CM-7 (Least functionality); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); CAPEC-37 (Retrieve embedded sensitive data); NoSecrets (Do not commit keys or credentials to SDK); SupplyChain (Secure SDK contents (NSA supply chain))
+  [high] sdk-exposed-credential: Password or credential pattern in SDK file. File: credentials.env @ <sandbox>\kits\vuln-config-demo-sdk\credentials.env
+    Classification: CWE-798 (Hard-coded credentials); CWE-312 (Cleartext storage of sensitive information); IA-5 (Authenticator management); SC-28 (Protection of information at rest); MASVS-AUTH-4 (No sensitive data in credentials); M2 (Insecure data storage); CAPEC-114 (Credential stuffing); CAPEC-37 (Retrieve embedded sensitive data); NoSecrets (No credentials in config or source (CISA)); SupplyChain (No credentials in SDK (NSA))
+  [info] so-jni: JNI_OnLoad present; ensure no sensitive logic in native code. (e.g. JNI_OnLoad) @ <sandbox>\so\diva-beta__libdivajni.so
+    Classification: CWE-749 (Exposed dangerous method); SC-39 (Process isolation); MASVS-CODE-1 (Code quality; secure JNI); CAPEC-180 (Exploiting component vulnerability); SecureNative (Secure native code interfaces); Native (JNI security (NSA mobile))
+
+Total: 25 artifact(s), 325 finding(s)
