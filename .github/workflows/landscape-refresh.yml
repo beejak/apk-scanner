@@ -1,0 +1,60 @@
+# Monthly ( + manual) refresh of competitor stars/releases in docs/LANDSCAPE.md.
+# Docs only — no binary downloads. Allowlist: docs/landscape_sources.json
+
+name: Landscape refresh
+
+on:
+  schedule:
+    # 1st of month 07:00 UTC
+    - cron: "0 7 1 * *"
+  workflow_dispatch:
+    inputs:
+      note:
+        description: "Optional note (no secrets)"
+        required: false
+        default: "manual landscape refresh"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: landscape-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Refresh LANDSCAPE auto table
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/refresh_landscape.py
+
+      - name: Commit docs if changed
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/LANDSCAPE.md
+          if git diff --cached --name-only | grep -E '\.(apk|ipa|aab|dex|so|xapk|apks)$'; then
+            echo "REFUSING binary paths"
+            git reset HEAD
+            exit 1
+          fi
+          if git diff --cached --quiet; then
+            echo "No landscape doc changes"
+            exit 0
+          fi
+          git commit -m "docs: landscape metrics refresh $(date -u +%Y-%m)"
+          git push origin HEAD:${{ github.ref_name }}

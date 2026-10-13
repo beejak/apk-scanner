@@ -2,7 +2,7 @@
 
 Repo: [github.com/beejak/apk-scanner](https://github.com/beejak/apk-scanner)
 
-CLI for **discovery**, **metadata**, optional **pattern-scan SAST**, optional **plugins** (APKiD / Semgrep / mobsfscan), optional **real OSV SCA**, finding enrichment (MASWE + OWASP Mobile Top 10 2024, scores, remediation), and an optional **DAST scaffold** (Android Frida hooks when adb/device present; iOS stub). Outputs JSON, text, CSV, HTML, and SARIF.
+CLI for **discovery**, **metadata**, optional **pattern-scan SAST**, optional **plugins** (APKiD / Semgrep / mobsfscan / Quark / nuclei), optional **real OSV SCA** (inventory + CVE board), finding enrichment (MASWE + OWASP Mobile Top 10 2024, scores, remediation), and an optional **DAST scaffold** (Android Frida hooks when adb/device present; iOS stub). Outputs JSON, text, CSV, HTML, and SARIF (CI uploads to GitHub Code Scanning when permissions allow).
 
 **Deep guide:** [`docs/USAGE.md`](docs/USAGE.md) — install, per-type scanning, flags, SCA, CI, **weekly allowlist scan**, GitHub-only maintenance, honesty limits.
 
@@ -15,7 +15,7 @@ CLI for **discovery**, **metadata**, optional **pattern-scan SAST**, optional **
 - **Python 3.10+** (full APK metadata via `apk-info`)
 - **Pinned:** `apk-info==1.0.10`, `pyelftools==0.32`, `androguard>=4.0` (`requirements.txt`)
 
-Optional (skip if missing): `apkid`, `semgrep`, `mobsfscan`, `adb` + device, Python `frida`. DEX SAST defaults to ZIP strings; `APK_SCANNER_ANDROGUARD=1` for optional androguard tables.
+Optional (skip if missing): `apkid`, `semgrep`, `mobsfscan`, `quark`, `jadx`+`nuclei`, `adb` + device, Python `frida`. Semgrep defaults to `rules/semgrep/android-mastg-starter.yml`. DEX SAST defaults to ZIP strings; `APK_SCANNER_ANDROGUARD=1` for optional androguard tables.
 
 ## Public repo / fixtures
 
@@ -32,14 +32,14 @@ python cli.py . --sast -o html --out-file reports/scan.html
 python cli.py . --sast -o sarif --out-file reports/scan.sarif.json
 
 # Optional backends (skip if tools missing)
-python cli.py app.apk --sast --apkid --semgrep --mobsfscan -o json
-python cli.py libs/ --types jar --sca -o json
+python cli.py app.apk --sast --apkid --semgrep --mobsfscan --quark --nuclei -o json
+python cli.py libs/ --types jar --sca -o html --out-file reports/sca.html
 
 # DAST only with adb + device; Frida optional
 python cli.py app.apk --sast --dynamic -o text
 ```
 
-CLI flags: `--sast`, `--dynamic`, `--apkid`, `--semgrep`, `--mobsfscan`, `--sca`, `--sca-offline`, `-o`, `--out-file`, `--types`, `-j`. Full help: `python cli.py -h` or [`docs/USAGE.md`](docs/USAGE.md).
+CLI flags: `--sast`, `--dynamic`, `--apkid`, `--semgrep`, `--mobsfscan`, `--quark`, `--nuclei`, `--sca`, `--sca-offline`, `-o`, `--out-file`, `--types`, `-j`. Full help: `python cli.py -h` or [`docs/USAGE.md`](docs/USAGE.md).
 
 ### Open HTML reports
 
@@ -57,14 +57,15 @@ Taxonomy per finding: CWE, NIST, OWASP, **MASWE**, **OWASP Mobile Top 10 2024**,
 
 ## CI
 
-- **Push/PR:** pytest (`.github/workflows/ci.yml`, Python 3.12)
+- **Push/PR:** pytest + synthetic SARIF → **Code Scanning** (`.github/workflows/ci.yml`, Python 3.12)
 - **Weekly (Mon 06:00 UTC) + `workflow_dispatch`:** allowlist-only sandbox scan (`.github/workflows/weekly-sandbox-scan.yml`)
   - Allowlist: [`tests/fixtures/sources.json`](tests/fixtures/sources.json) — **`primary`** then **`fallback`** (`max_artifacts` ≤ 15)
   - Dedupe: [`tests/fixtures/scan_history.json`](tests/fixtures/scan_history.json) skips same `id`+version (or sha256/ETag) unless publisher version/URL/content changes or `force: true`
   - Types: apk / ipa / jar / **sdk** (`generate` recipe or zip URL) / **.so** (https URL or `extract_from_apk`)
-  - Writes `docs/results/weekly_YYYYMMDD/` (manager HTML + JSON/SARIF), updates history JSON, purges binaries; soft-fail on findings
+  - Writes `docs/results/weekly_YYYYMMDD/` (manager HTML + SCA board + JSON/SARIF), uploads SARIF to Code Scanning, updates history JSON, purges binaries; soft-fail on findings
   - Manual: **Actions → Weekly sandbox scan → Run workflow**. Needs **Settings → Actions → General → Workflow permissions → Read and write** so the bot can commit reports/history
-- **Optional manual synthetic SARIF:** `.github/workflows/sandbox-sast.yml`
+- **Optional manual synthetic SARIF:** `.github/workflows/sandbox-sast.yml` (artifact + Code Scanning)
+- **Landscape metrics (monthly + manual):** `.github/workflows/landscape-refresh.yml` — refreshes auto table in [`docs/LANDSCAPE.md`](docs/LANDSCAPE.md)
 
 SAST Critical/High are **pattern-scan leads**, not confirmed vulns (see [`docs/USAGE.md`](docs/USAGE.md)). GitHub-only maintenance (edit rules/allowlist via web UI/PRs): same doc. **No** in-browser emulator or cloud device farm.
 

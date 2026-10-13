@@ -17,8 +17,10 @@ Pinned core deps: `apk-info`, `pyelftools`, `androguard` (optional at runtime; Z
 | Tool | Flag | Notes |
 |------|------|--------|
 | `apkid` | `--apkid` | On PATH; APK packer/obfuscator tags |
-| `semgrep` | `--semgrep` | On PATH; config via `APK_SCANNER_SEMGREP_CONFIG` (default `p/security-audit`) |
+| `semgrep` | `--semgrep` | On PATH; default config `rules/semgrep/android-mastg-starter.yml` (override `APK_SCANNER_SEMGREP_CONFIG`; see `rules/semgrep/README.md` for full MASTG fetch) |
 | `mobsfscan` | `--mobsfscan` | On PATH |
+| `quark` | `--quark` | On PATH; Quark-Engine behavior score / family **hints** (not an AV verdict) |
+| `jadx` + `nuclei` | `--nuclei` | Both on PATH; jadx decompile to temp → `nuclei -t file/android`; purge after |
 | `frida` (Python) | `--dynamic` | Message capture for Android hooks |
 | `adb` + device/emulator | `--dynamic` | Required for any Android DAST |
 
@@ -36,8 +38,8 @@ python cli.py <path> [options]
 | `-j N` | Parallel discovery/metadata workers |
 | `--sast` | Built-in pattern-scan SAST |
 | `--dynamic` | DAST scaffold (adb/device; Frida optional) |
-| `--apkid` / `--semgrep` / `--mobsfscan` | Optional plugin backends |
-| `--sca` | Real OSV lookups when name+version extracted |
+| `--apkid` / `--semgrep` / `--mobsfscan` / `--quark` / `--nuclei` | Optional plugin backends |
+| `--sca` | Real OSV lookups when name+version extracted; fills `summary.sca` inventory + CVE board |
 | `--sca-offline` | With `--sca`: do not call network |
 | `-o text\|json\|csv\|html\|sarif` | Report format |
 | `--out-file path` | Write report; `{timestamp}` → `YYYYMMDD_HHMMSS` |
@@ -116,23 +118,30 @@ Vague password keyword noise is **info** unless assignment-shaped (**low**).
 
 ## Plugins
 
-Off by default. Merge into the same finding schema (`source: plugin`).
+Off by default. Merge into the same finding schema (`source`: `plugin` / `quark` / `nuclei`).
 
 ```bash
-python cli.py app.apk --sast --apkid --semgrep --mobsfscan -o json
+python cli.py app.apk --sast --apkid --semgrep --mobsfscan --quark --nuclei -o json
 ```
 
-If `apkid` / `semgrep` / `mobsfscan` missing → skip that backend.
+If a tool is missing → that backend is skipped (scan still succeeds).
+
+- **Semgrep:** default ruleset is the small vendored Android/MASVS starter under `rules/semgrep/`. Override with `APK_SCANNER_SEMGREP_CONFIG` for full [OWASP MASTG rules](https://github.com/OWASP/mastg/tree/master/rules) after you clone them locally.
+- **Quark:** behavior score / family hints only — **not** an antivirus verdict.
+- **nuclei:** requires both `jadx` and `nuclei`; decompiles to `$TEMP`, runs `file/android` templates, deletes the tree.
 
 ## SCA / CVE
 
 ```bash
 python cli.py libs/ --types jar --sca -o json
+# HTML/manager board also surfaces summary.sca
+python cli.py libs/ --types jar --sca -o html --out-file reports/sca.html
 ```
 
 - Extracts component+version only (JAR filename, Maven `pom.properties`, Gradle `group:name:version`, known lib patterns).
 - Queries [OSV](https://api.osv.dev/v1/query); caches responses; polite delay between calls.
 - Emits `sca-osv-vuln` with real `cve: ["CVE-…"]` **only** when OSV returns aliases/ids. **Never invents CVE IDs.**
+- Report `summary.sca`: `inventory` (component/version/ecosystem), `vulnerabilities` (component, version, severity, CVE ids, OSV id). HTML and weekly `manager_report.html` show an **SCA / OSV board**.
 - Offline / network failure → skip (log). `--sca-offline` forces no network.
 - Pattern findings keep `cve: null` unless they are SCA findings.
 
@@ -152,8 +161,8 @@ See [dast.md](dast.md). Android: adb install + Frida hooks (SSL trust-all, sensi
 |--------|----------|
 | `json` / `text` | Full metadata + findings + enrichment |
 | `csv` | Findings table: scores, CVSS-estimate, remediation, CWE/NIST/OWASP/MASWE/Mobile2024/CAPEC/CISA/NSA |
-| `html` | Executive KPIs (incl. **Critical**) + per-finding taxonomy / How to fix / How to revalidate |
-| `sarif` | SARIF 2.1: `ruleId`, `level`, `locations`, rule `help` (remediation+revalidate), `taxa`, properties |
+| `html` | Executive KPIs (incl. **Critical**) + SCA/OSV board when present + per-finding taxonomy / How to fix / How to revalidate |
+| `sarif` | SARIF 2.1: `ruleId`, `level`, `locations`, rule `help` (remediation+revalidate), `taxa`, properties — CI uploads to GitHub Code Scanning when permissions allow |
 
 Enrichment fields: `severity_score`, `classification` (incl. MASWE + OWASP Mobile Top 10 2024), `cvss_estimate` (rule-based, **not** NVD CVSS), `remediation`, `revalidate`, `maswe_id`, `owasp_mobile`, `cve`.
 
@@ -173,8 +182,8 @@ Self-contained (inline CSS). Prefer `docs/results/capability_run_*/manager_repor
 
 ## CI
 
-- **Push/PR:** `.github/workflows/ci.yml` — `pytest`
-- **Optional manual:** `.github/workflows/sandbox-sast.yml` — temp sandbox → `--sast` → SARIF artifact → **purge** (no APKs committed)
+- **Push/PR:** `.github/workflows/ci.yml` — `pytest` + synthetic SAST → SARIF → **GitHub Code Scanning** (`github/codeql-action/upload-sarif`, category `apk-scanner-ci`; `continue-on-error` if Security tab / permissions unavailable)
+- **Optional manual:** `.github/workflows/sandbox-sast.yml` — temp sandbox → `--sast` → SARIF artifact + Code Scanning upload (`apk-scanner-sandbox`) → **purge**
 - **Weekly (cron + manual):** `.github/workflows/weekly-sandbox-scan.yml` — Monday 06:00 UTC + `workflow_dispatch`
   - Allowlist only: `tests/fixtures/sources.json` (not an internet crawl)
   - **`primary`** entries tried first; **`fallback`** fills `max_artifacts` (≤ 15) when primary is exhausted (already scanned at same version) or materialize fails
@@ -182,10 +191,14 @@ Self-contained (inline CSS). Prefer `docs/results/capability_run_*/manager_repor
   - **SDK:** https zip URL, or `{ "type": "sdk", "generate": true, "files": [...] }` → tiny tree in TEMP (no binary commit)
   - **.so:** public https URL, or `extract_from_apk: { "url", "member" }` (download APK to temp, extract `.so`, delete APK)
   - Logic shared via `scanner/sources_allowlist.py` (weekly + capability scripts)
-  - Downloads into `$RUNNER_TEMP`, runs `python scripts/weekly_sandbox_scan.py` (`--sast`)
-  - Writes **`docs/results/weekly_YYYYMMDD/`** (`manager_report.html`, JSON/text/SARIF/summary)
+  - Downloads into `$RUNNER_TEMP`, runs `python scripts/weekly_sandbox_scan.py` (`--sast` + `--sca`)
+  - Writes **`docs/results/weekly_YYYYMMDD/`** (`manager_report.html` with SCA board, JSON/text/SARIF/summary)
+  - Uploads SARIF to Code Scanning (`apk-scanner-weekly`) when `security-events: write` is allowed
   - Commits **reports + `scan_history.json`** with `GITHUB_TOKEN` (needs Actions write permission); purges binaries
   - Soft-fail: findings do not fail the job. Critical/High in reports are **pattern-scan leads**, not confirmed vulns
+- **Landscape metrics (monthly + manual):** `.github/workflows/landscape-refresh.yml` — `scripts/refresh_landscape.py` updates the auto table in [LANDSCAPE.md](LANDSCAPE.md) from `docs/landscape_sources.json` (stars/release/push only; no feature scraping; no APKs)
+
+Code Scanning notes: public repos generally work with `security-events: write`. Private/fork uploads may need GitHub Advanced Security or fail softly (`continue-on-error: true`). Findings appear under the repo **Security** tab when the upload succeeds.
 
 ### GitHub-only maintenance (~6 months without IDE)
 
@@ -193,12 +206,13 @@ Keep improving scanner/signatures from GitHub alone (no local IDE required):
 
 1. **Edit rules/signatures in the web UI or PRs**  
    - Patterns: `scanner/sast/patterns.py`, `scanner/sast/__init__.py`  
-   - Taxonomy / MASWE: `scanner/taxonomy.py`, `scanner/taxonomy_maswe.py`
+   - Taxonomy / MASWE: `scanner/taxonomy.py`, `scanner/taxonomy_maswe.py`  
+   - Semgrep starter: `rules/semgrep/`
 2. **PR validation** — `ci.yml` runs pytest on every PR; merge when green.
 3. **Tweak allowlist** — edit `tests/fixtures/sources.json` (`primary` / `fallback`, https-only; keep `max_artifacts` ≤ 15). History: `tests/fixtures/scan_history.json`. Enforced by `tests/test_sources_allowlist.py`.
 4. **Cron / manual weekly scan** — schedule is `0 6 * * 1` in `weekly-sandbox-scan.yml`. Re-run: **Actions → Weekly sandbox scan → Run workflow**.
-5. **Read results** — `docs/results/weekly_YYYYMMDD/manager_report.html` (or SARIF artifact). If the bot cannot push: **Settings → Actions → General → Workflow permissions → Read and write**.
-6. **Monthly landscape refresh (docs only)** — update [LANDSCAPE.md](LANDSCAPE.md) competitor stars/releases via `gh api` (checklist in that file). PR: `docs: monthly landscape refresh YYYY-MM`. **No** random internet downloads or new allowlist crawls.
+5. **Read results** — `docs/results/weekly_YYYYMMDD/manager_report.html` (or SARIF / Security tab). If the bot cannot push: **Settings → Actions → General → Workflow permissions → Read and write**.
+6. **Landscape metrics** — automatic monthly via `landscape-refresh.yml`, or **Actions → Landscape refresh → Run workflow**, or locally: `python scripts/refresh_landscape.py`. Human narrative edits still manual (see [LANDSCAPE.md](LANDSCAPE.md)).
 
 Honest limits: allowlist only (no random crawl); no in-browser emulator; no cloud device farm; no binaries in git.
 

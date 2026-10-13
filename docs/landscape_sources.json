@@ -1,0 +1,77 @@
+{
+  "description": "Allowlist of competitor repos for scripts/refresh_landscape.py (stars/release/pushed_at only). No feature scraping.",
+  "repos": [
+    {
+      "owner": "MobSF",
+      "repo": "Mobile-Security-Framework-MobSF",
+      "label": "MobSF",
+      "url": "https://github.com/MobSF/Mobile-Security-Framework-MobSF"
+    },
+    {
+      "owner": "ev-flow",
+      "repo": "quark-engine",
+      "label": "Quark-Engine",
+      "url": "https://github.com/ev-flow/quark-engine"
+    },
+    {
+      "owner": "rednaga",
+      "repo": "APKiD",
+      "label": "APKiD",
+      "url": "https://github.com/rednaga/APKiD"
+    },
+    {
+      "owner": "MobSF",
+      "repo": "mobsfscan",
+      "label": "mobsfscan",
+      "url": "https://github.com/MobSF/mobsfscan"
+    },
+    {
+      "owner": "androguard",
+      "repo": "androguard",
+      "label": "androguard",
+      "url": "https://github.com/androguard/androguard"
+    },
+    {
+      "owner": "skylot",
+      "repo": "jadx",
+      "label": "jadx",
+      "url": "https://github.com/skylot/jadx"
+    },
+    {
+      "owner": "semgrep",
+      "repo": "semgrep",
+      "label": "Semgrep",
+      "url": "https://github.com/semgrep/semgrep"
+    },
+    {
+      "owner": "projectdiscovery",
+      "repo": "nuclei",
+      "label": "nuclei",
+      "url": "https://github.com/projectdiscovery/nuclei"
+    },
+    {
+      "owner": "projectdiscovery",
+      "repo": "nuclei-templates",
+      "label": "nuclei-templates",
+      "url": "https://github.com/projectdiscovery/nuclei-templates"
+    },
+    {
+      "owner": "linkedin",
+      "repo": "qark",
+      "label": "QARK",
+      "url": "https://github.com/linkedin/qark"
+    },
+    {
+      "owner": "SUPERAndroidAnalyzer",
+      "repo": "super",
+      "label": "SUPER Android Analyzer",
+      "url": "https://github.com/SUPERAndroidAnalyzer/super"
+    },
+    {
+      "owner": "Cyber-Buddy",
+      "repo": "APKHunt",
+      "label": "APKHunt",
+      "url": "https://github.com/Cyber-Buddy/APKHunt"
+    }
+  ]
+}
