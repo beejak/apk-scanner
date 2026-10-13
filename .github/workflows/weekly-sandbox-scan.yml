@@ -1,0 +1,103 @@
+# Weekly allowlist-only training-package scan → sanitized reports in docs/results/weekly_YYYYMMDD/
+# Never commits APK/IPA/.so binaries. Soft-fail: findings do not fail the job.
+#
+# Sources: tests/fixtures/sources.json (edit via PR).
+# Manual: Actions → "Weekly sandbox scan" → Run workflow.
+#
+# Repo settings: Settings → Actions → General → Workflow permissions → Read and write
+# (needed for committing report files with GITHUB_TOKEN).
+
+name: Weekly sandbox scan
+
+on:
+  schedule:
+    # Monday 06:00 UTC
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+    inputs:
+      note:
+        description: "Optional note (no secrets)"
+        required: false
+        default: "manual weekly sandbox scan"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: weekly-sandbox-scan
+  cancel-in-progress: false
+
+jobs:
+  weekly-scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Allowlist sandbox scan (download → SAST → reports → purge)
+        env:
+          RUNNER_TEMP: ${{ runner.temp }}
+        run: |
+          python scripts/weekly_sandbox_scan.py
+          # Soft-fail guarantee: script exits 0 even when findings exist
+          test -d docs/results/weekly_* || echo "WARN: no weekly_* output dir"
+
+      - name: Upload SARIF artifact (reports only)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: weekly-sarif
+          path: docs/results/weekly_*/report.sarif.json
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Purge any leftover binaries under workspace
+        if: always()
+        run: |
+          find . -type f \( -name '*.apk' -o -name '*.ipa' -o -name '*.aab' -o -name '*.dex' -o -name '*.xapk' -o -name '*.apks' \) -not -path './.git/*' -delete || true
+          # .so may exist as tracked fixtures; only delete under runner temp (already purged by script)
+          rm -rf "${{ runner.temp }}/apk-scanner-weekly_"* || true
+
+      - name: Commit and push report files only
+        if: success()
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Stage ONLY weekly report paths (never binaries)
+          git add docs/results/weekly_*/report.json \
+                  docs/results/weekly_*/report.html \
+                  docs/results/weekly_*/report.txt \
+                  docs/results/weekly_*/report.sarif.json \
+                  docs/results/weekly_*/summary.json \
+                  docs/results/weekly_*/manager_report.html \
+                  2>/dev/null || true
+
+          # Refuse if any staged path looks like a binary package
+          if git diff --cached --name-only | grep -E '\.(apk|ipa|aab|dex|so|xapk|apks)$'; then
+            echo "REFUSING to commit binary paths"
+            git reset HEAD
+            exit 1
+          fi
+
+          if git diff --cached --quiet; then
+            echo "No report changes to commit"
+            exit 0
+          fi
+
+          git commit -m "chore: weekly sandbox scan reports $(date -u +%Y-%m-%d)"
+          git push origin HEAD:${{ github.ref_name }}

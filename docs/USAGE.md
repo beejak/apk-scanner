@@ -175,12 +175,26 @@ Self-contained (inline CSS). Prefer `docs/results/capability_run_*/manager_repor
 
 - **Push/PR:** `.github/workflows/ci.yml` — `pytest`
 - **Optional manual:** `.github/workflows/sandbox-sast.yml` — temp sandbox → `--sast` → SARIF artifact → **purge** (no APKs committed)
+- **Weekly (cron + manual):** `.github/workflows/weekly-sandbox-scan.yml` — Monday 06:00 UTC + `workflow_dispatch`
+  - Allowlist only: `tests/fixtures/sources.json` (HTTPS training/Maven URLs; not an internet crawl)
+  - Downloads into `$RUNNER_TEMP`, runs `python scripts/weekly_sandbox_scan.py` (`--sast`), writes `docs/results/weekly_YYYYMMDD/`
+  - Purges binaries; commits **reports only** with `GITHUB_TOKEN` (needs Actions write permission)
+  - Soft-fail: findings do not fail the job; keep allowlist ≤ ~15 for runner disk/time
+
+### GitHub-only maintenance (~6 months without IDE)
+
+1. Edit rules/taxonomy via GitHub web UI or PRs under `scanner/`
+2. Tweak allowlist in `tests/fixtures/sources.json` (PR); cron or Actions → **Weekly sandbox scan** → Run workflow
+3. Push/PR still runs pytest; weekly job refreshes `docs/results/weekly_*`
+4. Honest limits: allowlist only; no random APK scrape; no in-browser emulator; no binaries in git
 
 Local:
 
 ```bash
 python -m pytest tests/ -v
 python cli.py <sandbox> --sast -o sarif --out-file scan.sarif.json
+# Dry-run weekly job locally (downloads to TEMP, writes docs/results/weekly_*, purges):
+python scripts/weekly_sandbox_scan.py
 ```
 
 ## Regenerating showcases

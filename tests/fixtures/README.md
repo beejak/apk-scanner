@@ -18,6 +18,15 @@ Small non-APK fixtures (`sample_sdk/`, JARs, `libdivajni.so`) are tracked in git
 | **SDK** | `sample_sdk/` | Local dir with `include/`, `lib/`, and `.env` (triggers SDK SAST: sensitive file + credential pattern). |
 | **JSON** | `report.json` | Tiny sample report for unit tests. |
 
+## Weekly Actions allowlist
+
+Machine-readable HTTPS allowlist for the weekly sandbox job: [`sources.json`](sources.json). Edit via PR only — not an open internet crawl. See [`docs/USAGE.md`](../../docs/USAGE.md#ci).
+
+## Allowlist for weekly Actions / capability downloads
+
+Canonical URL allowlist (https educational/training only): **[`sources.json`](sources.json)**.  
+Used by `.github/workflows/weekly-sandbox-scan.yml` and `scripts/weekly_sandbox_scan.py`. Edit via PR — not an open crawl. Cap `max_artifacts` ≤ 15.
+
 ## Download APKs yourself (not in git)
 
 Place these files in `tests/fixtures/` (same directory as this README):

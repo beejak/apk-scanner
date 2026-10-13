@@ -4,7 +4,7 @@ Repo: [github.com/beejak/apk-scanner](https://github.com/beejak/apk-scanner)
 
 CLI for **discovery**, **metadata**, optional **pattern-scan SAST**, optional **plugins** (APKiD / Semgrep / mobsfscan), optional **real OSV SCA**, finding enrichment (MASWE + OWASP Mobile Top 10 2024, scores, remediation), and an optional **DAST scaffold** (Android Frida hooks when adb/device present; iOS stub). Outputs JSON, text, CSV, HTML, and SARIF.
 
-**Deep guide:** [`docs/USAGE.md`](docs/USAGE.md) — install, per-type scanning, flags, SCA, CI, showcase regen, honesty limits.
+**Deep guide:** [`docs/USAGE.md`](docs/USAGE.md) — install, per-type scanning, flags, SCA, CI, **weekly allowlist scan**, GitHub-only maintenance, honesty limits.
 
 **Honest capability:** solid inventory + constrained SAST with Critical/High signal rules — **not** a full SAST/DAST product. Useful for binary inventory, high-impact pattern leads, scored reports with fix/revalidate, CI SARIF. **Not** useful for confirmed triage, invented CVEs, or production DAST.
 
@@ -55,8 +55,12 @@ Taxonomy per finding: CWE, NIST, OWASP, **MASWE**, **OWASP Mobile Top 10 2024**,
 
 ## CI
 
-- Push/PR: pytest (`.github/workflows/ci.yml`)
-- Optional manual sandbox → SAST → SARIF → purge (`.github/workflows/sandbox-sast.yml`); APKs never committed
+- **Push/PR:** pytest (`.github/workflows/ci.yml`, Python 3.12)
+- **Weekly (Mon 06:00 UTC) + manual:** allowlist-only download → SAST → `docs/results/weekly_YYYYMMDD/` → purge binaries → commit reports (`.github/workflows/weekly-sandbox-scan.yml`). Allowlist: [`tests/fixtures/sources.json`](tests/fixtures/sources.json). Soft-fail on findings; never commits APK/IPA.
+- **Optional manual synthetic SARIF:** `.github/workflows/sandbox-sast.yml`
+
+GitHub-only maintenance (edit rules/allowlist via web UI/PRs, rely on Actions): see **GitHub-only maintenance** in [`docs/USAGE.md`](docs/USAGE.md). No in-browser emulator.
+- **Weekly allowlist scan** (cron Mon 06:00 UTC + manual): `.github/workflows/weekly-sandbox-scan.yml` → reports in `docs/results/weekly_*/` (see [`docs/USAGE.md`](docs/USAGE.md#ci)); sources `tests/fixtures/sources.json`
 
 ## Project layout
 

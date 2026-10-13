@@ -7,14 +7,17 @@ Sanitized reports from disposable temp sandboxes. **APK / IPA / similar binaries
 1. Double-click the `.html` file, or paste a `file:///` URL (encode spaces as `%20`).
 2. Self-contained pages work under `file://`:
    - `capability_run_*/manager_report.html` — manager POV with **Critical/High**, scores, fix/revalidate
+   - `weekly_*/manager_report.html` — same for GitHub Actions weekly allowlist scans
    - `capability_run_*/report.html` — CLI-style enriched HTML
 
-## Latest capability run
+## Latest capability / weekly runs
 
 | Path | Contents |
 |------|----------|
 | [`capability_run_20261014/`](capability_run_20261014/) | Fresh 5× apk/ipa/jar/so/sdk retest after high-impact rules + MASWE/Mobile2024 + SARIF/CI/plugins/SCA. **Critical** in KPIs + finding badges. Sandbox purged. |
+| `weekly_YYYYMMDD/` | Produced by GitHub Actions weekly allowlist job (`.github/workflows/weekly-sandbox-scan.yml`). Reports only; binaries never committed. |
 | [`sandbox_20261013/`](sandbox_20261013/) | Earlier APK-only enriched showcase |
+| `weekly_YYYYMMDD/` | Produced by Actions cron / `workflow_dispatch` (`.github/workflows/weekly-sandbox-scan.yml`); allowlist `tests/fixtures/sources.json` |
 
 ### capability_run_20261014 facts
 

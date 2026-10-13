@@ -1,0 +1,69 @@
+{
+  "description": "Allowlist ONLY — educational/training downloads for weekly Actions sandbox and local capability runs. Not an internet crawl. Edit via PR to add/remove URLs.",
+  "max_artifacts": 15,
+  "notes": [
+    "Prefer small public training APKs/IPAs and Maven JARs.",
+    "If a URL 404s, the weekly job logs and continues (does not fail the repo).",
+    "Never commit downloaded binaries; reports only under docs/results/weekly_*/."
+  ],
+  "artifacts": [
+    {
+      "type": "apk",
+      "name": "InsecureShop.apk",
+      "url": "https://github.com/hax0rgb/InsecureShop/releases/download/v1.0/InsecureShop.apk",
+      "family": "training"
+    },
+    {
+      "type": "apk",
+      "name": "UnCrackable-Level1.apk",
+      "url": "https://github.com/OWASP/owasp-mastg/raw/master/Crackmes/Android/Level_01/UnCrackable-Level1.apk",
+      "family": "owasp-mastg"
+    },
+    {
+      "type": "apk",
+      "name": "UnCrackable-Level2.apk",
+      "url": "https://github.com/OWASP/owasp-mastg/raw/master/Crackmes/Android/Level_02/UnCrackable-Level2.apk",
+      "family": "owasp-mastg"
+    },
+    {
+      "type": "ipa",
+      "name": "UnCrackable-Level1.ipa",
+      "url": "https://github.com/OWASP/owasp-mastg/raw/master/Crackmes/iOS/Level_01/UnCrackable-Level1.ipa",
+      "family": "owasp-mastg"
+    },
+    {
+      "type": "ipa",
+      "name": "UnCrackable-Level2.ipa",
+      "url": "https://github.com/OWASP/owasp-mastg/raw/master/Crackmes/iOS/Level_02/UnCrackable-Level2.ipa",
+      "family": "owasp-mastg"
+    },
+    {
+      "type": "jar",
+      "name": "junit-4.13.2.jar",
+      "url": "https://repo1.maven.org/maven2/junit/junit/4.13.2/junit-4.13.2.jar",
+      "family": "maven-central"
+    },
+    {
+      "type": "jar",
+      "name": "commons-lang3-3.12.0.jar",
+      "url": "https://repo1.maven.org/maven2/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar",
+      "family": "maven-central"
+    },
+    {
+      "type": "jar",
+      "name": "gson-2.8.9.jar",
+      "url": "https://repo1.maven.org/maven2/com/google/code/gson/gson/2.8.9/gson-2.8.9.jar",
+      "family": "maven-central"
+    },
+    {
+      "type": "jar",
+      "name": "slf4j-api-1.7.36.jar",
+      "url": "https://repo1.maven.org/maven2/org/slf4j/slf4j-api/1.7.36/slf4j-api-1.7.36.jar",
+      "family": "maven-central"
+    }
+  ],
+  "local_synthetic": {
+    "enabled": true,
+    "note": "Weekly job also adds a tiny edu JAR + one SDK-like dir in TEMP (no download) so jar/sdk coverage stays green if some URLs fail."
+  }
+}
