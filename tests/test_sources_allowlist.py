@@ -2,7 +2,7 @@
 import json
 from pathlib import Path
 
-SOURCES = Path(__file__).resolve().parents[1] / "fixtures" / "sources.json"
+SOURCES = Path(__file__).resolve().parent / "fixtures" / "sources.json"
 
 
 def test_sources_json_shape_and_https_only():

@@ -11,7 +11,7 @@
 | SAST | **Constrained pattern scan with Critical/High bands:** WebView JS bridge, Runtime.exec, trust-all, SQL concat, unsafe deserialization, path/file URI, exported intent/provider risks, weak crypto, secret formats. Vague password → info (assignment-shaped low). Optional plugins: `--apkid` / `--semgrep` / `--mobsfscan` (skip if missing) |
 | SCA | **[Partial]** `--sca` real OSV lookups when component+version extracted; cache + rate delay; never invents CVE IDs; offline skip |
 | DAST | **Scaffold:** Android Frida hooks for SSL trust-all, sensitive log, cleartext URL when adb+Python frida; CLI Frida captures nothing; iOS stub |
-| Reports | JSON/text/CSV/HTML/SARIF 2.1 (ruleId/level/locations/help/taxa); taxonomy includes **MASWE** + **OWASP Mobile Top 10 2024**; scores, remediation/revalidate; CVE only from SCA. How-to: `docs/USAGE.md`. CI: pytest on push/PR; optional sandbox→SARIF workflow |
+| Reports | JSON/text/CSV/HTML/SARIF 2.1 (ruleId/level/locations/help/taxa); taxonomy includes **MASWE** + **OWASP Mobile Top 10 2024**; scores, remediation/revalidate; CVE only from SCA. How-to: `docs/USAGE.md`. CI: pytest on push/PR; **weekly allowlist sandbox scan** → `docs/results/weekly_*` (no binaries); optional synthetic SARIF workflow |
 | Tests | Synthetic SAST + taxonomy + plugins/SCA (mocked) + DAST skip-path tests; integration without APKs in git |
 
 **Useful today for:** inventory, high-impact pattern leads (Critical/High), taxonomy packaging, scored fix/revalidate reports, CI SARIF, optional plugins/SCA.  

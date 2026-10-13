@@ -60,7 +60,6 @@ Taxonomy per finding: CWE, NIST, OWASP, **MASWE**, **OWASP Mobile Top 10 2024**,
 - **Optional manual synthetic SARIF:** `.github/workflows/sandbox-sast.yml`
 
 GitHub-only maintenance (edit rules/allowlist via web UI/PRs, rely on Actions): see **GitHub-only maintenance** in [`docs/USAGE.md`](docs/USAGE.md). No in-browser emulator.
-- **Weekly allowlist scan** (cron Mon 06:00 UTC + manual): `.github/workflows/weekly-sandbox-scan.yml` → reports in `docs/results/weekly_*/` (see [`docs/USAGE.md`](docs/USAGE.md#ci)); sources `tests/fixtures/sources.json`
 
 ## Project layout
 

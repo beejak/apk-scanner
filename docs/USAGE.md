@@ -183,10 +183,17 @@ Self-contained (inline CSS). Prefer `docs/results/capability_run_*/manager_repor
 
 ### GitHub-only maintenance (~6 months without IDE)
 
-1. Edit rules/taxonomy via GitHub web UI or PRs under `scanner/`
-2. Tweak allowlist in `tests/fixtures/sources.json` (PR); cron or Actions → **Weekly sandbox scan** → Run workflow
-3. Push/PR still runs pytest; weekly job refreshes `docs/results/weekly_*`
-4. Honest limits: allowlist only; no random APK scrape; no in-browser emulator; no binaries in git
+Keep improving scanner/signatures from GitHub alone (no local IDE required):
+
+1. **Edit rules/signatures in the web UI or PRs**  
+   - Patterns: `scanner/sast/patterns.py`, `scanner/sast/__init__.py`  
+   - Taxonomy / MASWE: `scanner/taxonomy.py`, `scanner/taxonomy_maswe.py`
+2. **PR validation** — `ci.yml` runs pytest on every PR; merge when green.
+3. **Tweak allowlist** — edit `tests/fixtures/sources.json` (https training/Maven URLs only; keep `max_artifacts` ≤ 15). Enforced by `tests/test_sources_allowlist.py`.
+4. **Cron / manual weekly scan** — schedule is `0 6 * * 1` in `weekly-sandbox-scan.yml`. Re-run: **Actions → Weekly sandbox scan → Run workflow**.
+5. **Read results** — `docs/results/weekly_YYYYMMDD/manager_report.html` (or SARIF artifact). Enable **Actions → Workflow permissions → Read and write** so the job can commit reports.
+
+Honest limits: allowlist only (no random crawl); no in-browser emulator; no cloud device farm; no binaries in git.
 
 Local:
 
