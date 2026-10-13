@@ -10,6 +10,11 @@
 reports/
 *.log
 
+# Local agent / OSV SCA cache (never commit)
+.cursor/
+.cache/
+**/osv/*.json
+
 # Python
 __pycache__/
 *.py[cod]

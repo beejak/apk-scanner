@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-CLI for discovery, metadata, optional pattern-scan SAST, and optional DAST scaffold.
+CLI for discovery, metadata, optional pattern-scan SAST, optional plugins/SCA, and DAST scaffold.
 
 This is a discovery + metadata + keyword/pattern-lint tool, not a full SAST/DAST product.
 """
@@ -22,15 +22,19 @@ def main() -> int:
     parser = argparse.ArgumentParser(
         description=(
             "Discover APK/IPA/JAR/.so/SDK under a path, extract metadata, and optionally "
-            "run pattern-scan SAST (--sast) and/or a DAST scaffold (--dynamic). "
-            "SAST uses constrained regex/metadata heuristics (exported unprotected components, "
-            "weak Cipher.getInstance, WebView JS bridge, cleartext traffic flags, trust-all, "
-            "high-confidence secret formats); still not decompilation or confirmed triage. "
-            "Vague password/secret tokens are low/info. "
-            "DEX scan is ZIP-based by default; set APK_SCANNER_ANDROGUARD=1 for optional androguard strings. "
-            "Report formats: text, json, csv, html, sarif. Findings include severity_score (0-10), "
-            "taxonomy (CWE/NIST/OWASP/CAPEC/CISA/NSA), cvss_estimate (rule-based, not NVD CVE CVSS), "
-            "remediation, and revalidate. CVE IDs require SCA (not implemented; cve is null)."
+            "run pattern-scan SAST (--sast), optional plugins (--apkid/--semgrep/--mobsfscan), "
+            "real OSV SCA (--sca), and/or a DAST scaffold (--dynamic). "
+            "SAST: constrained regex/metadata heuristics including WebView JS bridge, "
+            "SQL/content-provider leads, unsafe deserialization, exported+unprotected intent/"
+            "provider risks, path traversal/file URI, Runtime.exec/ProcessBuilder, trust-all, "
+            "cleartext flags, high-confidence secret formats. Critical severity used where "
+            "justified. Vague password tokens are info (assignment-shaped still low). "
+            "Taxonomy: CWE/NIST/OWASP/MASWE/Mobile Top 10 2024/CAPEC/CISA/NSA plus "
+            "severity_score, cvss_estimate (rule-based, not NVD CVE CVSS), remediation, "
+            "revalidate. CVE IDs only via --sca when component+version extracted (never invented). "
+            "Plugins/SCA skip cleanly if tools/network missing. "
+            "DEX scan is ZIP-based by default; APK_SCANNER_ANDROGUARD=1 for optional androguard. "
+            "Formats: text, json, csv, html, sarif."
         )
     )
     parser.add_argument("path", nargs="?", default=".", type=Path, help="Path to scan (file or directory)")
@@ -51,7 +55,7 @@ def main() -> int:
         help=(
             "Output format: json/text (richest: scores, taxonomy, remediation); "
             "csv (findings table + score/CVSS/remediation/taxonomy columns; no full metadata); "
-            "html (executive summary + per-finding fix/revalidate); sarif (CI + properties)"
+            "html (executive summary + per-finding fix/revalidate); sarif (CI + taxa/help)"
         ),
     )
     parser.add_argument("-j", "--jobs", type=int, default=1, help="Parallel workers for discovery/metadata (default 1)")
@@ -60,17 +64,48 @@ def main() -> int:
         action="store_true",
         help=(
             "Run pattern-scan SAST: constrained string/regex + metadata heuristics "
-            "(cleartext flags, exported-without-permission, weak crypto APIs, WebView bridge, "
-            "trust-all, AWS/Google-key-like formats). Not deep static analysis or confirmed vulns"
+            "(critical/high impact rules: JS bridge, runtime exec, trust-all, secrets, "
+            "exported intent/provider risks, etc.). Not deep static analysis or confirmed vulns"
         ),
     )
     parser.add_argument(
         "--dynamic",
         action="store_true",
         help=(
-            "Run DAST scaffold on APK/IPA: Android needs adb + device (one Frida SSLContext "
-            "check if Python frida is installed; CLI Frida captures nothing); iOS is a stub"
+            "Run DAST scaffold on APK/IPA: Android needs adb + device; Frida hooks for "
+            "SSL trust-all, sensitive logging, cleartext URL observation when Python frida "
+            "is installed; iOS stub. Skips cleanly without adb/device"
         ),
+    )
+    parser.add_argument(
+        "--apkid",
+        action="store_true",
+        help="Optional: run APKiD on APKs if `apkid` is on PATH (packer/obfuscator tags); skip if missing",
+    )
+    parser.add_argument(
+        "--semgrep",
+        action="store_true",
+        help="Optional: run Semgrep subprocess if `semgrep` on PATH; skip if missing",
+    )
+    parser.add_argument(
+        "--mobsfscan",
+        action="store_true",
+        help="Optional: run mobsfscan subprocess if `mobsfscan` on PATH; skip if missing",
+    )
+    parser.add_argument(
+        "--sca",
+        action="store_true",
+        help=(
+            "Optional: real OSV CVE/advisory lookup when component+version can be extracted "
+            "(JAR names, pom.properties, Gradle hints). Never invents CVE IDs. Caches under "
+            "~/.cache/apk-scanner/osv (or APK_SCANNER_SCA_CACHE). Polite rate delay via "
+            "APK_SCANNER_OSV_DELAY (default 0.35s)"
+        ),
+    )
+    parser.add_argument(
+        "--sca-offline",
+        action="store_true",
+        help="With --sca: do not call OSV (use only if you want extract-only skip of live queries)",
     )
     parser.add_argument("-v", "--verbose", action="store_true", help="Verbose (DEBUG) logging")
     parser.add_argument("--quiet", action="store_true", help="Only report to stdout; no progress logs")
@@ -100,6 +135,11 @@ def main() -> int:
         jobs=max(1, args.jobs),
         sast=args.sast,
         dynamic=args.dynamic,
+        apkid=args.apkid,
+        semgrep=args.semgrep,
+        mobsfscan=args.mobsfscan,
+        sca=args.sca,
+        sca_offline=args.sca_offline,
     )
 
     if args.output == "json":

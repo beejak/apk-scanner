@@ -34,6 +34,8 @@ def test_enrich_finding():
     assert "classification" in f
     assert f["classification"]["cwe"]
     assert f["classification"]["owasp"]
+    assert f["classification"].get("maswe")
+    assert f.get("maswe_id")
     assert isinstance(f["severity_score"], float)
     assert 0.0 <= f["severity_score"] <= 10.0
     assert f["cvss_estimate"]["note"]
@@ -41,6 +43,17 @@ def test_enrich_finding():
     assert f["remediation"]
     assert f["revalidate"]
     assert f["cve"] is None
+
+
+def test_enrich_preserves_real_cve_list():
+    f = {
+        "rule_id": "sca-osv-vuln",
+        "severity": "high",
+        "message": "OSV",
+        "cve": ["CVE-2020-12345"],
+    }
+    enrich_finding(f)
+    assert f["cve"] == ["CVE-2020-12345"]
 
 
 def test_severity_score_mapping():

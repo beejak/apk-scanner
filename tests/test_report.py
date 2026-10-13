@@ -124,7 +124,12 @@ def test_to_html():
 
 
 def test_to_sarif():
-    f = {"rule_id": "dex-hardcoded-password", "severity": "high", "message": "Hardcoded creds"}
+    f = {
+        "rule_id": "dex-hardcoded-password",
+        "severity": "high",
+        "message": "Hardcoded creds",
+        "location": {"file": "app.apk", "line": None},
+    }
     enrich_finding(f)
     r = aggregate([], [f], scan_timestamp="2026-01-01T00:00:00Z")
     out = to_sarif(r, tool_name="test-tool")
@@ -134,10 +139,16 @@ def test_to_sarif():
     assert len(data["runs"]) == 1
     assert data["runs"][0]["tool"]["driver"]["name"] == "test-tool"
     assert len(data["runs"][0]["results"]) == 1
-    assert data["runs"][0]["results"][0]["ruleId"] == "dex-hardcoded-password"
-    props = data["runs"][0]["results"][0]["properties"]
+    result = data["runs"][0]["results"][0]
+    assert result["ruleId"] == "dex-hardcoded-password"
+    assert result["locations"]
+    props = result["properties"]
     assert "severity_score" in props
     assert "remediation" in props
+    rule = data["runs"][0]["tool"]["driver"]["rules"][0]
+    assert "help" in rule
+    assert "Revalidate" in rule["help"]["text"] or "remediation" in rule["help"]["text"].lower() or rule["help"]["text"]
+    assert data["runs"][0].get("taxonomies")
 
 
 def test_reenrich_report():

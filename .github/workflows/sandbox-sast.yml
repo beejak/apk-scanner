@@ -1,0 +1,60 @@
+# Optional: disposable sandbox → SAST → SARIF → purge.
+# APKs/IPAs are NEVER committed. Trigger manually; downloads stay in runner temp.
+#
+# Usage: Actions → "Sandbox SAST (optional)" → Run workflow.
+# Does not run on every push (keeps CI fast; binaries are large / gitignored).
+
+name: Sandbox SAST (optional)
+
+on:
+  workflow_dispatch:
+    inputs:
+      note:
+        description: "Optional note (no secrets)"
+        required: false
+        default: "manual sandbox SAST"
+
+jobs:
+  sandbox-sast-sarif:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Create temp sandbox and synthetic fixtures
+        run: |
+          SANDBOX="${RUNNER_TEMP}/apk-scanner-sandbox"
+          mkdir -p "$SANDBOX/jar" "$SANDBOX/sdk/demo_sdk"
+          # Tiny JAR with cleartext bait (no APK download required for this optional job)
+          python - <<'PY'
+          import io, zipfile, pathlib, os
+          root = pathlib.Path(os.environ["RUNNER_TEMP"]) / "apk-scanner-sandbox"
+          props = b"url=http://evil.example.com/api\nCipher.getInstance(\"DES\")\n"
+          buf = io.BytesIO()
+          with zipfile.ZipFile(buf, "w") as zf:
+              zf.writestr("config.properties", props)
+          (root / "jar" / "bait.jar").write_bytes(buf.getvalue())
+          (root / "sdk" / "demo_sdk" / "README.txt").write_text("demo sdk\n", encoding="utf-8")
+          print("sandbox ready", root)
+          PY
+      - name: Run SAST → SARIF
+        run: |
+          SANDBOX="${RUNNER_TEMP}/apk-scanner-sandbox"
+          python cli.py "$SANDBOX" --sast -o sarif --out-file "$SANDBOX/scan.sarif.json"
+          python cli.py "$SANDBOX" --sast -o json --out-file "$SANDBOX/scan.json"
+          ls -la "$SANDBOX"
+      - name: Upload SARIF artifact (no binaries)
+        uses: actions/upload-artifact@v4
+        with:
+          name: sandbox-sarif
+          path: |
+            ${{ runner.temp }}/apk-scanner-sandbox/scan.sarif.json
+            ${{ runner.temp }}/apk-scanner-sandbox/scan.json
+      - name: Purge sandbox
+        if: always()
+        run: rm -rf "${RUNNER_TEMP}/apk-scanner-sandbox"

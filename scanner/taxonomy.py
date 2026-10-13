@@ -1,13 +1,19 @@
 """
-Cross-reference findings with CWE, NIST, OWASP, CAPEC, CISA, NSA.
+Cross-reference findings with CWE, NIST, OWASP, CAPEC, CISA, NSA, MASWE, OWASP Mobile Top 10 2024.
 Maps rule_id (and optionally masvs_id) to standard classifications for easy-to-understand reporting.
 
 Also provides rule-based severity_score (0–10), CVSS-like estimates (not NVD CVE CVSS),
-and remediation / revalidate guidance. CVE IDs require component/version SCA (not implemented);
-findings may include cve: null.
+and remediation / revalidate guidance. Real CVE IDs only via SCA (OSV) when component+version
+extracted — never invented; otherwise cve is null.
 """
 
 from typing import Any, Dict, List, Optional, Tuple
+
+from .taxonomy_maswe import (
+    NEW_RULE_TAXONOMY,
+    merge_maswe_into_classification,
+    primary_maswe_id,
+)
 
 # Rule_id -> classification: CWE, NIST, OWASP, CAPEC, CISA, NSA.
 # Each entry: short label for "easy to understand" + official ID + optional URL.
@@ -401,6 +407,9 @@ TAXONOMY: Dict[str, Dict[str, List[Dict[str, str]]]] = {
     },
 }
 
+# Merge high-impact / plugin / SCA / DAST rule taxonomies (MASWE + Mobile Top 10 2024).
+TAXONOMY.update(NEW_RULE_TAXONOMY)
+
 
 # Severity band → base score (0.0–10.0). Final score = min(10, base * rule_weight).
 SEVERITY_BASE: Dict[str, float] = {
@@ -415,25 +424,35 @@ CVSS_NOTE = "rule-based estimate, not NVD CVSS for a CVE"
 
 # Rule weight multipliers (confidence / actionability). Default 1.0.
 RULE_WEIGHTS: Dict[str, float] = {
-    "secret-aws-access-key": 1.15,
+    "secret-aws-access-key": 1.05,
     "secret-google-api-key": 1.1,
-    "secret-private-key-pem": 1.15,
-    "jar-secret-aws-access-key": 1.15,
+    "secret-private-key-pem": 1.05,
+    "jar-secret-aws-access-key": 1.05,
     "jar-secret-google-api-key": 1.1,
-    "jar-secret-private-key-pem": 1.15,
-    "ipa-secret-aws-access-key": 1.15,
+    "jar-secret-private-key-pem": 1.05,
+    "ipa-secret-aws-access-key": 1.05,
     "ipa-secret-google-api-key": 1.1,
-    "ipa-secret-private-key-pem": 1.15,
+    "ipa-secret-private-key-pem": 1.05,
     "apk-debuggable": 1.05,
     "apk-cleartext-traffic": 1.05,
     "apk-exported-unprotected": 1.05,
-    "dex-ssl-trust": 1.1,
-    "dast-android-ssl-trust-all": 1.15,
-    "dex-hardcoded-password": 0.85,
-    "dex-hardcoded-apikey": 0.9,
-    "dex-hardcoded-secret": 0.85,
-    "dex-storage-sharedprefs": 0.8,
-    "dex-logging": 0.75,
+    "apk-exported-intent-risk": 1.1,
+    "apk-exported-provider-unprotected": 1.05,
+    "dex-ssl-trust": 1.05,
+    "dex-webview-js-bridge": 1.05,
+    "dex-runtime-exec": 1.05,
+    "dex-sql-concat": 1.05,
+    "dex-unsafe-deserialization": 1.05,
+    "dex-path-traversal": 1.0,
+    "dast-android-ssl-trust-all": 1.1,
+    "dast-android-sensitive-log": 1.05,
+    "dast-android-cleartext-observed": 1.05,
+    "sca-osv-vuln": 1.1,
+    "dex-hardcoded-password": 0.7,
+    "dex-hardcoded-apikey": 0.75,
+    "dex-hardcoded-secret": 0.7,
+    "dex-storage-sharedprefs": 0.7,
+    "dex-logging": 0.65,
     "so-jni": 0.7,
 }
 
@@ -456,10 +475,24 @@ _CVSS_BY_FAMILY: Dict[str, Tuple[float, str]] = {
     "weak-cipher": (5.9, "AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"),
     "weak-hash": (5.3, "AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N"),
     "weak-crypto": (5.9, "AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"),
-    "webview-js-bridge": (6.5, "AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N"),
+    "webview-js-bridge": (8.1, "AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:L/A:N"),
     "webview-js-enabled": (5.4, "AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N"),
     "webview-file-access": (6.1, "AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N"),
-    "aws-access-key": (8.6, "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"),
+    "webview-file-uri": (7.1, "AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"),
+    "sql-concat": (8.1, "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"),
+    "content-provider-access": (5.3, "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"),
+    "unsafe-deserialization": (8.1, "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"),
+    "path-traversal": (7.5, "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"),
+    "runtime-exec": (9.0, "AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"),
+    "exported-intent-risk": (7.5, "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:H/A:N"),
+    "exported-provider-unprotected": (8.2, "AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N"),
+    "sensitive-log": (5.3, "AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"),
+    "cleartext-observed": (7.4, "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"),
+    "apkid-tag": (3.0, "AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N"),
+    "semgrep": (5.5, "AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"),
+    "mobsfscan": (5.5, "AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"),
+    "osv-vuln": (7.5, "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"),
+    "aws-access-key": (9.1, "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"),
     "google-api-key": (7.5, "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"),
     "private-key-pem": (8.6, "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"),
     "allow-arbitrary-loads": (7.4, "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"),
@@ -557,6 +590,62 @@ _HELP_BY_FAMILY: Dict[str, Tuple[str, str]] = {
         "Disable WebView file access (setAllowFileAccess(false) / setAllowFileAccessFromFileURLs(false)) unless strictly required.",
         "Rebuild and re-scan with --sast; dex-webview-file-access should clear when file-access APIs are not used insecurely.",
     ),
+    "webview-file-uri": (
+        "Disable setAllowFileAccessFromFileURLs / setAllowUniversalAccessFromFileURLs unless strictly required for trusted content.",
+        "Rebuild and re-scan with --sast; dex-webview-file-uri should clear when those APIs are not enabled.",
+    ),
+    "sql-concat": (
+        "Use parameterized queries / selectionArgs; never concatenate untrusted input into SQL or ContentProvider queries.",
+        "Rebuild and re-scan with --sast; dex-/jar-sql-concat should clear when concat-based SQL patterns are gone.",
+    ),
+    "content-provider-access": (
+        "Review ContentResolver usage; ensure providers are permission-protected and callers validate URIs.",
+        "Rebuild and re-scan with --sast; treat remaining hits as leads for intentional provider use.",
+    ),
+    "unsafe-deserialization": (
+        "Avoid ObjectInputStream / default typing / unsafe YAML load on untrusted data; use allowlists or safer formats (JSON with schemas).",
+        "Rebuild and re-scan with --sast; dex-/jar-unsafe-deserialization should clear when those APIs are removed or hardened.",
+    ),
+    "path-traversal": (
+        "Canonicalize and validate file paths; block ../ and unexpected file:// URIs; prefer app-private storage APIs.",
+        "Rebuild and re-scan with --sast; path-traversal rule_ids should clear or drop when unsafe path construction is fixed.",
+    ),
+    "runtime-exec": (
+        "Avoid Runtime.exec / ProcessBuilder in apps; if required, use fixed argument lists with no shell and no untrusted input.",
+        "Rebuild and re-scan with --sast; dex-/jar-runtime-exec should clear when exec/ProcessBuilder usage is removed.",
+    ),
+    "exported-intent-risk": (
+        "Set android:exported=false when not needed, or require a signature/custom permission; validate Intent extras.",
+        "Rebuild and re-scan with --sast; apk-exported-intent-risk should clear for activities no longer exported without permission.",
+    ),
+    "exported-provider-unprotected": (
+        "Protect ContentProviders with permissions or set exported=false; never expose sensitive data via open providers.",
+        "Rebuild and re-scan with --sast; apk-exported-provider-unprotected should clear when providers are protected.",
+    ),
+    "sensitive-log": (
+        "Stop logging passwords, tokens, or PII at runtime; use redaction or remove sensitive log lines in release.",
+        "Re-run with --dynamic when Frida/adb available; dast-android-sensitive-log should clear when hooks no longer observe sensitive logs.",
+    ),
+    "cleartext-observed": (
+        "Use HTTPS only; disable cleartext in network security config; fix any runtime HTTP URLs.",
+        "Re-run with --dynamic; dast-android-cleartext-observed should clear when no cleartext HTTP is observed.",
+    ),
+    "apkid-tag": (
+        "Informational packer/obfuscator tag from APKiD. Review whether packing is intentional for release.",
+        "Re-run with --apkid after changing packing; tags change with the binary, not a fix/revalidate defect by themselves.",
+    ),
+    "semgrep": (
+        "Review the Semgrep rule message and fix the underlying code issue; re-run Semgrep or this scanner with --semgrep.",
+        "Re-run: python cli.py <path> --sast --semgrep -o json. Expect the mapped plugin-semgrep finding to clear when Semgrep no longer reports it.",
+    ),
+    "mobsfscan": (
+        "Review the mobsfscan finding and apply the suggested secure-coding fix; re-scan with --mobsfscan.",
+        "Re-run: python cli.py <path> --sast --mobsfscan -o json. Expect plugin-mobsfscan hits to clear when mobsfscan is clean.",
+    ),
+    "osv-vuln": (
+        "Upgrade or replace the vulnerable component to a fixed version listed by OSV/NVD. Do not ignore known CVEs in shipped libs.",
+        "Re-run with --sca after upgrading; sca-osv-vuln for that package@version should clear when OSV no longer reports vulns (or version is fixed).",
+    ),
     "aws-access-key": (
         "Rotate the AWS access key immediately. Remove it from the app; use Cognito/STS or a backend that vends temporary credentials.",
         "After rotation and rebuild, re-scan with --sast; secret-*/aws-access-key findings should be gone. Confirm key disabled in AWS IAM.",
@@ -611,6 +700,8 @@ def _rule_family(rule_id: str) -> str:
     rid = rule_id or ""
     for prefix in (
         "dast-android-",
+        "plugin-",
+        "sca-",
         "secret-",
         "jar-secret-",
         "ipa-secret-",
@@ -627,15 +718,21 @@ def _rule_family(rule_id: str) -> str:
 
 
 def get_classification(rule_id: str, masvs_id: Optional[str] = None) -> Dict[str, List[Dict[str, str]]]:
-    """Return CWE, NIST, OWASP, CAPEC, CISA, NSA for a rule_id. Empty lists for unknown rules."""
-    return TAXONOMY.get(rule_id, {
+    """Return CWE, NIST, OWASP, CAPEC, CISA, NSA, MASWE, OWASP Mobile 2024 for a rule_id."""
+    _ = masvs_id
+    base = TAXONOMY.get(rule_id, {
         "cwe": [],
         "nist": [],
         "owasp": [],
         "capec": [],
         "cisa": [],
         "nsa": [],
+        "maswe": [],
+        "owasp_mobile": [],
     })
+    # Copy so callers can mutate safely
+    cls = {k: list(v) for k, v in base.items()}
+    return merge_maswe_into_classification(rule_id, _rule_family(rule_id), cls)
 
 
 def rule_weight(rule_id: str) -> float:
@@ -696,26 +793,33 @@ def get_remediation(rule_id: str) -> Dict[str, str]:
 
 
 def enrich_finding(f: Dict[str, Any]) -> Dict[str, Any]:
-    """Add classification, severity_score, cvss_estimate, remediation, revalidate, cve=null (mutates)."""
+    """Add classification, MASWE, scores, remediation; preserve real SCA cve list if set."""
     rule_id = f.get("rule_id") or ""
     severity = f.get("severity") or "info"
     cls = get_classification(rule_id, f.get("masvs_id"))
     f["classification"] = cls
+    mid = primary_maswe_id(cls)
+    if mid:
+        f["maswe_id"] = mid
+    mobile = cls.get("owasp_mobile") or []
+    if mobile:
+        f["owasp_mobile"] = mobile[0].get("id")
     f["severity_score"] = compute_severity_score(severity, rule_id)
     f["cvss_estimate"] = get_cvss_estimate(rule_id, severity)
     help_map = get_remediation(rule_id)
     f["remediation"] = help_map["remediation"]
     f["revalidate"] = help_map["revalidate"]
-    # CVE IDs require component/version SCA (not implemented) — do not invent CVE-YYYY-NNNN.
-    f["cve"] = None
+    # Real CVE IDs only from SCA (list or id). Never invent CVE-YYYY-NNNN.
+    if "cve" not in f:
+        f["cve"] = None
     return f
 
 
 def classification_short(f: Dict[str, Any]) -> str:
-    """One-line human-readable classification: CWE-798 (Hard-coded credentials); NIST IA-5; ..."""
+    """One-line human-readable classification: CWE-798 (...); MASWE-...; M1:2024; ..."""
     cls = f.get("classification") or get_classification(f.get("rule_id") or "")
     parts = []
-    for db in ("cwe", "nist", "owasp", "capec", "cisa", "nsa"):
+    for db in ("cwe", "nist", "owasp", "maswe", "owasp_mobile", "capec", "cisa", "nsa"):
         entries = cls.get(db) or []
         for e in entries[:2]:  # max 2 per DB for brevity
             parts.append(f"{e.get('id', '')} ({e.get('label', '')})")
@@ -726,7 +830,7 @@ def classification_for_csv(f: Dict[str, Any]) -> Dict[str, str]:
     """Return one column per DB with semicolon-separated id (label) for CSV."""
     cls = f.get("classification") or get_classification(f.get("rule_id") or "")
     out = {}
-    for db in ("cwe", "nist", "owasp", "capec", "cisa", "nsa"):
+    for db in ("cwe", "nist", "owasp", "maswe", "owasp_mobile", "capec", "cisa", "nsa"):
         entries = cls.get(db) or []
         out[db] = "; ".join(f"{e.get('id', '')} ({e.get('label', '')})" for e in entries)
     return out

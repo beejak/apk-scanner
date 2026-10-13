@@ -1,7 +1,7 @@
 """
-Android DAST scaffold: adb install + one optional Frida SSLContext.init check.
+Android DAST scaffold: adb install + Frida hooks (SSL trust-all, sensitive log, cleartext URL).
 Requires: Android SDK (adb), device/emulator; Python frida for message capture
-(CLI frida alone produces no hook findings). Not a full runtime suite.
+(CLI frida alone produces no hook findings). Not a full runtime suite. No exploit docs.
 """
 
 import logging
@@ -34,15 +34,12 @@ def run_android_dast(apk_path: Path, metadata: Dict[str, Any]) -> List[Dict[str,
         logger.info("DAST Android: no device/emulator; skip dynamic scan for %s", apk_path.name)
         return findings
 
-    # Install APK (optional: could skip if already installed and same version)
     install_ok = _adb_install(apk_path, devices[0])
     if not install_ok:
         logger.warning("DAST Android: install failed for %s", apk_path.name)
         return findings
 
-    # Run Frida-based checks: prefer Python frida API (to capture messages), else CLI
     findings.extend(_run_frida_checks(pkg, apk_path, devices[0]))
-
     return findings
 
 
@@ -57,9 +54,9 @@ def _has_frida_cli() -> bool:
 def _has_frida_python() -> bool:
     try:
         import frida  # noqa: F401
-        return True
     except ImportError:
         return False
+    return True
 
 
 def _adb_devices() -> List[str]:
@@ -75,7 +72,7 @@ def _adb_devices() -> List[str]:
             return []
         lines = [l.strip() for l in out.stdout.splitlines() if l.strip()]
         devices = []
-        for line in lines[1:]:  # skip "List of devices attached"
+        for line in lines[1:]:
             part = line.split()
             if part and part[1] == "device":
                 devices.append(part[0])
@@ -103,15 +100,16 @@ def _adb_install(apk_path: Path, device: str) -> bool:
 
 
 def _run_frida_checks(pkg: str, apk_path: Path, device: str) -> List[Dict[str, Any]]:
-    """
-    Run Frida script(s) against the app. Detects SSLContext.init with null TrustManager
-    (trust-all) and adds a runtime finding. Prefers Python frida API to capture messages.
-    """
+    """Run Frida scripts; prefer Python frida API to capture messages."""
+    _ = device
     if _has_frida_python():
         return _run_frida_python(pkg, apk_path)
     if _has_frida_cli():
         return _run_frida_cli(pkg, apk_path)
-    logger.info("DAST Android: Frida not found (install frida-tools or frida); skip hooks for %s", apk_path.name)
+    logger.info(
+        "DAST Android: Frida not found (install frida-tools or frida); skip hooks for %s",
+        apk_path.name,
+    )
     return []
 
 
@@ -136,7 +134,7 @@ def _run_frida_python(pkg: str, apk_path: Path) -> List[Dict[str, Any]]:
         script.load()
         device.resume(pid)
         import time
-        time.sleep(8)
+        time.sleep(10)
         session.detach()
         try:
             device.kill(pid)
@@ -146,21 +144,57 @@ def _run_frida_python(pkg: str, apk_path: Path) -> List[Dict[str, Any]]:
         logger.debug("Frida Python run failed: %s", e)
         return findings
 
+    seen_rules: set = set()
     for payload in messages:
-        if payload.get("type") == "ssl_init" and payload.get("trustAll") is True:
-            findings.append({
-                "rule_id": "dast-android-ssl-trust-all",
-                "severity": "high",
-                "message": "Runtime: SSLContext.init called with null TrustManager (trust-all); enables MITM.",
-                "location": {"file": str(apk_path), "line": None},
-                "evidence": payload,
-            })
-            break
+        ptype = payload.get("type")
+        if ptype == "ssl_init" and payload.get("trustAll") is True:
+            rid = "dast-android-ssl-trust-all"
+            if rid not in seen_rules:
+                seen_rules.add(rid)
+                findings.append({
+                    "rule_id": rid,
+                    "severity": "critical",
+                    "message": "Runtime: SSLContext.init called with null TrustManager (trust-all); enables MITM.",
+                    "location": {"file": str(apk_path), "line": None},
+                    "evidence": payload,
+                    "masvs_id": "MASVS-NETWORK-2",
+                })
+        elif ptype == "sensitive_log":
+            rid = "dast-android-sensitive-log"
+            if rid not in seen_rules:
+                seen_rules.add(rid)
+                findings.append({
+                    "rule_id": rid,
+                    "severity": "high",
+                    "message": (
+                        "Runtime: Log.* call looked sensitive "
+                        f"(tag/msg hint: {str(payload.get('hint', ''))[:80]})."
+                    ),
+                    "location": {"file": str(apk_path), "line": None},
+                    "evidence": payload,
+                    "masvs_id": "MASVS-PRIVACY-2",
+                })
+        elif ptype == "cleartext_url":
+            rid = "dast-android-cleartext-observed"
+            if rid not in seen_rules:
+                seen_rules.add(rid)
+                findings.append({
+                    "rule_id": rid,
+                    "severity": "high",
+                    "message": (
+                        "Runtime: cleartext http:// URL observed "
+                        f"({str(payload.get('url', ''))[:120]})."
+                    ),
+                    "location": {"file": str(apk_path), "line": None},
+                    "evidence": payload,
+                    "masvs_id": "MASVS-NETWORK-1",
+                })
     return findings
 
 
 def _run_frida_cli(pkg: str, apk_path: Path) -> List[Dict[str, Any]]:
     """Fallback: run frida CLI; cannot capture send() easily so no findings from hooks."""
+    _ = apk_path
     script = _default_frida_script()
     with tempfile.NamedTemporaryFile(mode="w", suffix=".js", delete=False, encoding="utf-8") as f:
         f.write(script)
@@ -183,16 +217,53 @@ def _run_frida_cli(pkg: str, apk_path: Path) -> List[Dict[str, Any]]:
 
 
 def _default_frida_script() -> str:
-    """Minimal script: hook SSLContext.init to detect pinning bypass."""
+    """Defensive observation hooks only — no bypass/exploit helpers."""
     return r"""
 'use strict';
-var findings = [];
+function safeStr(x) {
+  try { return x ? x.toString() : ''; } catch (e) { return ''; }
+}
+var SENSITIVE = /password|passwd|pwd|token|api[_-]?key|secret|authorization|bearer/i;
 try {
   var SSLContext = Java.use('javax.net.ssl.SSLContext');
   SSLContext.init.overload('[Ljavax.net.ssl.KeyManager;', '[Ljavax.net.ssl.TrustManager;', 'java.security.SecureRandom').implementation = function (km, tm, sr) {
     send({ type: 'ssl_init', trustAll: (tm === null) });
     this.init(km, tm, sr);
   };
-} catch (e) { send({ type: 'error', message: e.message }); }
-rpc.exports = { getFindings: function () { return findings; } };
+} catch (e) { send({ type: 'error', message: 'ssl: ' + e.message }); }
+
+try {
+  var Log = Java.use('android.util.Log');
+  ['d', 'i', 'w', 'e', 'v'].forEach(function (level) {
+    Log[level].overload('java.lang.String', 'java.lang.String').implementation = function (tag, msg) {
+      var t = safeStr(tag) + ' ' + safeStr(msg);
+      if (SENSITIVE.test(t)) {
+        send({ type: 'sensitive_log', hint: t.substring(0, 120), level: level });
+      }
+      return this[level](tag, msg);
+    };
+  });
+} catch (e) { send({ type: 'error', message: 'log: ' + e.message }); }
+
+try {
+  var URL = Java.use('java.net.URL');
+  URL.$init.overload('java.lang.String').implementation = function (spec) {
+    var s = safeStr(spec);
+    if (s.indexOf('http://') === 0) {
+      send({ type: 'cleartext_url', url: s.substring(0, 200) });
+    }
+    return this.$init(spec);
+  };
+} catch (e) { send({ type: 'error', message: 'url: ' + e.message }); }
+
+try {
+  var Uri = Java.use('android.net.Uri');
+  Uri.parse.implementation = function (uriString) {
+    var s = safeStr(uriString);
+    if (s.indexOf('http://') === 0) {
+      send({ type: 'cleartext_url', url: s.substring(0, 200) });
+    }
+    return this.parse(uriString);
+  };
+} catch (e) { send({ type: 'error', message: 'uri: ' + e.message }); }
 """

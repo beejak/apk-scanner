@@ -212,6 +212,8 @@ def to_csv(report: dict) -> str:
         "CWE",
         "NIST",
         "OWASP",
+        "MASWE",
+        "OWASP_Mobile_2024",
         "CAPEC",
         "CISA",
         "NSA",
@@ -239,6 +241,8 @@ def to_csv(report: dict) -> str:
                 cls.get("cwe", ""),
                 cls.get("nist", ""),
                 cls.get("owasp", ""),
+                cls.get("maswe", ""),
+                cls.get("owasp_mobile", ""),
                 cls.get("capec", ""),
                 cls.get("cisa", ""),
                 cls.get("nsa", ""),
@@ -269,6 +273,8 @@ def _taxonomy_html_block(f: dict) -> str:
         ("cwe", "CWE"),
         ("nist", "NIST"),
         ("owasp", "OWASP"),
+        ("maswe", "MASWE"),
+        ("owasp_mobile", "OWASP Mobile 2024"),
         ("capec", "CAPEC"),
         ("cisa", "CISA"),
         ("nsa", "NSA"),
@@ -355,7 +361,8 @@ code{font-family:Consolas,"Courier New",monospace;font-size:0.88em;}
         f"<div class='stat'><span class='n'>{_escape(summary.get('avg_severity_score', 0))}</span><span class='l'>Avg score</span></div>",
         "</div>",
         "<p class='note'>Severity scores are rule-based (band × weight), 0–10. "
-        "CVSS-estimate fields are not NVD CVSS for a CVE. CVE IDs require SCA (not implemented).</p>",
+        "CVSS-estimate fields are not NVD CVSS for a CVE. "
+        "CVE IDs appear only from real OSV SCA (--sca) when component+version was extracted; otherwise null.</p>",
     ]
 
     if meta:
@@ -416,24 +423,76 @@ def _escape(s: Any) -> str:
     )
 
 
+def _sarif_level(severity: str) -> str:
+    sev = (severity or "").lower()
+    if sev == "critical":
+        return "error"
+    if sev == "high":
+        return "error"
+    if sev == "info":
+        return "note"
+    return "warning"
+
+
+def _sarif_taxa_for_finding(f: dict) -> List[Dict[str, Any]]:
+    """Build SARIF taxa references from classification (CWE / MASWE / OWASP Mobile)."""
+    cls = f.get("classification") or {}
+    taxa: List[Dict[str, Any]] = []
+    for db, tool_comp in (
+        ("cwe", "cwe"),
+        ("maswe", "maswe"),
+        ("owasp_mobile", "owasp-mobile-2024"),
+    ):
+        for e in cls.get(db) or []:
+            eid = e.get("id")
+            if not eid:
+                continue
+            taxa.append({"id": eid, "toolComponent": {"name": tool_comp}})
+    return taxa
+
+
 def to_sarif(report: dict, tool_name: str = "apk-scanner") -> str:
-    """SARIF 2.1.0: results with scores/remediation in properties where practical."""
+    """
+    SARIF 2.1.0: ruleId, level, locations, help (remediation+revalidate), taxa, properties.
+    Honest: scores/CVSS-estimate are rule-based; CVE only when SCA populated.
+    """
     findings = report.get("findings", [])
-    rule_ids = sorted({f.get("rule_id") or "unknown" for f in findings})
+    by_rule: Dict[str, dict] = {}
+    for f in findings:
+        rid = f.get("rule_id") or "unknown"
+        if rid not in by_rule:
+            by_rule[rid] = f
+
     rules = []
-    for rid in rule_ids:
-        help_text = ""
-        for f in findings:
-            if (f.get("rule_id") or "unknown") == rid and f.get("remediation"):
-                help_text = f.get("remediation") or ""
-                break
+    for rid in sorted(by_rule):
+        f = by_rule[rid]
+        rem = f.get("remediation") or ""
+        rev = f.get("revalidate") or ""
+        help_text = rem
+        if rev:
+            help_text = f"{rem}\n\nRevalidate: {rev}" if rem else f"Revalidate: {rev}"
+        sev = (f.get("severity") or "warning").lower()
         rule: Dict[str, Any] = {
             "id": rid,
+            "name": rid,
             "shortDescription": {"text": rid},
-            "defaultConfiguration": {"level": "warning"},
+            "fullDescription": {"text": (f.get("message") or rid)[:256]},
+            "defaultConfiguration": {"level": _sarif_level(sev)},
+            "properties": {
+                "severity": f.get("severity"),
+                "maswe_id": f.get("maswe_id"),
+                "owasp_mobile": f.get("owasp_mobile"),
+            },
         }
         if help_text:
-            rule["help"] = {"text": help_text}
+            rule["help"] = {
+                "text": help_text,
+                "markdown": (
+                    f"**Remediation**\n\n{rem}\n\n**Revalidate**\n\n{rev}"
+                    if rem or rev
+                    else help_text
+                ),
+            }
         rules.append(rule)
 
     results = []
@@ -441,10 +500,7 @@ def to_sarif(report: dict, tool_name: str = "apk-scanner") -> str:
         rule_id = f.get("rule_id") or "unknown"
         loc = f.get("location") or {}
         path = loc.get("file", "")
-        sev = (f.get("severity") or "").lower()
-        level = "error" if sev in ("critical", "high") else "warning"
-        if sev == "info":
-            level = "note"
+        level = _sarif_level(f.get("severity") or "")
         result: Dict[str, Any] = {
             "ruleId": rule_id,
             "level": level,
@@ -456,10 +512,19 @@ def to_sarif(report: dict, tool_name: str = "apk-scanner") -> str:
                 "remediation": f.get("remediation"),
                 "revalidate": f.get("revalidate"),
                 "cve": f.get("cve"),
+                "maswe_id": f.get("maswe_id"),
+                "owasp_mobile": f.get("owasp_mobile"),
+                "source": f.get("source"),
             },
         }
+        taxa = _sarif_taxa_for_finding(f)
+        if taxa:
+            result["taxa"] = taxa
         if path:
-            result["locations"] = [{"physicalLocation": {"artifactLocation": {"uri": path}}}]
+            phys: Dict[str, Any] = {"artifactLocation": {"uri": path.replace("\\", "/")}}
+            if loc.get("line") is not None:
+                phys["region"] = {"startLine": int(loc["line"])}
+            result["locations"] = [{"physicalLocation": phys}]
         results.append(result)
 
     sarif = {
@@ -470,11 +535,28 @@ def to_sarif(report: dict, tool_name: str = "apk-scanner") -> str:
                 "tool": {
                     "driver": {
                         "name": tool_name,
-                        "version": "1.0",
+                        "version": "0.2.0",
                         "informationUri": "https://github.com/beejak/apk-scanner",
                         "rules": rules,
                     }
                 },
+                "taxonomies": [
+                    {
+                        "name": "cwe",
+                        "organization": "MITRE",
+                        "informationUri": "https://cwe.mitre.org/",
+                    },
+                    {
+                        "name": "maswe",
+                        "organization": "OWASP",
+                        "informationUri": "https://mas.owasp.org/MASWE/",
+                    },
+                    {
+                        "name": "owasp-mobile-2024",
+                        "organization": "OWASP",
+                        "informationUri": "https://owasp.org/www-project-mobile-top-10/",
+                    },
+                ],
                 "results": results,
                 "properties": {
                     "summary": report.get("summary"),

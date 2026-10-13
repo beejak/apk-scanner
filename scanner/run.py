@@ -1,5 +1,5 @@
 """
-Main pipeline: discover -> extract metadata -> [SAST] -> report.
+Main pipeline: discover -> extract metadata -> [SAST] -> [plugins] -> [SCA] -> [DAST] -> report.
 """
 
 import logging
@@ -47,12 +47,15 @@ def run(
     jobs: int = 1,
     sast: bool = False,
     dynamic: bool = False,
+    apkid: bool = False,
+    semgrep: bool = False,
+    mobsfscan: bool = False,
+    sca: bool = False,
+    sca_offline: bool = False,
 ) -> dict:
     """
-    Discover artifacts under root, extract metadata, optionally run SAST and/or DAST, return report dict.
-    jobs: parallel workers (1 = sequential). Use ProcessPoolExecutor.map for spawn safety on Windows.
-    sast: if True, run static analysis and add findings to report.
-    dynamic: if True, run DAST on APK/IPA (emulator + Frida when available); add runtime findings.
+    Discover artifacts under root, extract metadata, optionally run SAST/plugins/SCA/DAST.
+    Optional backends skip cleanly when tools or network are unavailable.
     """
     logger.info("Scanning directory: %s", root)
     items = discover(root, recursive=recursive, types=types)
@@ -109,6 +112,64 @@ def run(
                 logger.warning("SAST error for %s: %s", path_str, e)
         logger.info("SAST found %d finding(s)", len(findings))
 
+    if apkid or semgrep or mobsfscan:
+        logger.info(
+            "Running optional plugins (apkid=%s semgrep=%s mobsfscan=%s)",
+            apkid,
+            semgrep,
+            mobsfscan,
+        )
+        from .plugins import run_plugins
+
+        plugin_count = 0
+        for item in metadata_list:
+            path_str = item.get("path", "")
+            typ = item.get("type", "")
+            meta = item.get("metadata", {})
+            if meta.get("error"):
+                continue
+            try:
+                for f in run_plugins(
+                    Path(path_str),
+                    typ,
+                    meta,
+                    apkid=apkid,
+                    semgrep=semgrep,
+                    mobsfscan=mobsfscan,
+                ):
+                    f.setdefault("source", "plugin")
+                    findings.append(f)
+                    plugin_count += 1
+            except Exception as e:
+                logger.warning("Plugin error for %s: %s", path_str, e)
+        logger.info("Plugins added %d finding(s)", plugin_count)
+
+    if sca:
+        logger.info("Running SCA/OSV (offline=%s)", sca_offline)
+        from .sca import run_sca
+
+        sca_count = 0
+        for item in metadata_list:
+            path_str = item.get("path", "")
+            typ = item.get("type", "")
+            meta = item.get("metadata", {})
+            if meta.get("error"):
+                continue
+            try:
+                for f in run_sca(
+                    Path(path_str),
+                    typ,
+                    meta,
+                    enabled=True,
+                    offline=sca_offline,
+                ):
+                    f.setdefault("source", "sca")
+                    findings.append(f)
+                    sca_count += 1
+            except Exception as e:
+                logger.warning("SCA error for %s: %s", path_str, e)
+        logger.info("SCA added %d finding(s)", sca_count)
+
     if dynamic:
         apk_ipa = [item for item in metadata_list if item.get("type") in ("apk", "ipa")]
         logger.info("Running DAST on %d APK/IPA artifact(s)", len(apk_ipa))
@@ -125,7 +186,10 @@ def run(
                     findings.append(f)
             except Exception as e:
                 logger.warning("DAST error for %s: %s", path_str, e)
-        logger.info("DAST found %d runtime finding(s)", sum(1 for f in findings if f.get("source") == "dynamic"))
+        logger.info(
+            "DAST found %d runtime finding(s)",
+            sum(1 for f in findings if f.get("source") == "dynamic"),
+        )
 
     for f in findings:
         enrich_finding(f)

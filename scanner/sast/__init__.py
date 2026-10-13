@@ -100,7 +100,8 @@ def _metadata_rules(
             "source": "sast",
         })
 
-    # Exported components without a protecting permission (when permission field present)
+    # Exported components without a protecting permission → intent / IPC risk.
+    # Activities & providers: high (or critical for providers — data exposure surface).
     for comp_list, comp_type in (
         (metadata.get("activities"), "activity"),
         (metadata.get("services"), "service"),
@@ -117,17 +118,37 @@ def _metadata_rules(
             name = c.get("name", "?")
             perm = c.get("permission")
             # Flag only when we know permission is missing/empty (apk-info path).
-            # If permission key absent entirely (legacy metadata), still flag as medium lead.
+            # If permission key absent entirely (legacy metadata), still flag as lead.
             if perm:
                 continue
-            out.append({
-                "rule_id": "apk-exported-unprotected",
-                "severity": "medium",
-                "message": (
+            if comp_type == "provider":
+                severity = "critical"
+                rule_id = "apk-exported-provider-unprotected"
+                msg = (
+                    f"Exported ContentProvider without permission (data IPC risk): {name}"
+                    if "permission" in c
+                    else f"Exported ContentProvider: {name} (permission unknown; verify protection)."
+                )
+            elif comp_type == "activity":
+                severity = "high"
+                rule_id = "apk-exported-intent-risk"
+                msg = (
+                    f"Exported activity without permission (intent/IPC risk): {name}"
+                    if "permission" in c
+                    else f"Exported activity: {name} (permission unknown; verify protection)."
+                )
+            else:
+                severity = "medium"
+                rule_id = "apk-exported-unprotected"
+                msg = (
                     f"Exported {comp_type} without permission: {name}"
                     if "permission" in c
                     else f"Exported {comp_type}: {name} (permission unknown; verify protection)."
-                ),
+                )
+            out.append({
+                "rule_id": rule_id,
+                "severity": severity,
+                "message": msg,
                 "location": {"file": str(artifact_path), "line": None},
                 "masvs_id": "MASVS-PLATFORM-1",
                 "source": "sast",

@@ -34,14 +34,18 @@ def test_patterns_weak_cipher_and_webview():
 
 def test_patterns_high_confidence_secrets_and_vague_demoted():
     aws = scan_text_for_rules("key=AKIAIOSFODNN7EXAMPLE")
-    assert any(h["rule_id"] == "secret-aws-access-key" and h["severity"] == "high" for h in aws)
+    assert any(h["rule_id"] == "secret-aws-access-key" and h["severity"] == "critical" for h in aws)
 
     google = scan_text_for_rules("AIzaSyDummyGoogleApiKey0123456789ABCDEF")
     assert any(h["rule_id"] == "secret-google-api-key" for h in google)
 
     vague = scan_text_for_rules("this mentions password in a comment")
     pw = [h for h in vague if h["rule_id"] == "dex-hardcoded-password"]
-    assert pw and pw[0]["severity"] == "low"
+    assert pw and pw[0]["severity"] == "info"
+
+    assign = scan_text_for_rules('password = "hunter2xx"')
+    pw_a = [h for h in assign if h["rule_id"] == "dex-hardcoded-password" and h["severity"] == "low"]
+    assert pw_a
 
     secret = scan_text_for_rules("user secret storage helper")
     sec = [h for h in secret if h["rule_id"] == "dex-hardcoded-secret"]
@@ -72,13 +76,14 @@ def test_metadata_exported_unprotected_only():
         "allow_backup": "true",
     }
     findings = run_sast(path, "apk", meta)
-    exported = [f for f in findings if f["rule_id"] == "apk-exported-unprotected"]
-    assert len(exported) == 2
-    assert any(".Open" in f["message"] for f in exported)
-    assert any(".OpenStr" in f["message"] for f in exported)
+    intent = [f for f in findings if f["rule_id"] == "apk-exported-intent-risk"]
+    assert len(intent) == 2
+    assert any(".Open" in f["message"] for f in intent)
+    assert any(".OpenStr" in f["message"] for f in intent)
+    assert all(f["severity"] == "high" for f in intent)
     assert any(f["rule_id"] == "apk-debuggable" for f in findings)
     assert any(f["rule_id"] == "apk-allow-backup" for f in findings)
-    assert get_classification("apk-exported-unprotected")["cwe"]
+    assert get_classification("apk-exported-intent-risk")["cwe"]
 
 
 def test_metadata_cleartext_flag():
@@ -190,12 +195,47 @@ def test_so_extract_uses_fallback_on_import_error(tmp_path, monkeypatch):
 def test_new_rule_ids_in_taxonomy():
     for rid in (
         "apk-exported-unprotected",
+        "apk-exported-intent-risk",
+        "apk-exported-provider-unprotected",
         "apk-cleartext-traffic",
         "dex-weak-cipher",
         "dex-webview-js-bridge",
+        "dex-runtime-exec",
+        "dex-sql-concat",
+        "dex-unsafe-deserialization",
+        "dex-path-traversal",
         "secret-aws-access-key",
         "secret-google-api-key",
         "ipa-exception-insecure-http",
     ):
         c = get_classification(rid)
         assert c["cwe"], rid
+
+
+def test_patterns_high_impact_rules():
+    hits = scan_text_for_rules("Runtime.getRuntime().exec(\"id\")")
+    assert any(h["rule_id"] == "dex-runtime-exec" and h["severity"] == "critical" for h in hits)
+    hits2 = scan_text_for_rules("new ProcessBuilder(cmd)")
+    assert any(h["rule_id"] == "dex-runtime-exec" for h in hits2)
+    hits3 = scan_text_for_rules("ObjectInputStream(in).readObject()")
+    assert any(h["rule_id"] == "dex-unsafe-deserialization" for h in hits3)
+    hits4 = scan_text_for_rules('rawQuery("select * from t where id=" + id, null)')
+    assert any(h["rule_id"] == "dex-sql-concat" for h in hits4)
+    bridge = scan_text_for_rules("addJavascriptInterface(bridge, \"Android\")")
+    assert any(h["rule_id"] == "dex-webview-js-bridge" and h["severity"] == "critical" for h in bridge)
+
+
+def test_metadata_exported_provider_critical():
+    findings = run_sast(
+        Path("p.apk"),
+        "apk",
+        {
+            "providers": [{"name": ".OpenProvider", "exported": True, "permission": None}],
+            "activities": [],
+            "services": [],
+            "receivers": [],
+        },
+    )
+    prov = [f for f in findings if f["rule_id"] == "apk-exported-provider-unprotected"]
+    assert len(prov) == 1
+    assert prov[0]["severity"] == "critical"

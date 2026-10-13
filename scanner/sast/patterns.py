@@ -2,7 +2,7 @@
 Constrained string/regex detectors shared by APK/JAR/IPA/native SAST.
 
 Prefer API/token-shaped matches over bare keyword hits. Vague tokens like
-password/secret are low/info only (high false-positive rate).
+password/secret are info-only unless assignment-shaped (still low).
 """
 
 from __future__ import annotations
@@ -11,7 +11,6 @@ import re
 from typing import Any, Dict, List, Optional, Pattern, Tuple
 
 # (compiled_pattern, rule_id, severity, message, masvs_id)
-# Patterns match against lowercased ASCII strings unless noted.
 RegexRule = Tuple[Pattern[str], str, str, str, Optional[str]]
 
 # High-confidence secret formats (case-sensitive originals also checked via separate pass)
@@ -19,7 +18,7 @@ _SECRET_FORMAT_RULES: List[Tuple[Pattern[str], str, str, str, Optional[str]]] = 
     (
         re.compile(r"(?<![A-Za-z0-9])AKIA[0-9A-Z]{16}(?![A-Za-z0-9])"),
         "secret-aws-access-key",
-        "high",
+        "critical",
         "AWS access key id-like string (AKIA…).",
         "MASVS-AUTH-4",
     ),
@@ -33,13 +32,13 @@ _SECRET_FORMAT_RULES: List[Tuple[Pattern[str], str, str, str, Optional[str]]] = 
     (
         re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
         "secret-private-key-pem",
-        "high",
+        "critical",
         "PEM private key block.",
         "MASVS-CRYPTO-1",
     ),
 ]
 
-# Constrained API / crypto / WebView / trust heuristics (matched on lowercased text)
+# Constrained API / crypto / WebView / trust / injection heuristics (matched on lowercased text)
 _CONSTRAINED_RULES: List[RegexRule] = [
     (
         re.compile(
@@ -63,8 +62,8 @@ _CONSTRAINED_RULES: List[RegexRule] = [
     (
         re.compile(r"addjavascriptinterface\s*\(", re.I),
         "dex-webview-js-bridge",
-        "high",
-        "WebView addJavascriptInterface (JS bridge) usage.",
+        "critical",
+        "WebView addJavascriptInterface (JS bridge) — high-impact if content is untrusted.",
         "MASVS-PLATFORM-2",
     ),
     (
@@ -83,6 +82,16 @@ _CONSTRAINED_RULES: List[RegexRule] = [
     ),
     (
         re.compile(
+            r"setallow(?:universalaccessfromfileurls|fileaccessfromfileurls)\s*\(\s*true\s*\)",
+            re.I,
+        ),
+        "dex-webview-file-uri",
+        "high",
+        "WebView allows file:// / universal access from file URLs.",
+        "MASVS-PLATFORM-2",
+    ),
+    (
+        re.compile(
             r"(trustall(?:certs?|hostname)?|trustymanager|trustmanager\s*\[\s*\]\s*=|"
             r"x509trustmanager|checkservertrusted\s*\([^)]*\)\s*\{\s*\}|"
             r"allow_all_hostname_verifier|hostnameverifier[^\n]{0,40}return\s+true|"
@@ -90,7 +99,7 @@ _CONSTRAINED_RULES: List[RegexRule] = [
             re.I,
         ),
         "dex-ssl-trust",
-        "high",
+        "critical",
         "Trust-all / disabled certificate validation heuristic.",
         "MASVS-NETWORK-2",
     ),
@@ -118,15 +127,84 @@ _CONSTRAINED_RULES: List[RegexRule] = [
         "Cleartext HTTP URL; prefer HTTPS.",
         "MASVS-NETWORK-1",
     ),
+    (
+        re.compile(
+            r"(?:rawquery|execsql|sqliteDatabase\.query)\s*\([^)]*"
+            r"(?:\+|concat|string\.format|stringbuilder)",
+            re.I,
+        ),
+        "dex-sql-concat",
+        "high",
+        "SQL query built with string concat / format (injection lead).",
+        "MASVS-CODE-2",
+    ),
+    (
+        re.compile(
+            r"contentresolver\.(?:query|insert|update|delete)\s*\(|"
+            r"content://[a-z0-9_.]+/",
+            re.I,
+        ),
+        "dex-content-provider-access",
+        "medium",
+        "ContentProvider / ContentResolver access pattern.",
+        "MASVS-PLATFORM-1",
+    ),
+    (
+        re.compile(
+            r"objectinputstream\s*\(|readobject\s*\(\s*\)|"
+            r"objectmapper\.enabledefaulttyping|"
+            r"json\.parseobject\s*\([^)]*Feature\.SupportAutoType|"
+            r"yaml\.load\s*\(",
+            re.I,
+        ),
+        "dex-unsafe-deserialization",
+        "high",
+        "Unsafe deserialization / polymorphic typing heuristic.",
+        "MASVS-CODE-4",
+    ),
+    (
+        re.compile(
+            r"(?:\.\./|\.\.\\|file:///)|"
+            r"new\s+file\s*\([^)]*(?:\+|concat)|"
+            r"getexternal(?:storage|files)dir",
+            re.I,
+        ),
+        "dex-path-traversal",
+        "high",
+        "Path traversal / file URI / external-storage path heuristic.",
+        "MASVS-CODE-2",
+    ),
+    (
+        re.compile(
+            r"runtime\.getruntime\s*\(\s*\)\s*\.exec\s*\(|"
+            r"processbuilder\s*\(",
+            re.I,
+        ),
+        "dex-runtime-exec",
+        "critical",
+        "Runtime.exec / ProcessBuilder — command execution surface.",
+        "MASVS-CODE-4",
+    ),
 ]
 
-# Vague token heuristics — demoted severity (match lowercased)
+# Vague token heuristics — heavily demoted (match lowercased)
 _VAGUE_RULES: List[RegexRule] = [
+    (
+        # Assignment-shaped only at low; bare "password" word → info via separate pattern below
+        re.compile(
+            r"(?:password|passwd|pwd)\s*[:=]\s*[\"'][^\"']{3,}[\"']",
+            re.I,
+        ),
+        "dex-hardcoded-password",
+        "low",
+        "Assignment-shaped password literal (still low confidence; may be UI/test).",
+        "MASVS-AUTH-4",
+    ),
     (
         re.compile(r"\bpassword\b"),
         "dex-hardcoded-password",
-        "low",
-        "Possible password/credential reference (low confidence; high FP).",
+        "info",
+        "Bare password token (info only; high FP — not a credential finding).",
         "MASVS-AUTH-4",
     ),
     (
@@ -139,8 +217,8 @@ _VAGUE_RULES: List[RegexRule] = [
     (
         re.compile(r"\bapi[_-]?key\b"),
         "dex-hardcoded-apikey",
-        "low",
-        "Possible API key reference (low confidence unless format match).",
+        "info",
+        "Possible API key reference (info unless format match).",
         "MASVS-AUTH-4",
     ),
     (
@@ -153,7 +231,7 @@ _VAGUE_RULES: List[RegexRule] = [
     (
         re.compile(r"android\.util\.log|log\.[diewv]\s*\("),
         "dex-logging",
-        "low",
+        "info",
         "Android Log usage; ensure no sensitive data in release.",
         "MASVS-PRIVACY-2",
     ),
@@ -168,6 +246,10 @@ _JAR_ID_MAP = {
     "dex-ssl-trust": "jar-ssl-trust",
     "dex-weak-cipher": "jar-weak-crypto",
     "dex-weak-hash": "jar-weak-crypto",
+    "dex-sql-concat": "jar-sql-concat",
+    "dex-unsafe-deserialization": "jar-unsafe-deserialization",
+    "dex-path-traversal": "jar-path-traversal",
+    "dex-runtime-exec": "jar-runtime-exec",
     "secret-aws-access-key": "jar-secret-aws-access-key",
     "secret-google-api-key": "jar-secret-google-api-key",
     "secret-private-key-pem": "jar-secret-private-key-pem",
@@ -229,10 +311,26 @@ def scan_text_for_rules(
             out.append(_finding(rid, severity, message, masvs_id, text))
 
     if include_vague:
+        vague_hits: List[Dict[str, Any]] = []
         for pat, rule_id, severity, message, masvs_id in _VAGUE_RULES:
-            if pat.search(lower):
+            if pat.search(lower) or pat.search(text):
                 rid = (id_map or {}).get(rule_id, rule_id)
-                out.append(_finding(rid, severity, message, masvs_id, text))
+                vague_hits.append(_finding(rid, severity, message, masvs_id, text))
+        # Prefer assignment-shaped password over bare token (avoid double noise)
+        has_assign_pw = any(
+            h["rule_id"] in ("dex-hardcoded-password", "jar-hardcoded-password", "ipa-hardcoded-password")
+            and h["severity"] == "low"
+            for h in vague_hits
+        )
+        for h in vague_hits:
+            if (
+                has_assign_pw
+                and h["rule_id"]
+                in ("dex-hardcoded-password", "jar-hardcoded-password", "ipa-hardcoded-password")
+                and h["severity"] == "info"
+            ):
+                continue
+            out.append(h)
 
     return out
 
