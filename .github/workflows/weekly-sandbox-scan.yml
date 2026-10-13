@@ -22,6 +22,7 @@ on:
 
 permissions:
   contents: write
+  security-events: write
 
 concurrency:
   group: weekly-sandbox-scan
@@ -55,14 +56,35 @@ jobs:
           # Soft-fail guarantee: script exits 0 even when findings exist
           test -d docs/results/weekly_* || echo "WARN: no weekly_* output dir"
 
-      - name: Upload SARIF artifact (reports only)
+      - name: Resolve SARIF path
+        id: sarif
         if: always()
+        run: |
+          SARIF=$(ls -1t docs/results/weekly_*/report.sarif.json 2>/dev/null | head -n1 || true)
+          if [ -n "$SARIF" ] && [ -f "$SARIF" ]; then
+            echo "path=$SARIF" >> "$GITHUB_OUTPUT"
+            echo "Found SARIF: $SARIF"
+          else
+            echo "path=" >> "$GITHUB_OUTPUT"
+            echo "WARN: no weekly SARIF to upload"
+          fi
+
+      - name: Upload SARIF artifact (reports only)
+        if: always() && steps.sarif.outputs.path != ''
         uses: actions/upload-artifact@v4
         with:
           name: weekly-sarif
-          path: docs/results/weekly_*/report.sarif.json
+          path: ${{ steps.sarif.outputs.path }}
           if-no-files-found: warn
           retention-days: 30
+
+      - name: Upload SARIF to GitHub Code Scanning
+        if: always() && steps.sarif.outputs.path != ''
+        continue-on-error: true
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: ${{ steps.sarif.outputs.path }}
+          category: apk-scanner-weekly
 
       - name: Purge any leftover binaries under workspace
         if: always()

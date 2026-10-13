@@ -14,6 +14,10 @@ on:
         required: false
         default: "manual sandbox SAST"
 
+permissions:
+  contents: read
+  security-events: write
+
 jobs:
   sandbox-sast-sarif:
     runs-on: ubuntu-latest
@@ -55,6 +59,13 @@ jobs:
           path: |
             ${{ runner.temp }}/apk-scanner-sandbox/scan.sarif.json
             ${{ runner.temp }}/apk-scanner-sandbox/scan.json
+      - name: Upload SARIF to GitHub Code Scanning
+        if: always()
+        continue-on-error: true
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: ${{ runner.temp }}/apk-scanner-sandbox/scan.sarif.json
+          category: apk-scanner-sandbox
       - name: Purge sandbox
         if: always()
         run: rm -rf "${RUNNER_TEMP}/apk-scanner-sandbox"

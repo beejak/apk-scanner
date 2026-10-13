@@ -5,6 +5,10 @@ on:
     branches: [main, master]
   pull_request:
 
+permissions:
+  contents: read
+  security-events: write
+
 jobs:
   pytest:
     runs-on: ubuntu-latest
@@ -19,3 +23,41 @@ jobs:
           pip install -r requirements.txt
       - name: Run pytest
         run: python -m pytest tests/ -v --tb=short
+
+  # Synthetic SAST → SARIF → Code Scanning (no APK downloads; keeps Security tab wired)
+  sarif-code-scanning:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Synthetic fixture → SARIF
+        run: |
+          SANDBOX="${RUNNER_TEMP}/apk-scanner-ci-sarif"
+          mkdir -p "$SANDBOX/jar"
+          python - <<'PY'
+          import io, zipfile, pathlib, os
+          root = pathlib.Path(os.environ["RUNNER_TEMP"]) / "apk-scanner-ci-sarif"
+          props = b"url=http://evil.example.com/api\nCipher.getInstance(\"DES\")\n"
+          buf = io.BytesIO()
+          with zipfile.ZipFile(buf, "w") as zf:
+              zf.writestr("config.properties", props)
+          (root / "jar" / "ci-bait.jar").write_bytes(buf.getvalue())
+          print("ready", root)
+          PY
+          python cli.py "$SANDBOX" --sast -o sarif --out-file "$SANDBOX/scan.sarif.json"
+      - name: Upload SARIF to GitHub Code Scanning
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+        continue-on-error: true
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: ${{ runner.temp }}/apk-scanner-ci-sarif/scan.sarif.json
+          category: apk-scanner-ci
+      - name: Purge sandbox
+        if: always()
+        run: rm -rf "${RUNNER_TEMP}/apk-scanner-ci-sarif"
