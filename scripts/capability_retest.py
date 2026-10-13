@@ -16,7 +16,6 @@ import shutil
 import subprocess
 import sys
 import tempfile
-import urllib.request
 import zipfile
 from collections import Counter
 from datetime import datetime, timezone
@@ -27,46 +26,23 @@ sys.path.insert(0, str(ROOT))
 
 from scanner.report import reenrich_report, to_csv, to_html, to_json, to_sarif, to_text  # noqa: E402
 from scanner.run import run  # noqa: E402
+from scanner.sources_allowlist import (  # noqa: E402
+    DEFAULT_HISTORY_REL,
+    DEFAULT_SOURCES_REL,
+    entry_id,
+    load_history,
+    load_sources,
+    materialize_entry,
+    record_scan,
+    save_history,
+    select_entries,
+    utc_today_str,
+)
 
 # Prefer local calendar date for run folder naming (showcase id).
 RUN_ID = f"capability_run_{datetime.now().strftime('%Y%m%d')}"
-
-APK_URLS = [
-    ("InsecureShop.apk", "https://github.com/hax0rgb/InsecureShop/releases/download/v1.0/InsecureShop.apk"),
-    ("UnCrackable-L1.apk", "https://github.com/OWASP/owasp-mastg/raw/master/Crackmes/Android/Level_01/UnCrackable-Level1.apk"),
-    ("UnCrackable-L2.apk", "https://github.com/OWASP/owasp-mastg/raw/master/Crackmes/Android/Level_02/UnCrackable-Level2.apk"),
-    ("UnCrackable-L3.apk", "https://github.com/OWASP/owasp-mastg/raw/master/Crackmes/Android/Level_03/UnCrackable-Level3.apk"),
-]
-
-IPA_URLS = [
-    ("UnCrackable-L1.ipa", "https://github.com/OWASP/owasp-mastg/raw/master/Crackmes/iOS/Level_01/UnCrackable-Level1.ipa"),
-    ("UnCrackable-L2.ipa", "https://github.com/OWASP/owasp-mastg/raw/master/Crackmes/iOS/Level_02/UnCrackable-Level2.ipa"),
-]
-
-# Maven Central JARs
-JAR_URLS = [
-    ("junit-4.13.2.jar", "https://repo1.maven.org/maven2/junit/junit/4.13.2/junit-4.13.2.jar"),
-    ("commons-lang3-3.12.0.jar", "https://repo1.maven.org/maven2/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar"),
-    ("slf4j-api-1.7.36.jar", "https://repo1.maven.org/maven2/org/slf4j/slf4j-api/1.7.36/slf4j-api-1.7.36.jar"),
-    ("gson-2.8.9.jar", "https://repo1.maven.org/maven2/com/google/code/gson/gson/2.8.9/gson-2.8.9.jar"),
-]
-
-
-def _dl(url: str, dest: Path, timeout: int = 120) -> bool:
-    dest.parent.mkdir(parents=True, exist_ok=True)
-    try:
-        req = urllib.request.Request(url, headers={"User-Agent": "apk-scanner-capability/0.2"})
-        with urllib.request.urlopen(req, timeout=timeout) as resp:
-            data = resp.read()
-        if len(data) < 100:
-            print(f"  too small: {url}")
-            return False
-        dest.write_bytes(data)
-        print(f"  OK {dest.name} ({len(data)} bytes)")
-        return True
-    except Exception as e:
-        print(f"  FAIL {url}: {e}")
-        return False
+SOURCES = ROOT / DEFAULT_SOURCES_REL
+HISTORY = ROOT / DEFAULT_HISTORY_REL
 
 
 def _make_edu_jar(path: Path) -> None:
@@ -297,12 +273,37 @@ def main() -> int:
     for d in (apk_dir, ipa_dir, jar_dir, so_dir, sdk_dir):
         d.mkdir(parents=True)
 
-    print("Downloading APKs...")
-    apk_ok = 0
-    for name, url in APK_URLS:
-        if _dl(url, apk_dir / name):
-            apk_ok += 1
     fixtures = ROOT / "tests" / "fixtures"
+    out_dir = ROOT / "docs" / "results" / RUN_ID
+    report_rel = str(out_dir.relative_to(ROOT)).replace("\\", "/")
+
+    # Shared allowlist (primary → fallback) with history dedupe; force=True for showcase completeness
+    print("Allowlist materialize (sources.json primary/fallback, history-aware)...")
+    sources = load_sources(SOURCES)
+    history = load_history(HISTORY)
+    # Capability showcase: prefer fresh downloads — mark force on selection copy
+    selected, skipped = select_entries(sources, {"version": 1, "entries": {}}, max_n=int(sources.get("max_artifacts") or 15))
+    for s in skipped:
+        print(f"  SKIP {s.get('id')}: {s.get('_skip_reason')}")
+    for item in selected:
+        forced = dict(item, force=True)
+        meta = materialize_entry(forced, sandbox, user_agent="apk-scanner-capability/0.3")
+        if meta.get("ok"):
+            print(f"  OK {meta.get('id')} ({meta.get('type')}) pool={item.get('_pool')}")
+            record_scan(
+                history,
+                item,
+                version=meta.get("version"),
+                etag=meta.get("etag"),
+                sha256=meta.get("sha256"),
+                url=item.get("url"),
+                last_report_dir=report_rel,
+                last_scan_date=utc_today_str(),
+            )
+        else:
+            print(f"  FAIL {entry_id(item)}: {meta.get('error')}")
+
+    apk_ok = len(list(apk_dir.glob("*.apk")))
     if fixtures.is_dir():
         for p in sorted(fixtures.glob("*.apk")):
             if apk_ok >= 5:
@@ -315,11 +316,7 @@ def main() -> int:
     if apk_ok < 5:
         print(f"WARN: only {apk_ok} APKs; continuing")
 
-    print("Downloading IPAs...")
-    ipa_ok = 0
-    for name, url in IPA_URLS:
-        if _dl(url, ipa_dir / name):
-            ipa_ok += 1
+    ipa_ok = len(list(ipa_dir.glob("*.ipa")))
     # Pad IPAs with minimal synthetic plists if <5 public downloads
     while ipa_ok < 5:
         import plistlib
@@ -336,35 +333,32 @@ def main() -> int:
         ipa_ok += 1
         print(f"  synthetic IPA synth-{n}.ipa")
 
-    print("Downloading JARs...")
-    jar_ok = 0
-    for name, url in JAR_URLS:
-        if _dl(url, jar_dir / name):
-            jar_ok += 1
+    jar_ok = len(list(jar_dir.glob("*.jar")))
     _make_edu_jar(jar_dir / "edu-secrets-sample.jar")
     jar_ok += 1
     print("  OK edu-secrets-sample.jar (local)")
 
-    print("Extracting .so from APKs (exactly 5 into so/)...")
-    so_n = _extract_sos(apk_dir, so_dir, 5)
+    print("Padding .so (extract leftovers / stubs to reach 5)...")
+    so_n = len(list(so_dir.glob("*.so")))
+    if so_n < 5:
+        so_n += _extract_sos(apk_dir, so_dir, 5 - so_n)
     if so_n < 5 and (fixtures / "libdivajni.so").is_file():
         dest = so_dir / "libdivajni.so"
         if not dest.exists():
             shutil.copy2(fixtures / "libdivajni.so", dest)
             so_n += 1
-    # Minimal valid-ish ELF class byte so pyelftools may still fail but discovery counts file
     while so_n < 5:
         so_n += 1
-        # ELF32 little-endian header stub (EI_CLASS=1)
         hdr = bytearray(b"\x7fELF\x01\x01\x01" + b"\x00" * 57)
         (so_dir / f"stub{so_n}.so").write_bytes(bytes(hdr) + b"JNI_OnLoad\x00password\x00")
         print(f"  stub so stub{so_n}.so")
-    # Cap at 5 files
     for extra in sorted(so_dir.glob("*.so"))[5:]:
         extra.unlink()
 
-    print("Creating SDK dirs...")
+    print("Creating extra SDK dirs (showcase padding)...")
     _make_sdks(sdk_dir)
+    save_history(HISTORY, history)
+    print(f"Updated history → {HISTORY}")
 
     print("Running SAST (plugins/sca best-effort; dynamic if adb)...")
     import shutil as sh
@@ -431,16 +425,18 @@ def main() -> int:
         },
         "sca": True,
         "sources": {
-            "apk": "InsecureShop, AndroGoat, DIVA, UnCrackable L1, OVAA (public; fallbacks if download fails)",
-            "ipa": "OWASP UnCrackable L1/L2 + synthetic ATS IPAs to reach 5",
-            "jar": "Maven Central + edu-secrets-sample.jar",
-            "so": "Extracted from training APKs / stubs",
-            "sdk": "Synthetic SDK layouts (hello-jni, gson, slf4j, training, vuln-config)",
+            "allowlist": str(SOURCES.relative_to(ROOT)).replace("\\", "/"),
+            "history": str(HISTORY.relative_to(ROOT)).replace("\\", "/"),
+            "note": "primary+fallback from sources.json via scanner.sources_allowlist; synthetic pad to 5× types",
+            "apk": "Allowlist APKs + local fixtures if present",
+            "ipa": "Allowlist IPAs + synthetic ATS IPAs to reach 5",
+            "jar": "Allowlist Maven JARs + edu-secrets-sample.jar",
+            "so": "Allowlist extract_from_apk + APK extract / stubs",
+            "sdk": "Allowlist generate recipes + synthetic SDK layouts",
         },
         "honesty": "Pattern-scan leads; Critical/High from shipped rules; CVE only from OSV when extracted.",
     }
 
-    out_dir = ROOT / "docs" / "results" / RUN_ID
     if out_dir.exists():
         shutil.rmtree(out_dir)
     out_dir.mkdir(parents=True)

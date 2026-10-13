@@ -2,68 +2,189 @@
   "description": "Allowlist ONLY — educational/training downloads for weekly Actions sandbox and local capability runs. Not an internet crawl. Edit via PR to add/remove URLs.",
   "max_artifacts": 15,
   "notes": [
-    "Prefer small public training APKs/IPAs and Maven JARs.",
+    "Prefer small public training APKs/IPAs, Maven JARs, generated SDK trees, and .so extracted from allowlisted APKs.",
+    "primary is tried first; fallback fills the quota when primary entries are skipped (already scanned at same version) or fail.",
+    "Scan history (tests/fixtures/scan_history.json) records id+version/etag/sha256 — commit history JSON, never binaries.",
     "If a URL 404s, the weekly job logs and continues (does not fail the repo).",
     "Never commit downloaded binaries; reports only under docs/results/weekly_*/."
   ],
-  "artifacts": [
+  "schema": {
+    "entry_fields": [
+      "id",
+      "name",
+      "type (apk|ipa|jar|so|sdk)",
+      "url or urls",
+      "version or content_fingerprint",
+      "publisher (optional)",
+      "notes (optional)",
+      "force (optional bool)",
+      "min_interval_days (optional int)"
+    ],
+    "sdk": "Either a https zip URL, or { \"generate\": true, \"files\": [{\"path\", \"content\"}] } which creates a tiny sample_sdk tree in TEMP (no binary commit).",
+    "so": "Either a public https direct URL, or extract_from_apk: { \"url\", \"member\" } (download APK to temp, extract .so, delete APK)."
+  },
+  "primary": [
     {
+      "id": "insecureshop-apk",
       "type": "apk",
       "name": "InsecureShop.apk",
       "url": "https://github.com/hax0rgb/InsecureShop/releases/download/v1.0/InsecureShop.apk",
-      "family": "training"
+      "version": "1.0",
+      "publisher": "hax0rgb/InsecureShop",
+      "notes": "Training APK release"
     },
     {
+      "id": "uncrackable-android-l1",
       "type": "apk",
       "name": "UnCrackable-Level1.apk",
       "url": "https://github.com/OWASP/owasp-mastg/raw/master/Crackmes/Android/Level_01/UnCrackable-Level1.apk",
+      "version": "mastg-android-l1",
+      "publisher": "OWASP/owasp-mastg",
       "family": "owasp-mastg"
     },
     {
+      "id": "uncrackable-android-l2",
       "type": "apk",
       "name": "UnCrackable-Level2.apk",
       "url": "https://github.com/OWASP/owasp-mastg/raw/master/Crackmes/Android/Level_02/UnCrackable-Level2.apk",
+      "version": "mastg-android-l2",
+      "publisher": "OWASP/owasp-mastg",
       "family": "owasp-mastg"
     },
     {
+      "id": "uncrackable-ios-l1",
       "type": "ipa",
       "name": "UnCrackable-Level1.ipa",
       "url": "https://github.com/OWASP/owasp-mastg/raw/master/Crackmes/iOS/Level_01/UnCrackable-Level1.ipa",
+      "version": "mastg-ios-l1",
+      "publisher": "OWASP/owasp-mastg",
       "family": "owasp-mastg"
     },
     {
+      "id": "uncrackable-ios-l2",
       "type": "ipa",
       "name": "UnCrackable-Level2.ipa",
       "url": "https://github.com/OWASP/owasp-mastg/raw/master/Crackmes/iOS/Level_02/UnCrackable-Level2.ipa",
+      "version": "mastg-ios-l2",
+      "publisher": "OWASP/owasp-mastg",
       "family": "owasp-mastg"
     },
     {
+      "id": "junit-4.13.2",
       "type": "jar",
       "name": "junit-4.13.2.jar",
       "url": "https://repo1.maven.org/maven2/junit/junit/4.13.2/junit-4.13.2.jar",
+      "version": "4.13.2",
+      "publisher": "Maven Central",
       "family": "maven-central"
     },
     {
-      "type": "jar",
-      "name": "commons-lang3-3.12.0.jar",
-      "url": "https://repo1.maven.org/maven2/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar",
-      "family": "maven-central"
-    },
-    {
+      "id": "gson-2.8.9",
       "type": "jar",
       "name": "gson-2.8.9.jar",
       "url": "https://repo1.maven.org/maven2/com/google/code/gson/gson/2.8.9/gson-2.8.9.jar",
+      "version": "2.8.9",
+      "publisher": "Maven Central",
       "family": "maven-central"
     },
     {
+      "id": "uncrackable-l1-libscrypt",
+      "type": "so",
+      "name": "libscrypt.so",
+      "version": "mastg-android-l1-libscrypt",
+      "publisher": "OWASP/owasp-mastg",
+      "notes": "Extract .so from UnCrackable L1 APK in TEMP; APK deleted after extract. Never committed.",
+      "extract_from_apk": {
+        "url": "https://github.com/OWASP/owasp-mastg/raw/master/Crackmes/Android/Level_01/UnCrackable-Level1.apk",
+        "member": "lib/armeabi/libscrypt.so"
+      }
+    },
+    {
+      "id": "weekly-training-sdk",
+      "type": "sdk",
+      "name": "weekly-training-sdk",
+      "version": "1.0.0",
+      "publisher": "apk-scanner (synthetic)",
+      "generate": true,
+      "notes": "Tiny SDK tree created in TEMP from files[]; no binary commit.",
+      "files": [
+        {"path": "include/note.h", "content": "// weekly training sdk\n"},
+        {"path": "lib/README.txt", "content": "no binaries — synthetic sdk for discovery/SAST\n"},
+        {"path": "config/.env", "content": "API_KEY=weekly-demo\n"}
+      ]
+    },
+    {
+      "id": "commons-lang3-3.12.0",
+      "type": "jar",
+      "name": "commons-lang3-3.12.0.jar",
+      "url": "https://repo1.maven.org/maven2/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar",
+      "version": "3.12.0",
+      "publisher": "Maven Central",
+      "family": "maven-central"
+    }
+  ],
+  "fallback": [
+    {
+      "id": "uncrackable-android-l3",
+      "type": "apk",
+      "name": "UnCrackable-Level3.apk",
+      "url": "https://github.com/OWASP/owasp-mastg/raw/master/Crackmes/Android/Level_03/UnCrackable-Level3.apk",
+      "version": "mastg-android-l3",
+      "publisher": "OWASP/owasp-mastg",
+      "family": "owasp-mastg",
+      "notes": "Fallback APK when primary APKs already scanned at same version"
+    },
+    {
+      "id": "slf4j-api-1.7.36",
       "type": "jar",
       "name": "slf4j-api-1.7.36.jar",
       "url": "https://repo1.maven.org/maven2/org/slf4j/slf4j-api/1.7.36/slf4j-api-1.7.36.jar",
+      "version": "1.7.36",
+      "publisher": "Maven Central",
+      "family": "maven-central"
+    },
+    {
+      "id": "uncrackable-l2-libfoo",
+      "type": "so",
+      "name": "libfoo.so",
+      "version": "mastg-android-l2-libfoo",
+      "publisher": "OWASP/owasp-mastg",
+      "notes": "Fallback .so extract from UnCrackable L2",
+      "extract_from_apk": {
+        "url": "https://github.com/OWASP/owasp-mastg/raw/master/Crackmes/Android/Level_02/UnCrackable-Level2.apk",
+        "member": "lib/armeabi/libfoo.so"
+      }
+    },
+    {
+      "id": "vuln-config-sdk",
+      "type": "sdk",
+      "name": "vuln-config-sdk",
+      "version": "1.0.0",
+      "publisher": "apk-scanner (synthetic)",
+      "generate": true,
+      "notes": "Fallback synthetic SDK with sensitive config patterns",
+      "files": [
+        {"path": "include/sdk.h", "content": "// vuln-config-sdk\n"},
+        {"path": "lib/note.txt", "content": "sdk\n"},
+        {
+          "path": "secrets.pem",
+          "content": "-----BEGIN PRIVATE KEY-----\nMIIE\n-----END PRIVATE KEY-----\n"
+        },
+        {"path": "config/.env", "content": "password=test\nAPI_KEY=fallback-demo\n"}
+      ]
+    },
+    {
+      "id": "hamcrest-core-1.3",
+      "type": "jar",
+      "name": "hamcrest-core-1.3.jar",
+      "url": "https://repo1.maven.org/maven2/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar",
+      "version": "1.3",
+      "publisher": "Maven Central",
       "family": "maven-central"
     }
   ],
   "local_synthetic": {
     "enabled": true,
-    "note": "Weekly job also adds a tiny edu JAR + one SDK-like dir in TEMP (no download) so jar/sdk coverage stays green if some URLs fail."
+    "note": "Weekly job may still add a tiny edu JAR in TEMP when enabled (no download). SDK/so prefer allowlist generate/extract recipes."
   }
 }

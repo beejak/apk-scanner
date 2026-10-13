@@ -1,0 +1,5 @@
+{
+  "version": 1,
+  "description": "Repo-safe scan history for allowlist dedupe. Records id, version/etag/sha256, last_scan_date, last_report_dir. Commit this JSON; never commit downloaded binaries.",
+  "entries": {}
+}

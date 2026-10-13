@@ -78,13 +78,14 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # Stage ONLY weekly report paths (never binaries)
+          # Stage weekly report paths + scan history JSON (never binaries)
           git add docs/results/weekly_*/report.json \
                   docs/results/weekly_*/report.html \
                   docs/results/weekly_*/report.txt \
                   docs/results/weekly_*/report.sarif.json \
                   docs/results/weekly_*/summary.json \
                   docs/results/weekly_*/manager_report.html \
+                  tests/fixtures/scan_history.json \
                   2>/dev/null || true
 
           # Refuse if any staged path looks like a binary package

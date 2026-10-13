@@ -18,14 +18,21 @@ Small non-APK fixtures (`sample_sdk/`, JARs, `libdivajni.so`) are tracked in git
 | **SDK** | `sample_sdk/` | Local dir with `include/`, `lib/`, and `.env` (triggers SDK SAST: sensitive file + credential pattern). |
 | **JSON** | `report.json` | Tiny sample report for unit tests. |
 
-## Weekly Actions allowlist
+## Weekly / capability allowlist
 
-Machine-readable HTTPS allowlist for the weekly sandbox job: [`sources.json`](sources.json). Edit via PR only — not an open internet crawl. See [`docs/USAGE.md`](../../docs/USAGE.md#ci).
+Canonical HTTPS allowlist: **[`sources.json`](sources.json)** (edit via PR — not an open crawl).  
+Used by `scripts/weekly_sandbox_scan.py`, `scripts/capability_retest.py`, and `.github/workflows/weekly-sandbox-scan.yml`.
 
-## Allowlist for weekly Actions / capability downloads
+| Field | Meaning |
+|-------|---------|
+| `primary` | Preferred entries (also accepts legacy `sources` / `artifacts` keys) |
+| `fallback` | Used when primary is skipped (same id+version in history) or under quota after failures |
+| `max_artifacts` | Cap ≤ 15 selected per run |
+| Entry | `id`, `name`, `type` (`apk`\|`ipa`\|`jar`\|`so`\|`sdk`), `url`/`urls`, `version` or `content_fingerprint`, optional `publisher`/`notes`/`force`/`min_interval_days` |
+| SDK | https zip **or** `"generate": true` + `files: [{path, content}]` → tiny tree in TEMP (never commit binaries) |
+| .so | https direct URL **or** `extract_from_apk: { url, member }` (APK downloaded to temp, `.so` extracted, APK deleted) |
 
-Canonical URL allowlist (https educational/training only): **[`sources.json`](sources.json)**.  
-Used by `.github/workflows/weekly-sandbox-scan.yml` and `scripts/weekly_sandbox_scan.py`. Edit via PR — not an open crawl. Cap `max_artifacts` ≤ 15.
+**History (committed JSON, not binaries):** [`scan_history.json`](scan_history.json) — `id`, version/etag/sha256, `last_scan_date`, `last_report_dir`. Weekly job skips unchanged versions; bump `version` (or change URL) when the publisher ships a major update. See [`docs/USAGE.md`](../../docs/USAGE.md#ci).
 
 ## Download APKs yourself (not in git)
 
