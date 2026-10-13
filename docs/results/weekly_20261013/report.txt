@@ -1,7 +1,7 @@
-Scan time: 2026-10-13T20:14:36.925189+00:00
-Severity: critical=3, high=10, medium=49, low=0, info=29 | max_score=10.0 | avg_score=4.44
+Scan time: 2026-10-13T20:20:48.964574+00:00
+Severity: critical=3, high=16, medium=50, low=0, info=38 | max_score=10.0 | avg_score=4.33
 
-=== APK (3) ===
+=== APK (4) ===
   <sandbox>/apk/InsecureShop.apk
     size: 4 MB
     package: com.insecureshop
@@ -9,7 +9,7 @@ Severity: critical=3, high=10, medium=49, low=0, info=29 | max_score=10.0 | avg_
     version_name: 1.0
     min_sdk: 16
     target_sdk: 29
-    permissions: ['android.permission.WAKE_LOCK', 'android.permission.WRITE_EXTERNAL_STORAGE', 'android.permission.INTERNET', 'android.permission.READ_CONTACTS', 'android.permission.READ_EXTERNAL_STORAGE']
+    permissions: ['android.permission.READ_EXTERNAL_STORAGE', 'android.permission.INTERNET', 'android.permission.READ_CONTACTS', 'android.permission.WRITE_EXTERNAL_STORAGE', 'android.permission.WAKE_LOCK']
     main_activity: com.insecureshop.ProductListActivity
     main_activities: ['com.insecureshop.ProductListActivity']
     debuggable: true
@@ -20,6 +20,24 @@ Severity: critical=3, high=10, medium=49, low=0, info=29 | max_score=10.0 | avg_
     receivers: []
     providers: [{'name': 'com.insecureshop.contentProvider.InsecureShopProvider', 'exported': True, 'permission': None}, {'name': 'androidx.core.content.FileProvider', 'exported': False, 'permission': None}]
     signatures: [{'subject': 'CN=Android Debug O=Android C=US', 'issuer': 'CN=Android Debug O=Android C=US', 'valid_until': 'Aug 30 10:14:25 2046 GMT'}, {'subject': 'CN=Android Debug O=Android C=US', 'issuer': 'CN=Android Debug O=Android C=US', 'valid_until': 'Aug 30 10:14:25 2046 GMT'}]
+  <sandbox>/apk/UnCrackable-Level3.apk
+    size: 1 MB
+    package: owasp.mstg.uncrackable3
+    version_code: 1
+    version_name: 1.0
+    min_sdk: 19
+    target_sdk: 28
+    permissions: []
+    main_activity: sg.vantagepoint.uncrackable3.MainActivity
+    main_activities: ['sg.vantagepoint.uncrackable3.MainActivity']
+    debuggable: None
+    allow_backup: true
+    multidex: False
+    activities: [{'name': 'sg.vantagepoint.uncrackable3.MainActivity', 'exported': None, 'permission': None}]
+    services: []
+    receivers: []
+    providers: []
+    signatures: [{'subject': 'L=Everywhere O=OWASP OU=OMTG CN=Jeroen Willemsen', 'issuer': 'L=Everywhere O=OWASP OU=OMTG CN=Jeroen Willemsen', 'valid_until': 'May 28 16:44:09 2044 GMT'}]
   <sandbox>/apk/UnCrackable-Level2.apk
     size: 879 KB
     package: owasp.mstg.uncrackable2
@@ -75,7 +93,7 @@ Severity: critical=3, high=10, medium=49, low=0, info=29 | max_score=10.0 | avg_
     min_os_version: None
     file_count: 42
 
-=== JAR (5) ===
+=== JAR (6) ===
   <sandbox>/jar/gson-2.8.9.jar
     size: 252 KB
     file_count: 214
@@ -147,6 +165,18 @@ Severity: critical=3, high=10, medium=49, low=0, info=29 | max_score=10.0 | avg_
     Build-Jdk: 1.6.0_65
     Implementation-URL: http://junit.org
     Archiver-Version: Plexus Archiver
+  <sandbox>/jar/hamcrest-core-1.3.jar
+    size: 43 KB
+    file_count: 52
+    manifest_version: 1.0
+    main_class: None
+    created_by: 1.6.0_33-b03 (Sun Microsystems Inc.)
+    Ant-Version: Apache Ant 1.8.1
+    Implementation-Title: hamcrest-core
+    Implementation-Vendor: hamcrest.org
+    Implementation-Version: 1.3
+    Built-By: tom
+    Built-Date: 2012-07-09 19:49:34
   <sandbox>/jar/slf4j-api-1.7.36.jar
     size: 40 KB
     file_count: 46
@@ -169,14 +199,29 @@ Severity: critical=3, high=10, medium=49, low=0, info=29 | max_score=10.0 | avg_
     X-Compile-Source-JDK: 1.5
     Build-Jdk-Spec: 1.8
 
-=== SDK (1) ===
+=== SO (1) ===
+  <sandbox>/so/libfoo.so
+    size: 13 KB
+    elf_class: 64
+    machine: AArch64
+    needed: ['libm.so', 'libdl.so', 'libc.so']
+    soname: libfoo.so
+    has_jni_exports: True
+    stripped: True
+
+=== SDK (2) ===
+  <sandbox>/modules/vuln-config-sdk
+    size: 118 B
+    directory: True
+    entry_count: 7
+    size_bytes: 118
   <sandbox>/modules/weekly-training-sdk
-    size: 46 B
+    size: 92 B
     directory: True
     entry_count: 6
-    size_bytes: 46
+    size_bytes: 92
 
-=== FINDINGS (91) ===
+=== FINDINGS (107) ===
   [medium] score=5.5 jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in META-INF/maven/com.google.code.gson/gson/pom.xml; seen: <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi...) @ <sandbox>/jar/gson-2.8.9.jar
     Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
     CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
@@ -352,6 +397,16 @@ Severity: critical=3, high=10, medium=49, low=0, info=29 | max_score=10.0 | avg_
     CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
     Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
     Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [high] score=8.0 sdk-sensitive-file: Sensitive file in SDK: secrets.pem (ensure not committed or restrict access). @ <sandbox>/modules/vuln-config-sdk/secrets.pem
+    Classification: CWE-312 (Cleartext storage of sensitive information); CWE-200 (Information exposure); SC-28 (Protection of information at rest); CM-7 (Least functionality); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); MASWE-0001 (Sensitive files in package); M1:2024 (Improper Credential Usage); M2:2024 (Inadequate Supply Chain Security); CAPEC-37 (Retrieve embedded sensitive data); NoSecrets (Do not commit keys or credentials to SDK); SupplyChain (Secure SDK contents (NSA supply chain))
+    CVSS-estimate: 6.5 (AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Remove keystores, PEM files, and credential-like filenames from the SDK distribution; load secrets at runtime from a vault.
+    Revalidate: Re-scan the SDK path with --sast; sdk-sensitive-file should clear when those files are removed from the tree.
+  [high] score=8.0 sdk-sensitive-file: Sensitive file in SDK: .env (ensure not committed or restrict access). @ <sandbox>/modules/vuln-config-sdk/config/.env
+    Classification: CWE-312 (Cleartext storage of sensitive information); CWE-200 (Information exposure); SC-28 (Protection of information at rest); CM-7 (Least functionality); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); MASWE-0001 (Sensitive files in package); M1:2024 (Improper Credential Usage); M2:2024 (Inadequate Supply Chain Security); CAPEC-37 (Retrieve embedded sensitive data); NoSecrets (Do not commit keys or credentials to SDK); SupplyChain (Secure SDK contents (NSA supply chain))
+    CVSS-estimate: 6.5 (AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Remove keystores, PEM files, and credential-like filenames from the SDK distribution; load secrets at runtime from a vault.
+    Revalidate: Re-scan the SDK path with --sast; sdk-sensitive-file should clear when those files are removed from the tree.
   [high] score=8.0 sdk-sensitive-file: Sensitive file in SDK: .env (ensure not committed or restrict access). @ <sandbox>/modules/weekly-training-sdk/config/.env
     Classification: CWE-312 (Cleartext storage of sensitive information); CWE-200 (Information exposure); SC-28 (Protection of information at rest); CM-7 (Least functionality); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); MASWE-0001 (Sensitive files in package); M1:2024 (Improper Credential Usage); M2:2024 (Inadequate Supply Chain Security); CAPEC-37 (Retrieve embedded sensitive data); NoSecrets (Do not commit keys or credentials to SDK); SupplyChain (Secure SDK contents (NSA supply chain))
     CVSS-estimate: 6.5 (AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
@@ -607,6 +662,76 @@ Severity: critical=3, high=10, medium=49, low=0, info=29 | max_score=10.0 | avg_
     CVSS-estimate: 4.0 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
     Remediation: Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.
     Revalidate: Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.
+  [medium] score=5.5 apk-allow-backup: allowBackup is true; app data may be backed up unencrypted. @ <sandbox>/apk/UnCrackable-Level3.apk
+    Classification: CWE-200 (Information exposure); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data not in backups); M2 (Insecure data storage); MASWE-0014 (Backup exposure); M9:2024 (Insecure Data Storage); CAPEC-37 (Retrieve embedded sensitive data); Backup (Restrict backup of sensitive app data); MobileApp (Control backup exposure (NSA))
+    CVSS-estimate: 5.3 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Set android:allowBackup=false, or use a backup rules / data extraction rules file that excludes sensitive data.
+    Revalidate: Rebuild and re-scan with --sast; apk-allow-backup should clear when allowBackup is false or appropriately restricted.
+  [high] score=8.0 dex-path-traversal: Path traversal / file URI / external-storage path heuristic. (seen: kJ.L../N3-) @ <sandbox>/apk/UnCrackable-Level3.apk
+    Classification: CWE-22 (Path traversal); AC-4 (Information flow enforcement); MASVS-CODE-2 (Path / file handling); M4:2024 (Insufficient Input/Output Validation); MASWE-0041 (Path traversal / file URI); M4:2024 (Insufficient Input/Output Validation); CAPEC-126 (Path Traversal); LeastPriv (Validate paths); AppSec (Safe file paths (NSA))
+    CVSS-estimate: 7.5 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Canonicalize and validate file paths; block ../ and unexpected file:// URIs; prefer app-private storage APIs.
+    Revalidate: Rebuild and re-scan with --sast; path-traversal rule_ids should clear or drop when unsafe path construction is fixed.
+  [info] score=0.7 dex-hardcoded-password: Bare password token (info only; high FP — not a credential finding). (seen: ; password: ) @ <sandbox>/apk/UnCrackable-Level3.apk
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1 (Improper credential usage (Mobile Top 10)); MASWE-0001 (Hardcoded credentials); M1:2024 (Improper Credential Usage); CAPEC-114 (Credential stuffing); StrongAuth (Use strong authentication; no hardcoded secrets); MobileApp (Mobile app: avoid hardcoded credentials (NSA mobile guidance))
+    CVSS-estimate: 5.3 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Remove hardcoded passwords from app binaries and resources. Use platform secret stores (Android Keystore / iOS Keychain) or authenticate via a backend; never ship production credentials in the APK/IPA/JAR.
+    Revalidate: Rebuild the artifact, then re-run: python cli.py <path> --sast -o json. Expect this rule_id to be absent (or only leftover false-positive token hits at low/info). Compare finding counts for the same path.
+  [info] score=0.7 dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: *Landroid/content/SharedPreferences$Editor;) @ <sandbox>/apk/UnCrackable-Level3.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); MASWE-0013 (Insecure local storage); M9:2024 (Insecure Data Storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+    CVSS-estimate: 4.0 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.
+  [info] score=0.7 dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: #Landroid/content/SharedPreferences;) @ <sandbox>/apk/UnCrackable-Level3.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); MASWE-0013 (Insecure local storage); M9:2024 (Insecure Data Storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+    CVSS-estimate: 4.0 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.
+  [info] score=0.7 dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: HLandroid/support/v4/content/SharedPreferencesCompat$EditorC...) @ <sandbox>/apk/UnCrackable-Level3.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); MASWE-0013 (Insecure local storage); M9:2024 (Insecure Data Storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+    CVSS-estimate: 4.0 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.
+  [info] score=0.7 dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: ALandroid/support/v4/content/SharedPreferencesCompat$EditorC...) @ <sandbox>/apk/UnCrackable-Level3.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); MASWE-0013 (Insecure local storage); M9:2024 (Insecure Data Storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+    CVSS-estimate: 4.0 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.
+  [info] score=0.7 dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: 4Landroid/support/v4/content/SharedPreferencesCompat;) @ <sandbox>/apk/UnCrackable-Level3.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); MASWE-0013 (Insecure local storage); M9:2024 (Insecure Data Storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+    CVSS-estimate: 4.0 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.
+  [info] score=0.7 dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: SharedPreferencesCompat.java) @ <sandbox>/apk/UnCrackable-Level3.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); MASWE-0013 (Insecure local storage); M9:2024 (Insecure Data Storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+    CVSS-estimate: 4.0 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.
+  [info] score=0.7 dex-hardcoded-secret: Possible secret reference (low confidence; high FP). (seen: This is the correct secret.) @ <sandbox>/apk/UnCrackable-Level3.apk
+    Classification: CWE-798 (Hard-coded credentials); CWE-321 (Hard-coded cryptographic key); SC-28 (Protection of information at rest); IA-5 (Authenticator management); MASVS-CRYPTO-1 (Standard crypto; no hardcoded keys); M2 (Insecure data storage (Mobile Top 10)); MASWE-0001 (Hardcoded credentials); MASWE-0028 (Hardcoded crypto material); M1:2024 (Improper Credential Usage); M10:2024 (Insufficient Cryptography); CAPEC-116 (Excavation); NoSecrets (Secrets in secure vault; not in code); MobileApp (Mobile: protect cryptographic keys)
+    CVSS-estimate: 5.5 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Remove embedded secrets/crypto keys from the binary. Load keys from a secure backend or hardware-backed store at runtime.
+    Revalidate: Rebuild and re-run --sast; this rule_id should clear when the secret patterns are gone.
+  [high] score=8.0 dex-path-traversal: Path traversal / file URI / external-storage path heuristic. (seen: getExternalFilesDir) @ <sandbox>/apk/UnCrackable-Level3.apk
+    Classification: CWE-22 (Path traversal); AC-4 (Information flow enforcement); MASVS-CODE-2 (Path / file handling); M4:2024 (Insufficient Input/Output Validation); MASWE-0041 (Path traversal / file URI); M4:2024 (Insufficient Input/Output Validation); CAPEC-126 (Path Traversal); LeastPriv (Validate paths); AppSec (Safe file paths (NSA))
+    CVSS-estimate: 7.5 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Canonicalize and validate file paths; block ../ and unexpected file:// URIs; prefer app-private storage APIs.
+    Revalidate: Rebuild and re-scan with --sast; path-traversal rule_ids should clear or drop when unsafe path construction is fixed.
+  [high] score=8.0 dex-path-traversal: Path traversal / file URI / external-storage path heuristic. (seen: getExternalFilesDirs) @ <sandbox>/apk/UnCrackable-Level3.apk
+    Classification: CWE-22 (Path traversal); AC-4 (Information flow enforcement); MASVS-CODE-2 (Path / file handling); M4:2024 (Insufficient Input/Output Validation); MASWE-0041 (Path traversal / file URI); M4:2024 (Insufficient Input/Output Validation); CAPEC-126 (Path Traversal); LeastPriv (Validate paths); AppSec (Safe file paths (NSA))
+    CVSS-estimate: 7.5 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Canonicalize and validate file paths; block ../ and unexpected file:// URIs; prefer app-private storage APIs.
+    Revalidate: Rebuild and re-scan with --sast; path-traversal rule_ids should clear or drop when unsafe path construction is fixed.
+  [high] score=8.0 dex-path-traversal: Path traversal / file URI / external-storage path heuristic. (seen: getExternalStorageDirectory) @ <sandbox>/apk/UnCrackable-Level3.apk
+    Classification: CWE-22 (Path traversal); AC-4 (Information flow enforcement); MASVS-CODE-2 (Path / file handling); M4:2024 (Insufficient Input/Output Validation); MASWE-0041 (Path traversal / file URI); M4:2024 (Insufficient Input/Output Validation); CAPEC-126 (Path Traversal); LeastPriv (Validate paths); AppSec (Safe file paths (NSA))
+    CVSS-estimate: 7.5 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Canonicalize and validate file paths; block ../ and unexpected file:// URIs; prefer app-private storage APIs.
+    Revalidate: Rebuild and re-scan with --sast; path-traversal rule_ids should clear or drop when unsafe path construction is fixed.
+  [info] score=0.7 dex-storage-sharedprefs: Uses SharedPreferences; ensure sensitive data is encrypted. (seen: getSharedPreferences) @ <sandbox>/apk/UnCrackable-Level3.apk
+    Classification: CWE-312 (Cleartext storage of sensitive information); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); MASWE-0013 (Insecure local storage); M9:2024 (Insecure Data Storage); CAPEC-37 (Retrieve embedded sensitive data); EncryptAtRest (Encrypt sensitive data at rest); MobileApp (Encrypt app storage (NSA mobile))
+    CVSS-estimate: 4.0 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.
   [medium] score=5.5 apk-allow-backup: allowBackup is true; app data may be backed up unencrypted. @ <sandbox>/apk/UnCrackable-Level2.apk
     Classification: CWE-200 (Information exposure); SC-28 (Protection of information at rest); MASVS-STORAGE-2 (Sensitive data not in backups); M2 (Insecure data storage); MASWE-0014 (Backup exposure); M9:2024 (Insecure Data Storage); CAPEC-37 (Retrieve embedded sensitive data); Backup (Restrict backup of sensitive app data); MobileApp (Control backup exposure (NSA))
     CVSS-estimate: 5.3 (AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
@@ -633,4 +758,4 @@ Severity: critical=3, high=10, medium=49, low=0, info=29 | max_score=10.0 | avg_
     Remediation: Remove embedded secrets/crypto keys from the binary. Load keys from a secure backend or hardware-backed store at runtime.
     Revalidate: Rebuild and re-run --sast; this rule_id should clear when the secret patterns are gone.
 
-Total: 11 artifact(s), 91 finding(s)
+Total: 15 artifact(s), 107 finding(s)

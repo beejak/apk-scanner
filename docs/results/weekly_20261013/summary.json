@@ -1,25 +1,158 @@
 {
   "run_id": "weekly_20261013",
-  "scan_timestamp": "2026-10-13T20:14:36.925189+00:00",
-  "generated_utc": "2026-10-13T20:14:36.927382+00:00",
+  "scan_timestamp": "2026-10-13T20:20:48.964574+00:00",
+  "generated_utc": "2026-10-13T20:20:48.968399+00:00",
   "allowlist": "tests/fixtures/sources.json",
-  "downloaded": 9,
-  "artifacts": 11,
-  "findings": 91,
-  "by_type": {
-    "jar": 5,
-    "sdk": 1,
+  "history": "tests/fixtures/scan_history.json",
+  "selected": 15,
+  "skipped_dedupe": 0,
+  "materialized": 14,
+  "materialize_log": [
+    {
+      "id": "insecureshop-apk",
+      "type": "apk",
+      "pool": "primary",
+      "ok": true,
+      "version": "1.0",
+      "error": null
+    },
+    {
+      "id": "uncrackable-android-l1",
+      "type": "apk",
+      "pool": "primary",
+      "ok": true,
+      "version": "mastg-android-l1",
+      "error": null
+    },
+    {
+      "id": "uncrackable-android-l2",
+      "type": "apk",
+      "pool": "primary",
+      "ok": true,
+      "version": "mastg-android-l2",
+      "error": null
+    },
+    {
+      "id": "uncrackable-ios-l1",
+      "type": "ipa",
+      "pool": "primary",
+      "ok": true,
+      "version": "mastg-ios-l1",
+      "error": null
+    },
+    {
+      "id": "uncrackable-ios-l2",
+      "type": "ipa",
+      "pool": "primary",
+      "ok": true,
+      "version": "mastg-ios-l2",
+      "error": null
+    },
+    {
+      "id": "junit-4.13.2",
+      "type": "jar",
+      "pool": "primary",
+      "ok": true,
+      "version": "4.13.2",
+      "error": null
+    },
+    {
+      "id": "gson-2.8.9",
+      "type": "jar",
+      "pool": "primary",
+      "ok": true,
+      "version": "2.8.9",
+      "error": null
+    },
+    {
+      "id": "uncrackable-l1-libscrypt",
+      "type": "so",
+      "pool": "primary",
+      "ok": false,
+      "version": "mastg-android-l1-libscrypt",
+      "error": "member not found: lib/armeabi/libscrypt.so"
+    },
+    {
+      "id": "weekly-training-sdk",
+      "type": "sdk",
+      "pool": "primary",
+      "ok": true,
+      "version": "1.0.0",
+      "error": null
+    },
+    {
+      "id": "commons-lang3-3.12.0",
+      "type": "jar",
+      "pool": "primary",
+      "ok": true,
+      "version": "3.12.0",
+      "error": null
+    },
+    {
+      "id": "uncrackable-android-l3",
+      "type": "apk",
+      "pool": "fallback",
+      "ok": true,
+      "version": "mastg-android-l3",
+      "error": null
+    },
+    {
+      "id": "slf4j-api-1.7.36",
+      "type": "jar",
+      "pool": "fallback",
+      "ok": true,
+      "version": "1.7.36",
+      "error": null
+    },
+    {
+      "id": "uncrackable-l2-libfoo",
+      "type": "so",
+      "pool": "fallback",
+      "ok": true,
+      "version": "mastg-android-l2-libfoo",
+      "error": null
+    },
+    {
+      "id": "vuln-config-sdk",
+      "type": "sdk",
+      "pool": "fallback",
+      "ok": true,
+      "version": "1.0.0",
+      "error": null
+    },
+    {
+      "id": "hamcrest-core-1.3",
+      "type": "jar",
+      "pool": "fallback",
+      "ok": true,
+      "version": "1.3",
+      "error": null
+    }
+  ],
+  "by_type_selected": {
+    "apk": 4,
     "ipa": 2,
-    "apk": 3
+    "jar": 5,
+    "so": 2,
+    "sdk": 2
+  },
+  "artifacts": 15,
+  "findings": 107,
+  "by_type": {
+    "jar": 6,
+    "sdk": 2,
+    "so": 1,
+    "ipa": 2,
+    "apk": 4
   },
   "by_severity": {
     "critical": 3,
-    "high": 10,
-    "medium": 49,
+    "high": 16,
+    "medium": 50,
     "low": 0,
-    "info": 29
+    "info": 38
   },
-  "honesty": "Allowlist-only educational sources. Pattern-scan leads. Binaries deleted from runner temp. Soft-fail on findings.",
+  "honesty": "Allowlist-only educational sources (primary + fallback). Pattern-scan leads. History dedupe skips same id+version. Binaries deleted from runner temp. Soft-fail on findings.",
   "limits": {
     "max_artifacts": 15,
     "runner_note": "Keep allowlist small (~10-15) for GitHub Actions disk/time reliability (~14GB disk, 6h job cap)."

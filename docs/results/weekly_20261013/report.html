@@ -37,17 +37,17 @@ table.meta-table th{background:#e8eef5;}
 code{font-family:Consolas,"Courier New",monospace;font-size:0.88em;}
 .source{font-size:0.8rem;color:#64748b;font-style:italic;}</style></head><body><div class='wrap'>
 <h1>Scan Report</h1>
-<p class='lead'>Scan time: 2026-10-13T20:14:36.925189+00:00</p>
+<p class='lead'>Scan time: 2026-10-13T20:20:48.964574+00:00</p>
 <div class='summary-grid'>
-<div class='stat'><span class='n'>11</span><span class='l'>Artifacts</span></div>
-<div class='stat'><span class='n'>91</span><span class='l'>Findings</span></div>
+<div class='stat'><span class='n'>15</span><span class='l'>Artifacts</span></div>
+<div class='stat'><span class='n'>107</span><span class='l'>Findings</span></div>
 <div class='stat critical'><span class='n'>3</span><span class='l'>Critical</span></div>
-<div class='stat high'><span class='n'>10</span><span class='l'>High</span></div>
-<div class='stat medium'><span class='n'>49</span><span class='l'>Medium</span></div>
+<div class='stat high'><span class='n'>16</span><span class='l'>High</span></div>
+<div class='stat medium'><span class='n'>50</span><span class='l'>Medium</span></div>
 <div class='stat low'><span class='n'>0</span><span class='l'>Low</span></div>
-<div class='stat info'><span class='n'>29</span><span class='l'>Info</span></div>
+<div class='stat info'><span class='n'>38</span><span class='l'>Info</span></div>
 <div class='stat'><span class='n'>10.0</span><span class='l'>Max score</span></div>
-<div class='stat'><span class='n'>4.44</span><span class='l'>Avg score</span></div>
+<div class='stat'><span class='n'>4.33</span><span class='l'>Avg score</span></div>
 </div>
 <p class='note'>Severity scores are rule-based (band × weight), 0–10. CVSS-estimate fields are not NVD CVSS for a CVE. CVE IDs appear only from real OSV SCA (--sca) when component+version was extracted; otherwise null.</p>
 <h2>Artifacts</h2><table class='meta-table'><tr><th>Path</th><th>Type</th><th>Size</th></tr>
@@ -55,15 +55,19 @@ code{font-family:Consolas,"Courier New",monospace;font-size:0.88em;}
 <tr><td>&lt;sandbox&gt;/jar/commons-lang3-3.12.0.jar</td><td>jar</td><td>573 KB</td></tr>
 <tr><td>&lt;sandbox&gt;/jar/edu-weekly-sample.jar</td><td>jar</td><td>384 B</td></tr>
 <tr><td>&lt;sandbox&gt;/jar/junit-4.13.2.jar</td><td>jar</td><td>375 KB</td></tr>
+<tr><td>&lt;sandbox&gt;/jar/hamcrest-core-1.3.jar</td><td>jar</td><td>43 KB</td></tr>
 <tr><td>&lt;sandbox&gt;/jar/slf4j-api-1.7.36.jar</td><td>jar</td><td>40 KB</td></tr>
-<tr><td>&lt;sandbox&gt;/modules/weekly-training-sdk</td><td>sdk</td><td>46 B</td></tr>
+<tr><td>&lt;sandbox&gt;/modules/vuln-config-sdk</td><td>sdk</td><td>118 B</td></tr>
+<tr><td>&lt;sandbox&gt;/modules/weekly-training-sdk</td><td>sdk</td><td>92 B</td></tr>
+<tr><td>&lt;sandbox&gt;/so/libfoo.so</td><td>so</td><td>13 KB</td></tr>
 <tr><td>&lt;sandbox&gt;/ipa/UnCrackable-Level1.ipa</td><td>ipa</td><td>280 KB</td></tr>
 <tr><td>&lt;sandbox&gt;/ipa/UnCrackable-Level2.ipa</td><td>ipa</td><td>282 KB</td></tr>
 <tr><td>&lt;sandbox&gt;/apk/InsecureShop.apk</td><td>apk</td><td>4 MB</td></tr>
+<tr><td>&lt;sandbox&gt;/apk/UnCrackable-Level3.apk</td><td>apk</td><td>1 MB</td></tr>
 <tr><td>&lt;sandbox&gt;/apk/UnCrackable-Level2.apk</td><td>apk</td><td>879 KB</td></tr>
 <tr><td>&lt;sandbox&gt;/apk/UnCrackable-Level1.apk</td><td>apk</td><td>65 KB</td></tr>
 </table>
-<h2>Findings (91)</h2>
+<h2>Findings (107)</h2>
 <div class='finding'>
 <div class='hdr'>
 <span class='badge medium'>medium</span>
@@ -938,6 +942,56 @@ code{font-family:Consolas,"Courier New",monospace;font-size:0.88em;}
 </ul></div>
 <div class='fix'><strong>How to fix</strong><br>Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.</div>
 <div class='fix revalidate'><strong>How to revalidate</strong><br>Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).</div>
+</div>
+<div class='finding'>
+<div class='hdr'>
+<span class='badge high'>high</span>
+<span class='score'>score 8.0</span>
+<h3>sdk-sensitive-file</h3>
+<span class='source'>static</span>
+</div>
+<p class='msg'>Sensitive file in SDK: secrets.pem (ensure not committed or restrict access).</p>
+<p class='path'>&lt;sandbox&gt;/modules/vuln-config-sdk/secrets.pem</p>
+<div class='tax-block'><h4>Taxonomy &amp; scoring</h4><ul>
+<li><strong>Severity score:</strong> 8.0 / 10</li>
+<li><strong>CVSS-estimate:</strong> 6.5 <code>AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N</code><br><span class='note'>rule-based estimate, not NVD CVSS for a CVE</span></li>
+<li><strong>CVE:</strong> null (CVE IDs require component/version SCA; not invented here)</li>
+<li><strong>CWE:</strong> CWE-312 (Cleartext storage of sensitive information); CWE-200 (Information exposure)</li>
+<li><strong>NIST:</strong> SC-28 (Protection of information at rest); CM-7 (Least functionality)</li>
+<li><strong>OWASP:</strong> MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); <a href='https://owasp.org/www-project-mobile-top-10/'>M1:2024</a> (Improper Credential Usage); <a href='https://owasp.org/www-project-mobile-top-10/'>M2:2024</a> (Inadequate Supply Chain Security)</li>
+<li><strong>MASWE:</strong> <a href='https://mas.owasp.org/MASWE/'>MASWE-0001</a> (Sensitive files in package)</li>
+<li><strong>OWASP Mobile 2024:</strong> <a href='https://owasp.org/www-project-mobile-top-10/'>M1:2024</a> (Improper Credential Usage); <a href='https://owasp.org/www-project-mobile-top-10/'>M2:2024</a> (Inadequate Supply Chain Security)</li>
+<li><strong>CAPEC:</strong> CAPEC-37 (Retrieve embedded sensitive data)</li>
+<li><strong>CISA:</strong> NoSecrets (Do not commit keys or credentials to SDK)</li>
+<li><strong>NSA:</strong> SupplyChain (Secure SDK contents (NSA supply chain))</li>
+</ul></div>
+<div class='fix'><strong>How to fix</strong><br>Remove keystores, PEM files, and credential-like filenames from the SDK distribution; load secrets at runtime from a vault.</div>
+<div class='fix revalidate'><strong>How to revalidate</strong><br>Re-scan the SDK path with --sast; sdk-sensitive-file should clear when those files are removed from the tree.</div>
+</div>
+<div class='finding'>
+<div class='hdr'>
+<span class='badge high'>high</span>
+<span class='score'>score 8.0</span>
+<h3>sdk-sensitive-file</h3>
+<span class='source'>static</span>
+</div>
+<p class='msg'>Sensitive file in SDK: .env (ensure not committed or restrict access).</p>
+<p class='path'>&lt;sandbox&gt;/modules/vuln-config-sdk/config/.env</p>
+<div class='tax-block'><h4>Taxonomy &amp; scoring</h4><ul>
+<li><strong>Severity score:</strong> 8.0 / 10</li>
+<li><strong>CVSS-estimate:</strong> 6.5 <code>AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N</code><br><span class='note'>rule-based estimate, not NVD CVSS for a CVE</span></li>
+<li><strong>CVE:</strong> null (CVE IDs require component/version SCA; not invented here)</li>
+<li><strong>CWE:</strong> CWE-312 (Cleartext storage of sensitive information); CWE-200 (Information exposure)</li>
+<li><strong>NIST:</strong> SC-28 (Protection of information at rest); CM-7 (Least functionality)</li>
+<li><strong>OWASP:</strong> MASVS-STORAGE-2 (Sensitive data encrypted at rest); M2 (Insecure data storage); <a href='https://owasp.org/www-project-mobile-top-10/'>M1:2024</a> (Improper Credential Usage); <a href='https://owasp.org/www-project-mobile-top-10/'>M2:2024</a> (Inadequate Supply Chain Security)</li>
+<li><strong>MASWE:</strong> <a href='https://mas.owasp.org/MASWE/'>MASWE-0001</a> (Sensitive files in package)</li>
+<li><strong>OWASP Mobile 2024:</strong> <a href='https://owasp.org/www-project-mobile-top-10/'>M1:2024</a> (Improper Credential Usage); <a href='https://owasp.org/www-project-mobile-top-10/'>M2:2024</a> (Inadequate Supply Chain Security)</li>
+<li><strong>CAPEC:</strong> CAPEC-37 (Retrieve embedded sensitive data)</li>
+<li><strong>CISA:</strong> NoSecrets (Do not commit keys or credentials to SDK)</li>
+<li><strong>NSA:</strong> SupplyChain (Secure SDK contents (NSA supply chain))</li>
+</ul></div>
+<div class='fix'><strong>How to fix</strong><br>Remove keystores, PEM files, and credential-like filenames from the SDK distribution; load secrets at runtime from a vault.</div>
+<div class='fix revalidate'><strong>How to revalidate</strong><br>Re-scan the SDK path with --sast; sdk-sensitive-file should clear when those files are removed from the tree.</div>
 </div>
 <div class='finding'>
 <div class='hdr'>
@@ -2198,6 +2252,356 @@ code{font-family:Consolas,"Courier New",monospace;font-size:0.88em;}
 </div>
 <p class='msg'>Uses SharedPreferences; ensure sensitive data is encrypted. (seen: orCompat$Helper;&quot;:&quot;4a108208&quot;,&quot;Landroidx/core/content/SharedP...)</p>
 <p class='path'>&lt;sandbox&gt;/apk/InsecureShop.apk</p>
+<div class='tax-block'><h4>Taxonomy &amp; scoring</h4><ul>
+<li><strong>Severity score:</strong> 0.7 / 10</li>
+<li><strong>CVSS-estimate:</strong> 4.0 <code>AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N</code><br><span class='note'>rule-based estimate, not NVD CVSS for a CVE</span></li>
+<li><strong>CVE:</strong> null (CVE IDs require component/version SCA; not invented here)</li>
+<li><strong>CWE:</strong> <a href='https://cwe.mitre.org/data/definitions/312.html'>CWE-312</a> (Cleartext storage of sensitive information)</li>
+<li><strong>NIST:</strong> SC-28 (Protection of information at rest)</li>
+<li><strong>OWASP:</strong> <a href='https://mas.owasp.org/MASVS/'>MASVS-STORAGE-2</a> (Sensitive data encrypted at rest); M2 (Insecure data storage); <a href='https://owasp.org/www-project-mobile-top-10/'>M9:2024</a> (Insecure Data Storage)</li>
+<li><strong>MASWE:</strong> <a href='https://mas.owasp.org/MASWE/'>MASWE-0013</a> (Insecure local storage)</li>
+<li><strong>OWASP Mobile 2024:</strong> <a href='https://owasp.org/www-project-mobile-top-10/'>M9:2024</a> (Insecure Data Storage)</li>
+<li><strong>CAPEC:</strong> <a href='https://capec.mitre.org/data/definitions/37.html'>CAPEC-37</a> (Retrieve embedded sensitive data)</li>
+<li><strong>CISA:</strong> <a href='https://www.cisa.gov/'>EncryptAtRest</a> (Encrypt sensitive data at rest)</li>
+<li><strong>NSA:</strong> <a href='https://media.defense.gov/'>MobileApp</a> (Encrypt app storage (NSA mobile))</li>
+</ul></div>
+<div class='fix'><strong>How to fix</strong><br>Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.</div>
+<div class='fix revalidate'><strong>How to revalidate</strong><br>Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.</div>
+</div>
+<div class='finding'>
+<div class='hdr'>
+<span class='badge medium'>medium</span>
+<span class='score'>score 5.5</span>
+<h3>apk-allow-backup</h3>
+<span class='source'>static</span>
+</div>
+<p class='msg'>allowBackup is true; app data may be backed up unencrypted.</p>
+<p class='path'>&lt;sandbox&gt;/apk/UnCrackable-Level3.apk</p>
+<div class='tax-block'><h4>Taxonomy &amp; scoring</h4><ul>
+<li><strong>Severity score:</strong> 5.5 / 10</li>
+<li><strong>CVSS-estimate:</strong> 5.3 <code>AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N</code><br><span class='note'>rule-based estimate, not NVD CVSS for a CVE</span></li>
+<li><strong>CVE:</strong> null (CVE IDs require component/version SCA; not invented here)</li>
+<li><strong>CWE:</strong> <a href='https://cwe.mitre.org/data/definitions/200.html'>CWE-200</a> (Information exposure)</li>
+<li><strong>NIST:</strong> SC-28 (Protection of information at rest)</li>
+<li><strong>OWASP:</strong> <a href='https://mas.owasp.org/MASVS/'>MASVS-STORAGE-2</a> (Sensitive data not in backups); M2 (Insecure data storage); <a href='https://owasp.org/www-project-mobile-top-10/'>M9:2024</a> (Insecure Data Storage)</li>
+<li><strong>MASWE:</strong> <a href='https://mas.owasp.org/MASWE/'>MASWE-0014</a> (Backup exposure)</li>
+<li><strong>OWASP Mobile 2024:</strong> <a href='https://owasp.org/www-project-mobile-top-10/'>M9:2024</a> (Insecure Data Storage)</li>
+<li><strong>CAPEC:</strong> CAPEC-37 (Retrieve embedded sensitive data)</li>
+<li><strong>CISA:</strong> <a href='https://www.cisa.gov/'>Backup</a> (Restrict backup of sensitive app data)</li>
+<li><strong>NSA:</strong> <a href='https://media.defense.gov/'>MobileApp</a> (Control backup exposure (NSA))</li>
+</ul></div>
+<div class='fix'><strong>How to fix</strong><br>Set android:allowBackup=false, or use a backup rules / data extraction rules file that excludes sensitive data.</div>
+<div class='fix revalidate'><strong>How to revalidate</strong><br>Rebuild and re-scan with --sast; apk-allow-backup should clear when allowBackup is false or appropriately restricted.</div>
+</div>
+<div class='finding'>
+<div class='hdr'>
+<span class='badge high'>high</span>
+<span class='score'>score 8.0</span>
+<h3>dex-path-traversal</h3>
+<span class='source'>static</span>
+</div>
+<p class='msg'>Path traversal / file URI / external-storage path heuristic. (seen: kJ.L../N3-)</p>
+<p class='path'>&lt;sandbox&gt;/apk/UnCrackable-Level3.apk</p>
+<div class='tax-block'><h4>Taxonomy &amp; scoring</h4><ul>
+<li><strong>Severity score:</strong> 8.0 / 10</li>
+<li><strong>CVSS-estimate:</strong> 7.5 <code>AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N</code><br><span class='note'>rule-based estimate, not NVD CVSS for a CVE</span></li>
+<li><strong>CVE:</strong> null (CVE IDs require component/version SCA; not invented here)</li>
+<li><strong>CWE:</strong> <a href='https://cwe.mitre.org/data/definitions/22.html'>CWE-22</a> (Path traversal)</li>
+<li><strong>NIST:</strong> AC-4 (Information flow enforcement)</li>
+<li><strong>OWASP:</strong> MASVS-CODE-2 (Path / file handling); <a href='https://owasp.org/www-project-mobile-top-10/'>M4:2024</a> (Insufficient Input/Output Validation)</li>
+<li><strong>MASWE:</strong> <a href='https://mas.owasp.org/MASWE/'>MASWE-0041</a> (Path traversal / file URI)</li>
+<li><strong>OWASP Mobile 2024:</strong> <a href='https://owasp.org/www-project-mobile-top-10/'>M4:2024</a> (Insufficient Input/Output Validation)</li>
+<li><strong>CAPEC:</strong> CAPEC-126 (Path Traversal)</li>
+<li><strong>CISA:</strong> LeastPriv (Validate paths)</li>
+<li><strong>NSA:</strong> AppSec (Safe file paths (NSA))</li>
+</ul></div>
+<div class='fix'><strong>How to fix</strong><br>Canonicalize and validate file paths; block ../ and unexpected file:// URIs; prefer app-private storage APIs.</div>
+<div class='fix revalidate'><strong>How to revalidate</strong><br>Rebuild and re-scan with --sast; path-traversal rule_ids should clear or drop when unsafe path construction is fixed.</div>
+</div>
+<div class='finding'>
+<div class='hdr'>
+<span class='badge info'>info</span>
+<span class='score'>score 0.7</span>
+<h3>dex-hardcoded-password</h3>
+<span class='source'>static</span>
+</div>
+<p class='msg'>Bare password token (info only; high FP — not a credential finding). (seen: ; password: )</p>
+<p class='path'>&lt;sandbox&gt;/apk/UnCrackable-Level3.apk</p>
+<div class='tax-block'><h4>Taxonomy &amp; scoring</h4><ul>
+<li><strong>Severity score:</strong> 0.7 / 10</li>
+<li><strong>CVSS-estimate:</strong> 5.3 <code>AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N</code><br><span class='note'>rule-based estimate, not NVD CVSS for a CVE</span></li>
+<li><strong>CVE:</strong> null (CVE IDs require component/version SCA; not invented here)</li>
+<li><strong>CWE:</strong> <a href='https://cwe.mitre.org/data/definitions/798.html'>CWE-798</a> (Hard-coded credentials)</li>
+<li><strong>NIST:</strong> <a href='https://csf.tools/reference/nist-sp-800-53-r5/ia/ia-5/'>IA-5</a> (Authenticator management)</li>
+<li><strong>OWASP:</strong> <a href='https://mas.owasp.org/MASVS/'>MASVS-AUTH-4</a> (No sensitive data in credentials); <a href='https://owasp.org/www-project-mobile-top-10/'>M1</a> (Improper credential usage (Mobile Top 10)); <a href='https://owasp.org/www-project-mobile-top-10/'>M1:2024</a> (Improper Credential Usage)</li>
+<li><strong>MASWE:</strong> <a href='https://mas.owasp.org/MASWE/'>MASWE-0001</a> (Hardcoded credentials)</li>
+<li><strong>OWASP Mobile 2024:</strong> <a href='https://owasp.org/www-project-mobile-top-10/'>M1:2024</a> (Improper Credential Usage)</li>
+<li><strong>CAPEC:</strong> <a href='https://capec.mitre.org/data/definitions/114.html'>CAPEC-114</a> (Credential stuffing)</li>
+<li><strong>CISA:</strong> <a href='https://www.cisa.gov/secure-our-world'>StrongAuth</a> (Use strong authentication; no hardcoded secrets)</li>
+<li><strong>NSA:</strong> <a href='https://media.defense.gov/'>MobileApp</a> (Mobile app: avoid hardcoded credentials (NSA mobile guidance))</li>
+</ul></div>
+<div class='fix'><strong>How to fix</strong><br>Remove hardcoded passwords from app binaries and resources. Use platform secret stores (Android Keystore / iOS Keychain) or authenticate via a backend; never ship production credentials in the APK/IPA/JAR.</div>
+<div class='fix revalidate'><strong>How to revalidate</strong><br>Rebuild the artifact, then re-run: python cli.py &lt;path&gt; --sast -o json. Expect this rule_id to be absent (or only leftover false-positive token hits at low/info). Compare finding counts for the same path.</div>
+</div>
+<div class='finding'>
+<div class='hdr'>
+<span class='badge info'>info</span>
+<span class='score'>score 0.7</span>
+<h3>dex-storage-sharedprefs</h3>
+<span class='source'>static</span>
+</div>
+<p class='msg'>Uses SharedPreferences; ensure sensitive data is encrypted. (seen: *Landroid/content/SharedPreferences$Editor;)</p>
+<p class='path'>&lt;sandbox&gt;/apk/UnCrackable-Level3.apk</p>
+<div class='tax-block'><h4>Taxonomy &amp; scoring</h4><ul>
+<li><strong>Severity score:</strong> 0.7 / 10</li>
+<li><strong>CVSS-estimate:</strong> 4.0 <code>AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N</code><br><span class='note'>rule-based estimate, not NVD CVSS for a CVE</span></li>
+<li><strong>CVE:</strong> null (CVE IDs require component/version SCA; not invented here)</li>
+<li><strong>CWE:</strong> <a href='https://cwe.mitre.org/data/definitions/312.html'>CWE-312</a> (Cleartext storage of sensitive information)</li>
+<li><strong>NIST:</strong> SC-28 (Protection of information at rest)</li>
+<li><strong>OWASP:</strong> <a href='https://mas.owasp.org/MASVS/'>MASVS-STORAGE-2</a> (Sensitive data encrypted at rest); M2 (Insecure data storage); <a href='https://owasp.org/www-project-mobile-top-10/'>M9:2024</a> (Insecure Data Storage)</li>
+<li><strong>MASWE:</strong> <a href='https://mas.owasp.org/MASWE/'>MASWE-0013</a> (Insecure local storage)</li>
+<li><strong>OWASP Mobile 2024:</strong> <a href='https://owasp.org/www-project-mobile-top-10/'>M9:2024</a> (Insecure Data Storage)</li>
+<li><strong>CAPEC:</strong> <a href='https://capec.mitre.org/data/definitions/37.html'>CAPEC-37</a> (Retrieve embedded sensitive data)</li>
+<li><strong>CISA:</strong> <a href='https://www.cisa.gov/'>EncryptAtRest</a> (Encrypt sensitive data at rest)</li>
+<li><strong>NSA:</strong> <a href='https://media.defense.gov/'>MobileApp</a> (Encrypt app storage (NSA mobile))</li>
+</ul></div>
+<div class='fix'><strong>How to fix</strong><br>Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.</div>
+<div class='fix revalidate'><strong>How to revalidate</strong><br>Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.</div>
+</div>
+<div class='finding'>
+<div class='hdr'>
+<span class='badge info'>info</span>
+<span class='score'>score 0.7</span>
+<h3>dex-storage-sharedprefs</h3>
+<span class='source'>static</span>
+</div>
+<p class='msg'>Uses SharedPreferences; ensure sensitive data is encrypted. (seen: #Landroid/content/SharedPreferences;)</p>
+<p class='path'>&lt;sandbox&gt;/apk/UnCrackable-Level3.apk</p>
+<div class='tax-block'><h4>Taxonomy &amp; scoring</h4><ul>
+<li><strong>Severity score:</strong> 0.7 / 10</li>
+<li><strong>CVSS-estimate:</strong> 4.0 <code>AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N</code><br><span class='note'>rule-based estimate, not NVD CVSS for a CVE</span></li>
+<li><strong>CVE:</strong> null (CVE IDs require component/version SCA; not invented here)</li>
+<li><strong>CWE:</strong> <a href='https://cwe.mitre.org/data/definitions/312.html'>CWE-312</a> (Cleartext storage of sensitive information)</li>
+<li><strong>NIST:</strong> SC-28 (Protection of information at rest)</li>
+<li><strong>OWASP:</strong> <a href='https://mas.owasp.org/MASVS/'>MASVS-STORAGE-2</a> (Sensitive data encrypted at rest); M2 (Insecure data storage); <a href='https://owasp.org/www-project-mobile-top-10/'>M9:2024</a> (Insecure Data Storage)</li>
+<li><strong>MASWE:</strong> <a href='https://mas.owasp.org/MASWE/'>MASWE-0013</a> (Insecure local storage)</li>
+<li><strong>OWASP Mobile 2024:</strong> <a href='https://owasp.org/www-project-mobile-top-10/'>M9:2024</a> (Insecure Data Storage)</li>
+<li><strong>CAPEC:</strong> <a href='https://capec.mitre.org/data/definitions/37.html'>CAPEC-37</a> (Retrieve embedded sensitive data)</li>
+<li><strong>CISA:</strong> <a href='https://www.cisa.gov/'>EncryptAtRest</a> (Encrypt sensitive data at rest)</li>
+<li><strong>NSA:</strong> <a href='https://media.defense.gov/'>MobileApp</a> (Encrypt app storage (NSA mobile))</li>
+</ul></div>
+<div class='fix'><strong>How to fix</strong><br>Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.</div>
+<div class='fix revalidate'><strong>How to revalidate</strong><br>Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.</div>
+</div>
+<div class='finding'>
+<div class='hdr'>
+<span class='badge info'>info</span>
+<span class='score'>score 0.7</span>
+<h3>dex-storage-sharedprefs</h3>
+<span class='source'>static</span>
+</div>
+<p class='msg'>Uses SharedPreferences; ensure sensitive data is encrypted. (seen: HLandroid/support/v4/content/SharedPreferencesCompat$EditorC...)</p>
+<p class='path'>&lt;sandbox&gt;/apk/UnCrackable-Level3.apk</p>
+<div class='tax-block'><h4>Taxonomy &amp; scoring</h4><ul>
+<li><strong>Severity score:</strong> 0.7 / 10</li>
+<li><strong>CVSS-estimate:</strong> 4.0 <code>AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N</code><br><span class='note'>rule-based estimate, not NVD CVSS for a CVE</span></li>
+<li><strong>CVE:</strong> null (CVE IDs require component/version SCA; not invented here)</li>
+<li><strong>CWE:</strong> <a href='https://cwe.mitre.org/data/definitions/312.html'>CWE-312</a> (Cleartext storage of sensitive information)</li>
+<li><strong>NIST:</strong> SC-28 (Protection of information at rest)</li>
+<li><strong>OWASP:</strong> <a href='https://mas.owasp.org/MASVS/'>MASVS-STORAGE-2</a> (Sensitive data encrypted at rest); M2 (Insecure data storage); <a href='https://owasp.org/www-project-mobile-top-10/'>M9:2024</a> (Insecure Data Storage)</li>
+<li><strong>MASWE:</strong> <a href='https://mas.owasp.org/MASWE/'>MASWE-0013</a> (Insecure local storage)</li>
+<li><strong>OWASP Mobile 2024:</strong> <a href='https://owasp.org/www-project-mobile-top-10/'>M9:2024</a> (Insecure Data Storage)</li>
+<li><strong>CAPEC:</strong> <a href='https://capec.mitre.org/data/definitions/37.html'>CAPEC-37</a> (Retrieve embedded sensitive data)</li>
+<li><strong>CISA:</strong> <a href='https://www.cisa.gov/'>EncryptAtRest</a> (Encrypt sensitive data at rest)</li>
+<li><strong>NSA:</strong> <a href='https://media.defense.gov/'>MobileApp</a> (Encrypt app storage (NSA mobile))</li>
+</ul></div>
+<div class='fix'><strong>How to fix</strong><br>Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.</div>
+<div class='fix revalidate'><strong>How to revalidate</strong><br>Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.</div>
+</div>
+<div class='finding'>
+<div class='hdr'>
+<span class='badge info'>info</span>
+<span class='score'>score 0.7</span>
+<h3>dex-storage-sharedprefs</h3>
+<span class='source'>static</span>
+</div>
+<p class='msg'>Uses SharedPreferences; ensure sensitive data is encrypted. (seen: ALandroid/support/v4/content/SharedPreferencesCompat$EditorC...)</p>
+<p class='path'>&lt;sandbox&gt;/apk/UnCrackable-Level3.apk</p>
+<div class='tax-block'><h4>Taxonomy &amp; scoring</h4><ul>
+<li><strong>Severity score:</strong> 0.7 / 10</li>
+<li><strong>CVSS-estimate:</strong> 4.0 <code>AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N</code><br><span class='note'>rule-based estimate, not NVD CVSS for a CVE</span></li>
+<li><strong>CVE:</strong> null (CVE IDs require component/version SCA; not invented here)</li>
+<li><strong>CWE:</strong> <a href='https://cwe.mitre.org/data/definitions/312.html'>CWE-312</a> (Cleartext storage of sensitive information)</li>
+<li><strong>NIST:</strong> SC-28 (Protection of information at rest)</li>
+<li><strong>OWASP:</strong> <a href='https://mas.owasp.org/MASVS/'>MASVS-STORAGE-2</a> (Sensitive data encrypted at rest); M2 (Insecure data storage); <a href='https://owasp.org/www-project-mobile-top-10/'>M9:2024</a> (Insecure Data Storage)</li>
+<li><strong>MASWE:</strong> <a href='https://mas.owasp.org/MASWE/'>MASWE-0013</a> (Insecure local storage)</li>
+<li><strong>OWASP Mobile 2024:</strong> <a href='https://owasp.org/www-project-mobile-top-10/'>M9:2024</a> (Insecure Data Storage)</li>
+<li><strong>CAPEC:</strong> <a href='https://capec.mitre.org/data/definitions/37.html'>CAPEC-37</a> (Retrieve embedded sensitive data)</li>
+<li><strong>CISA:</strong> <a href='https://www.cisa.gov/'>EncryptAtRest</a> (Encrypt sensitive data at rest)</li>
+<li><strong>NSA:</strong> <a href='https://media.defense.gov/'>MobileApp</a> (Encrypt app storage (NSA mobile))</li>
+</ul></div>
+<div class='fix'><strong>How to fix</strong><br>Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.</div>
+<div class='fix revalidate'><strong>How to revalidate</strong><br>Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.</div>
+</div>
+<div class='finding'>
+<div class='hdr'>
+<span class='badge info'>info</span>
+<span class='score'>score 0.7</span>
+<h3>dex-storage-sharedprefs</h3>
+<span class='source'>static</span>
+</div>
+<p class='msg'>Uses SharedPreferences; ensure sensitive data is encrypted. (seen: 4Landroid/support/v4/content/SharedPreferencesCompat;)</p>
+<p class='path'>&lt;sandbox&gt;/apk/UnCrackable-Level3.apk</p>
+<div class='tax-block'><h4>Taxonomy &amp; scoring</h4><ul>
+<li><strong>Severity score:</strong> 0.7 / 10</li>
+<li><strong>CVSS-estimate:</strong> 4.0 <code>AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N</code><br><span class='note'>rule-based estimate, not NVD CVSS for a CVE</span></li>
+<li><strong>CVE:</strong> null (CVE IDs require component/version SCA; not invented here)</li>
+<li><strong>CWE:</strong> <a href='https://cwe.mitre.org/data/definitions/312.html'>CWE-312</a> (Cleartext storage of sensitive information)</li>
+<li><strong>NIST:</strong> SC-28 (Protection of information at rest)</li>
+<li><strong>OWASP:</strong> <a href='https://mas.owasp.org/MASVS/'>MASVS-STORAGE-2</a> (Sensitive data encrypted at rest); M2 (Insecure data storage); <a href='https://owasp.org/www-project-mobile-top-10/'>M9:2024</a> (Insecure Data Storage)</li>
+<li><strong>MASWE:</strong> <a href='https://mas.owasp.org/MASWE/'>MASWE-0013</a> (Insecure local storage)</li>
+<li><strong>OWASP Mobile 2024:</strong> <a href='https://owasp.org/www-project-mobile-top-10/'>M9:2024</a> (Insecure Data Storage)</li>
+<li><strong>CAPEC:</strong> <a href='https://capec.mitre.org/data/definitions/37.html'>CAPEC-37</a> (Retrieve embedded sensitive data)</li>
+<li><strong>CISA:</strong> <a href='https://www.cisa.gov/'>EncryptAtRest</a> (Encrypt sensitive data at rest)</li>
+<li><strong>NSA:</strong> <a href='https://media.defense.gov/'>MobileApp</a> (Encrypt app storage (NSA mobile))</li>
+</ul></div>
+<div class='fix'><strong>How to fix</strong><br>Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.</div>
+<div class='fix revalidate'><strong>How to revalidate</strong><br>Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.</div>
+</div>
+<div class='finding'>
+<div class='hdr'>
+<span class='badge info'>info</span>
+<span class='score'>score 0.7</span>
+<h3>dex-storage-sharedprefs</h3>
+<span class='source'>static</span>
+</div>
+<p class='msg'>Uses SharedPreferences; ensure sensitive data is encrypted. (seen: SharedPreferencesCompat.java)</p>
+<p class='path'>&lt;sandbox&gt;/apk/UnCrackable-Level3.apk</p>
+<div class='tax-block'><h4>Taxonomy &amp; scoring</h4><ul>
+<li><strong>Severity score:</strong> 0.7 / 10</li>
+<li><strong>CVSS-estimate:</strong> 4.0 <code>AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N</code><br><span class='note'>rule-based estimate, not NVD CVSS for a CVE</span></li>
+<li><strong>CVE:</strong> null (CVE IDs require component/version SCA; not invented here)</li>
+<li><strong>CWE:</strong> <a href='https://cwe.mitre.org/data/definitions/312.html'>CWE-312</a> (Cleartext storage of sensitive information)</li>
+<li><strong>NIST:</strong> SC-28 (Protection of information at rest)</li>
+<li><strong>OWASP:</strong> <a href='https://mas.owasp.org/MASVS/'>MASVS-STORAGE-2</a> (Sensitive data encrypted at rest); M2 (Insecure data storage); <a href='https://owasp.org/www-project-mobile-top-10/'>M9:2024</a> (Insecure Data Storage)</li>
+<li><strong>MASWE:</strong> <a href='https://mas.owasp.org/MASWE/'>MASWE-0013</a> (Insecure local storage)</li>
+<li><strong>OWASP Mobile 2024:</strong> <a href='https://owasp.org/www-project-mobile-top-10/'>M9:2024</a> (Insecure Data Storage)</li>
+<li><strong>CAPEC:</strong> <a href='https://capec.mitre.org/data/definitions/37.html'>CAPEC-37</a> (Retrieve embedded sensitive data)</li>
+<li><strong>CISA:</strong> <a href='https://www.cisa.gov/'>EncryptAtRest</a> (Encrypt sensitive data at rest)</li>
+<li><strong>NSA:</strong> <a href='https://media.defense.gov/'>MobileApp</a> (Encrypt app storage (NSA mobile))</li>
+</ul></div>
+<div class='fix'><strong>How to fix</strong><br>Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.</div>
+<div class='fix revalidate'><strong>How to revalidate</strong><br>Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.</div>
+</div>
+<div class='finding'>
+<div class='hdr'>
+<span class='badge info'>info</span>
+<span class='score'>score 0.7</span>
+<h3>dex-hardcoded-secret</h3>
+<span class='source'>static</span>
+</div>
+<p class='msg'>Possible secret reference (low confidence; high FP). (seen: This is the correct secret.)</p>
+<p class='path'>&lt;sandbox&gt;/apk/UnCrackable-Level3.apk</p>
+<div class='tax-block'><h4>Taxonomy &amp; scoring</h4><ul>
+<li><strong>Severity score:</strong> 0.7 / 10</li>
+<li><strong>CVSS-estimate:</strong> 5.5 <code>AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N</code><br><span class='note'>rule-based estimate, not NVD CVSS for a CVE</span></li>
+<li><strong>CVE:</strong> null (CVE IDs require component/version SCA; not invented here)</li>
+<li><strong>CWE:</strong> CWE-798 (Hard-coded credentials); <a href='https://cwe.mitre.org/data/definitions/321.html'>CWE-321</a> (Hard-coded cryptographic key)</li>
+<li><strong>NIST:</strong> <a href='https://csf.tools/reference/nist-sp-800-53-r5/sc/sc-28/'>SC-28</a> (Protection of information at rest); IA-5 (Authenticator management)</li>
+<li><strong>OWASP:</strong> <a href='https://mas.owasp.org/MASVS/'>MASVS-CRYPTO-1</a> (Standard crypto; no hardcoded keys); <a href='https://owasp.org/www-project-mobile-top-10/'>M2</a> (Insecure data storage (Mobile Top 10)); <a href='https://owasp.org/www-project-mobile-top-10/'>M1:2024</a> (Improper Credential Usage); <a href='https://owasp.org/www-project-mobile-top-10/'>M10:2024</a> (Insufficient Cryptography)</li>
+<li><strong>MASWE:</strong> <a href='https://mas.owasp.org/MASWE/'>MASWE-0001</a> (Hardcoded credentials); <a href='https://mas.owasp.org/MASWE/'>MASWE-0028</a> (Hardcoded crypto material)</li>
+<li><strong>OWASP Mobile 2024:</strong> <a href='https://owasp.org/www-project-mobile-top-10/'>M1:2024</a> (Improper Credential Usage); <a href='https://owasp.org/www-project-mobile-top-10/'>M10:2024</a> (Insufficient Cryptography)</li>
+<li><strong>CAPEC:</strong> <a href='https://capec.mitre.org/data/definitions/116.html'>CAPEC-116</a> (Excavation)</li>
+<li><strong>CISA:</strong> <a href='https://www.cisa.gov/'>NoSecrets</a> (Secrets in secure vault; not in code)</li>
+<li><strong>NSA:</strong> <a href='https://media.defense.gov/'>MobileApp</a> (Mobile: protect cryptographic keys)</li>
+</ul></div>
+<div class='fix'><strong>How to fix</strong><br>Remove embedded secrets/crypto keys from the binary. Load keys from a secure backend or hardware-backed store at runtime.</div>
+<div class='fix revalidate'><strong>How to revalidate</strong><br>Rebuild and re-run --sast; this rule_id should clear when the secret patterns are gone.</div>
+</div>
+<div class='finding'>
+<div class='hdr'>
+<span class='badge high'>high</span>
+<span class='score'>score 8.0</span>
+<h3>dex-path-traversal</h3>
+<span class='source'>static</span>
+</div>
+<p class='msg'>Path traversal / file URI / external-storage path heuristic. (seen: getExternalFilesDir)</p>
+<p class='path'>&lt;sandbox&gt;/apk/UnCrackable-Level3.apk</p>
+<div class='tax-block'><h4>Taxonomy &amp; scoring</h4><ul>
+<li><strong>Severity score:</strong> 8.0 / 10</li>
+<li><strong>CVSS-estimate:</strong> 7.5 <code>AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N</code><br><span class='note'>rule-based estimate, not NVD CVSS for a CVE</span></li>
+<li><strong>CVE:</strong> null (CVE IDs require component/version SCA; not invented here)</li>
+<li><strong>CWE:</strong> <a href='https://cwe.mitre.org/data/definitions/22.html'>CWE-22</a> (Path traversal)</li>
+<li><strong>NIST:</strong> AC-4 (Information flow enforcement)</li>
+<li><strong>OWASP:</strong> MASVS-CODE-2 (Path / file handling); <a href='https://owasp.org/www-project-mobile-top-10/'>M4:2024</a> (Insufficient Input/Output Validation)</li>
+<li><strong>MASWE:</strong> <a href='https://mas.owasp.org/MASWE/'>MASWE-0041</a> (Path traversal / file URI)</li>
+<li><strong>OWASP Mobile 2024:</strong> <a href='https://owasp.org/www-project-mobile-top-10/'>M4:2024</a> (Insufficient Input/Output Validation)</li>
+<li><strong>CAPEC:</strong> CAPEC-126 (Path Traversal)</li>
+<li><strong>CISA:</strong> LeastPriv (Validate paths)</li>
+<li><strong>NSA:</strong> AppSec (Safe file paths (NSA))</li>
+</ul></div>
+<div class='fix'><strong>How to fix</strong><br>Canonicalize and validate file paths; block ../ and unexpected file:// URIs; prefer app-private storage APIs.</div>
+<div class='fix revalidate'><strong>How to revalidate</strong><br>Rebuild and re-scan with --sast; path-traversal rule_ids should clear or drop when unsafe path construction is fixed.</div>
+</div>
+<div class='finding'>
+<div class='hdr'>
+<span class='badge high'>high</span>
+<span class='score'>score 8.0</span>
+<h3>dex-path-traversal</h3>
+<span class='source'>static</span>
+</div>
+<p class='msg'>Path traversal / file URI / external-storage path heuristic. (seen: getExternalFilesDirs)</p>
+<p class='path'>&lt;sandbox&gt;/apk/UnCrackable-Level3.apk</p>
+<div class='tax-block'><h4>Taxonomy &amp; scoring</h4><ul>
+<li><strong>Severity score:</strong> 8.0 / 10</li>
+<li><strong>CVSS-estimate:</strong> 7.5 <code>AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N</code><br><span class='note'>rule-based estimate, not NVD CVSS for a CVE</span></li>
+<li><strong>CVE:</strong> null (CVE IDs require component/version SCA; not invented here)</li>
+<li><strong>CWE:</strong> <a href='https://cwe.mitre.org/data/definitions/22.html'>CWE-22</a> (Path traversal)</li>
+<li><strong>NIST:</strong> AC-4 (Information flow enforcement)</li>
+<li><strong>OWASP:</strong> MASVS-CODE-2 (Path / file handling); <a href='https://owasp.org/www-project-mobile-top-10/'>M4:2024</a> (Insufficient Input/Output Validation)</li>
+<li><strong>MASWE:</strong> <a href='https://mas.owasp.org/MASWE/'>MASWE-0041</a> (Path traversal / file URI)</li>
+<li><strong>OWASP Mobile 2024:</strong> <a href='https://owasp.org/www-project-mobile-top-10/'>M4:2024</a> (Insufficient Input/Output Validation)</li>
+<li><strong>CAPEC:</strong> CAPEC-126 (Path Traversal)</li>
+<li><strong>CISA:</strong> LeastPriv (Validate paths)</li>
+<li><strong>NSA:</strong> AppSec (Safe file paths (NSA))</li>
+</ul></div>
+<div class='fix'><strong>How to fix</strong><br>Canonicalize and validate file paths; block ../ and unexpected file:// URIs; prefer app-private storage APIs.</div>
+<div class='fix revalidate'><strong>How to revalidate</strong><br>Rebuild and re-scan with --sast; path-traversal rule_ids should clear or drop when unsafe path construction is fixed.</div>
+</div>
+<div class='finding'>
+<div class='hdr'>
+<span class='badge high'>high</span>
+<span class='score'>score 8.0</span>
+<h3>dex-path-traversal</h3>
+<span class='source'>static</span>
+</div>
+<p class='msg'>Path traversal / file URI / external-storage path heuristic. (seen: getExternalStorageDirectory)</p>
+<p class='path'>&lt;sandbox&gt;/apk/UnCrackable-Level3.apk</p>
+<div class='tax-block'><h4>Taxonomy &amp; scoring</h4><ul>
+<li><strong>Severity score:</strong> 8.0 / 10</li>
+<li><strong>CVSS-estimate:</strong> 7.5 <code>AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N</code><br><span class='note'>rule-based estimate, not NVD CVSS for a CVE</span></li>
+<li><strong>CVE:</strong> null (CVE IDs require component/version SCA; not invented here)</li>
+<li><strong>CWE:</strong> <a href='https://cwe.mitre.org/data/definitions/22.html'>CWE-22</a> (Path traversal)</li>
+<li><strong>NIST:</strong> AC-4 (Information flow enforcement)</li>
+<li><strong>OWASP:</strong> MASVS-CODE-2 (Path / file handling); <a href='https://owasp.org/www-project-mobile-top-10/'>M4:2024</a> (Insufficient Input/Output Validation)</li>
+<li><strong>MASWE:</strong> <a href='https://mas.owasp.org/MASWE/'>MASWE-0041</a> (Path traversal / file URI)</li>
+<li><strong>OWASP Mobile 2024:</strong> <a href='https://owasp.org/www-project-mobile-top-10/'>M4:2024</a> (Insufficient Input/Output Validation)</li>
+<li><strong>CAPEC:</strong> CAPEC-126 (Path Traversal)</li>
+<li><strong>CISA:</strong> LeastPriv (Validate paths)</li>
+<li><strong>NSA:</strong> AppSec (Safe file paths (NSA))</li>
+</ul></div>
+<div class='fix'><strong>How to fix</strong><br>Canonicalize and validate file paths; block ../ and unexpected file:// URIs; prefer app-private storage APIs.</div>
+<div class='fix revalidate'><strong>How to revalidate</strong><br>Rebuild and re-scan with --sast; path-traversal rule_ids should clear or drop when unsafe path construction is fixed.</div>
+</div>
+<div class='finding'>
+<div class='hdr'>
+<span class='badge info'>info</span>
+<span class='score'>score 0.7</span>
+<h3>dex-storage-sharedprefs</h3>
+<span class='source'>static</span>
+</div>
+<p class='msg'>Uses SharedPreferences; ensure sensitive data is encrypted. (seen: getSharedPreferences)</p>
+<p class='path'>&lt;sandbox&gt;/apk/UnCrackable-Level3.apk</p>
 <div class='tax-block'><h4>Taxonomy &amp; scoring</h4><ul>
 <li><strong>Severity score:</strong> 0.7 / 10</li>
 <li><strong>CVSS-estimate:</strong> 4.0 <code>AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N</code><br><span class='note'>rule-based estimate, not NVD CVSS for a CVE</span></li>

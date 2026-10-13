@@ -390,7 +390,7 @@
                 "text": "sdk-sensitive-file"
               },
               "fullDescription": {
-                "text": "Sensitive file in SDK: .env (ensure not committed or restrict access)."
+                "text": "Sensitive file in SDK: secrets.pem (ensure not committed or restrict access)."
               },
               "defaultConfiguration": {
                 "level": "error"
@@ -2212,6 +2212,132 @@
               "physicalLocation": {
                 "artifactLocation": {
                   "uri": "<sandbox>/jar/slf4j-api-1.7.36.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "sdk-sensitive-file",
+          "level": "error",
+          "message": {
+            "text": "Sensitive file in SDK: secrets.pem (ensure not committed or restrict access)."
+          },
+          "properties": {
+            "severity": "high",
+            "severity_score": 8.0,
+            "cvss_estimate": {
+              "score": 6.5,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Remove keystores, PEM files, and credential-like filenames from the SDK distribution; load secrets at runtime from a vault.",
+            "revalidate": "Re-scan the SDK path with --sast; sdk-sensitive-file should clear when those files are removed from the tree.",
+            "cve": null,
+            "maswe_id": "MASWE-0001",
+            "owasp_mobile": "M1:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-312",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "CWE-200",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0001",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M1:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            },
+            {
+              "id": "M2:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/modules/vuln-config-sdk/secrets.pem"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "sdk-sensitive-file",
+          "level": "error",
+          "message": {
+            "text": "Sensitive file in SDK: .env (ensure not committed or restrict access)."
+          },
+          "properties": {
+            "severity": "high",
+            "severity_score": 8.0,
+            "cvss_estimate": {
+              "score": 6.5,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Remove keystores, PEM files, and credential-like filenames from the SDK distribution; load secrets at runtime from a vault.",
+            "revalidate": "Re-scan the SDK path with --sast; sdk-sensitive-file should clear when those files are removed from the tree.",
+            "cve": null,
+            "maswe_id": "MASWE-0001",
+            "owasp_mobile": "M1:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-312",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "CWE-200",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0001",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M1:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            },
+            {
+              "id": "M2:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/modules/vuln-config-sdk/config/.env"
                 }
               }
             }
@@ -4983,6 +5109,738 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
+                  "uri": "<sandbox>/apk/UnCrackable-Level3.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-path-traversal",
+          "level": "error",
+          "message": {
+            "text": "Path traversal / file URI / external-storage path heuristic. (seen: kJ.L../N3-)"
+          },
+          "properties": {
+            "severity": "high",
+            "severity_score": 8.0,
+            "cvss_estimate": {
+              "score": 7.5,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Canonicalize and validate file paths; block ../ and unexpected file:// URIs; prefer app-private storage APIs.",
+            "revalidate": "Rebuild and re-scan with --sast; path-traversal rule_ids should clear or drop when unsafe path construction is fixed.",
+            "cve": null,
+            "maswe_id": "MASWE-0041",
+            "owasp_mobile": "M4:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-22",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0041",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M4:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/UnCrackable-Level3.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-hardcoded-password",
+          "level": "note",
+          "message": {
+            "text": "Bare password token (info only; high FP \u2014 not a credential finding). (seen: ; password: )"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 0.7,
+            "cvss_estimate": {
+              "score": 5.3,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Remove hardcoded passwords from app binaries and resources. Use platform secret stores (Android Keystore / iOS Keychain) or authenticate via a backend; never ship production credentials in the APK/IPA/JAR.",
+            "revalidate": "Rebuild the artifact, then re-run: python cli.py <path> --sast -o json. Expect this rule_id to be absent (or only leftover false-positive token hits at low/info). Compare finding counts for the same path.",
+            "cve": null,
+            "maswe_id": "MASWE-0001",
+            "owasp_mobile": "M1:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-798",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0001",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M1:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/UnCrackable-Level3.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-storage-sharedprefs",
+          "level": "note",
+          "message": {
+            "text": "Uses SharedPreferences; ensure sensitive data is encrypted. (seen: *Landroid/content/SharedPreferences$Editor;)"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 0.7,
+            "cvss_estimate": {
+              "score": 4.0,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.",
+            "cve": null,
+            "maswe_id": "MASWE-0013",
+            "owasp_mobile": "M9:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-312",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0013",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M9:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/UnCrackable-Level3.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-storage-sharedprefs",
+          "level": "note",
+          "message": {
+            "text": "Uses SharedPreferences; ensure sensitive data is encrypted. (seen: #Landroid/content/SharedPreferences;)"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 0.7,
+            "cvss_estimate": {
+              "score": 4.0,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.",
+            "cve": null,
+            "maswe_id": "MASWE-0013",
+            "owasp_mobile": "M9:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-312",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0013",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M9:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/UnCrackable-Level3.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-storage-sharedprefs",
+          "level": "note",
+          "message": {
+            "text": "Uses SharedPreferences; ensure sensitive data is encrypted. (seen: HLandroid/support/v4/content/SharedPreferencesCompat$EditorC...)"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 0.7,
+            "cvss_estimate": {
+              "score": 4.0,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.",
+            "cve": null,
+            "maswe_id": "MASWE-0013",
+            "owasp_mobile": "M9:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-312",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0013",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M9:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/UnCrackable-Level3.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-storage-sharedprefs",
+          "level": "note",
+          "message": {
+            "text": "Uses SharedPreferences; ensure sensitive data is encrypted. (seen: ALandroid/support/v4/content/SharedPreferencesCompat$EditorC...)"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 0.7,
+            "cvss_estimate": {
+              "score": 4.0,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.",
+            "cve": null,
+            "maswe_id": "MASWE-0013",
+            "owasp_mobile": "M9:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-312",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0013",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M9:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/UnCrackable-Level3.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-storage-sharedprefs",
+          "level": "note",
+          "message": {
+            "text": "Uses SharedPreferences; ensure sensitive data is encrypted. (seen: 4Landroid/support/v4/content/SharedPreferencesCompat;)"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 0.7,
+            "cvss_estimate": {
+              "score": 4.0,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.",
+            "cve": null,
+            "maswe_id": "MASWE-0013",
+            "owasp_mobile": "M9:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-312",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0013",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M9:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/UnCrackable-Level3.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-storage-sharedprefs",
+          "level": "note",
+          "message": {
+            "text": "Uses SharedPreferences; ensure sensitive data is encrypted. (seen: SharedPreferencesCompat.java)"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 0.7,
+            "cvss_estimate": {
+              "score": 4.0,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.",
+            "cve": null,
+            "maswe_id": "MASWE-0013",
+            "owasp_mobile": "M9:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-312",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0013",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M9:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/UnCrackable-Level3.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-hardcoded-secret",
+          "level": "note",
+          "message": {
+            "text": "Possible secret reference (low confidence; high FP). (seen: This is the correct secret.)"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 0.7,
+            "cvss_estimate": {
+              "score": 5.5,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Remove embedded secrets/crypto keys from the binary. Load keys from a secure backend or hardware-backed store at runtime.",
+            "revalidate": "Rebuild and re-run --sast; this rule_id should clear when the secret patterns are gone.",
+            "cve": null,
+            "maswe_id": "MASWE-0001",
+            "owasp_mobile": "M1:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-798",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "CWE-321",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0001",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "MASWE-0028",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M1:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            },
+            {
+              "id": "M10:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/UnCrackable-Level3.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-path-traversal",
+          "level": "error",
+          "message": {
+            "text": "Path traversal / file URI / external-storage path heuristic. (seen: getExternalFilesDir)"
+          },
+          "properties": {
+            "severity": "high",
+            "severity_score": 8.0,
+            "cvss_estimate": {
+              "score": 7.5,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Canonicalize and validate file paths; block ../ and unexpected file:// URIs; prefer app-private storage APIs.",
+            "revalidate": "Rebuild and re-scan with --sast; path-traversal rule_ids should clear or drop when unsafe path construction is fixed.",
+            "cve": null,
+            "maswe_id": "MASWE-0041",
+            "owasp_mobile": "M4:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-22",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0041",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M4:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/UnCrackable-Level3.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-path-traversal",
+          "level": "error",
+          "message": {
+            "text": "Path traversal / file URI / external-storage path heuristic. (seen: getExternalFilesDirs)"
+          },
+          "properties": {
+            "severity": "high",
+            "severity_score": 8.0,
+            "cvss_estimate": {
+              "score": 7.5,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Canonicalize and validate file paths; block ../ and unexpected file:// URIs; prefer app-private storage APIs.",
+            "revalidate": "Rebuild and re-scan with --sast; path-traversal rule_ids should clear or drop when unsafe path construction is fixed.",
+            "cve": null,
+            "maswe_id": "MASWE-0041",
+            "owasp_mobile": "M4:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-22",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0041",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M4:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/UnCrackable-Level3.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-path-traversal",
+          "level": "error",
+          "message": {
+            "text": "Path traversal / file URI / external-storage path heuristic. (seen: getExternalStorageDirectory)"
+          },
+          "properties": {
+            "severity": "high",
+            "severity_score": 8.0,
+            "cvss_estimate": {
+              "score": 7.5,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Canonicalize and validate file paths; block ../ and unexpected file:// URIs; prefer app-private storage APIs.",
+            "revalidate": "Rebuild and re-scan with --sast; path-traversal rule_ids should clear or drop when unsafe path construction is fixed.",
+            "cve": null,
+            "maswe_id": "MASWE-0041",
+            "owasp_mobile": "M4:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-22",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0041",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M4:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/UnCrackable-Level3.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-storage-sharedprefs",
+          "level": "note",
+          "message": {
+            "text": "Uses SharedPreferences; ensure sensitive data is encrypted. (seen: getSharedPreferences)"
+          },
+          "properties": {
+            "severity": "info",
+            "severity_score": 0.7,
+            "cvss_estimate": {
+              "score": 4.0,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.",
+            "cve": null,
+            "maswe_id": "MASWE-0013",
+            "owasp_mobile": "M9:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-312",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0013",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M9:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/apk/UnCrackable-Level3.apk"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "apk-allow-backup",
+          "level": "warning",
+          "message": {
+            "text": "allowBackup is true; app data may be backed up unencrypted."
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 5.3,
+              "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Set android:allowBackup=false, or use a backup rules / data extraction rules file that excludes sensitive data.",
+            "revalidate": "Rebuild and re-scan with --sast; apk-allow-backup should clear when allowBackup is false or appropriately restricted.",
+            "cve": null,
+            "maswe_id": "MASWE-0014",
+            "owasp_mobile": "M9:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-200",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0014",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M9:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
                   "uri": "<sandbox>/apk/UnCrackable-Level2.apk"
                 }
               }
@@ -5232,17 +6090,17 @@
       ],
       "properties": {
         "summary": {
-          "artifacts": 11,
-          "findings": 91,
+          "artifacts": 15,
+          "findings": 107,
           "by_severity": {
             "critical": 3,
-            "high": 10,
-            "medium": 49,
+            "high": 16,
+            "medium": 50,
             "low": 0,
-            "info": 29
+            "info": 38
           },
           "max_severity_score": 10.0,
-          "avg_severity_score": 4.44
+          "avg_severity_score": 4.33
         }
       }
     }

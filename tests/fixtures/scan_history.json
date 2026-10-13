@@ -1,5 +1,174 @@
 {
   "version": 1,
   "description": "Repo-safe scan history for allowlist dedupe. Records id, version/etag/sha256, last_scan_date, last_report_dir. Commit this JSON; never commit downloaded binaries.",
-  "entries": {}
+  "entries": {
+    "insecureshop-apk": {
+      "id": "insecureshop-apk",
+      "type": "apk",
+      "name": "InsecureShop.apk",
+      "version": "1.0",
+      "etag": "0x8D9FA97880473AE",
+      "sha256": "a83298ae4a37fcab8101e8b41e513dd2199af71a94ea537d556a318e07d4d1bd",
+      "url": "https://github.com/hax0rgb/InsecureShop/releases/download/v1.0/InsecureShop.apk",
+      "last_scan_date": "2026-10-13",
+      "last_report_dir": "docs/results/weekly_20261013",
+      "publisher": "hax0rgb/InsecureShop"
+    },
+    "uncrackable-android-l1": {
+      "id": "uncrackable-android-l1",
+      "type": "apk",
+      "name": "UnCrackable-Level1.apk",
+      "version": "mastg-android-l1",
+      "etag": "791b122b53e8510354494a9ccf1225b9c71a815857a8c8d30297b1c31d6531ed",
+      "sha256": "1da8bf57d266109f9a07c01bf7111a1975ce01f190b9d914bcd3ae3dbef96f21",
+      "url": "https://github.com/OWASP/owasp-mastg/raw/master/Crackmes/Android/Level_01/UnCrackable-Level1.apk",
+      "last_scan_date": "2026-10-13",
+      "last_report_dir": "docs/results/weekly_20261013",
+      "publisher": "OWASP/owasp-mastg"
+    },
+    "uncrackable-android-l2": {
+      "id": "uncrackable-android-l2",
+      "type": "apk",
+      "name": "UnCrackable-Level2.apk",
+      "version": "mastg-android-l2",
+      "etag": "9739f8fc1c74d9c8b33f45887e8afb37b54b4052b3276e1a25f8c46d08557108",
+      "sha256": "4c7980ef1f6cc29508f38417c2a5b5b7721eeb4a3d7f00a0c1a08f5192fa6ddd",
+      "url": "https://github.com/OWASP/owasp-mastg/raw/master/Crackmes/Android/Level_02/UnCrackable-Level2.apk",
+      "last_scan_date": "2026-10-13",
+      "last_report_dir": "docs/results/weekly_20261013",
+      "publisher": "OWASP/owasp-mastg"
+    },
+    "uncrackable-ios-l1": {
+      "id": "uncrackable-ios-l1",
+      "type": "ipa",
+      "name": "UnCrackable-Level1.ipa",
+      "version": "mastg-ios-l1",
+      "etag": "de1b4a2f643f92133d7dcca79e117e096cab144a90c90c1dc8f8a8a5ea4cbf0e",
+      "sha256": "8ade899b5f574f92dc2f1fb9fcf7093d9c6297e288985526391279cc5ae1db0f",
+      "url": "https://github.com/OWASP/owasp-mastg/raw/master/Crackmes/iOS/Level_01/UnCrackable-Level1.ipa",
+      "last_scan_date": "2026-10-13",
+      "last_report_dir": "docs/results/weekly_20261013",
+      "publisher": "OWASP/owasp-mastg"
+    },
+    "uncrackable-ios-l2": {
+      "id": "uncrackable-ios-l2",
+      "type": "ipa",
+      "name": "UnCrackable-Level2.ipa",
+      "version": "mastg-ios-l2",
+      "etag": "903dc532aa8c94eeb747e6fc4bee01d51f0a0251274cc702eeba1adc16b8af51",
+      "sha256": "a1743889e47be52fe4967e8766fedb88e8d55c76bd0a52b4c6535e554790ecdc",
+      "url": "https://github.com/OWASP/owasp-mastg/raw/master/Crackmes/iOS/Level_02/UnCrackable-Level2.ipa",
+      "last_scan_date": "2026-10-13",
+      "last_report_dir": "docs/results/weekly_20261013",
+      "publisher": "OWASP/owasp-mastg"
+    },
+    "junit-4.13.2": {
+      "id": "junit-4.13.2",
+      "type": "jar",
+      "name": "junit-4.13.2.jar",
+      "version": "4.13.2",
+      "etag": "d98a9a02a99a9acd22d7653cbcc1f31f",
+      "sha256": "8e495b634469d64fb8acfa3495a065cbacc8a0fff55ce1e31007be4c16dc57d3",
+      "url": "https://repo1.maven.org/maven2/junit/junit/4.13.2/junit-4.13.2.jar",
+      "last_scan_date": "2026-10-13",
+      "last_report_dir": "docs/results/weekly_20261013",
+      "publisher": "Maven Central"
+    },
+    "gson-2.8.9": {
+      "id": "gson-2.8.9",
+      "type": "jar",
+      "name": "gson-2.8.9.jar",
+      "version": "2.8.9",
+      "etag": "e67627f67e03301092dc7de0a2d7cef8",
+      "sha256": "d3999291855de495c94c743761b8ab5176cfeabe281a5ab0d8e8d45326fd703e",
+      "url": "https://repo1.maven.org/maven2/com/google/code/gson/gson/2.8.9/gson-2.8.9.jar",
+      "last_scan_date": "2026-10-13",
+      "last_report_dir": "docs/results/weekly_20261013",
+      "publisher": "Maven Central"
+    },
+    "weekly-training-sdk": {
+      "id": "weekly-training-sdk",
+      "type": "sdk",
+      "name": "weekly-training-sdk",
+      "version": "1.0.0",
+      "etag": null,
+      "sha256": "6a31a34fec2c915fbc14f6e05bd76759ea724cd992f6c6e88d8602efe0af19f7",
+      "url": null,
+      "last_scan_date": "2026-10-13",
+      "last_report_dir": "docs/results/weekly_20261013",
+      "publisher": "apk-scanner (synthetic)"
+    },
+    "commons-lang3-3.12.0": {
+      "id": "commons-lang3-3.12.0",
+      "type": "jar",
+      "name": "commons-lang3-3.12.0.jar",
+      "version": "3.12.0",
+      "etag": "19fe50567358922bdad277959ea69545",
+      "sha256": "d919d904486c037f8d193412da0c92e22a9fa24230b9d67a57855c5c31c7e94e",
+      "url": "https://repo1.maven.org/maven2/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar",
+      "last_scan_date": "2026-10-13",
+      "last_report_dir": "docs/results/weekly_20261013",
+      "publisher": "Maven Central"
+    },
+    "uncrackable-android-l3": {
+      "id": "uncrackable-android-l3",
+      "type": "apk",
+      "name": "UnCrackable-Level3.apk",
+      "version": "mastg-android-l3",
+      "etag": "4dd203a171730c0be594b0d33a054b02ae94dedfa68b4c82249c7222d7494a93",
+      "sha256": "6827f776b7d2844342711be6f13695ae8d1a5f209fc0072dbaf8b85e2fcff4b7",
+      "url": "https://github.com/OWASP/owasp-mastg/raw/master/Crackmes/Android/Level_03/UnCrackable-Level3.apk",
+      "last_scan_date": "2026-10-13",
+      "last_report_dir": "docs/results/weekly_20261013",
+      "publisher": "OWASP/owasp-mastg"
+    },
+    "slf4j-api-1.7.36": {
+      "id": "slf4j-api-1.7.36",
+      "type": "jar",
+      "name": "slf4j-api-1.7.36.jar",
+      "version": "1.7.36",
+      "etag": "872da51f5de7f3923da4de871d57fd85",
+      "sha256": "d3ef575e3e4979678dc01bf1dcce51021493b4d11fb7f1be8ad982877c16a1c0",
+      "url": "https://repo1.maven.org/maven2/org/slf4j/slf4j-api/1.7.36/slf4j-api-1.7.36.jar",
+      "last_scan_date": "2026-10-13",
+      "last_report_dir": "docs/results/weekly_20261013",
+      "publisher": "Maven Central"
+    },
+    "uncrackable-l2-libfoo": {
+      "id": "uncrackable-l2-libfoo",
+      "type": "so",
+      "name": "libfoo.so",
+      "version": "mastg-android-l2-libfoo",
+      "etag": "9739f8fc1c74d9c8b33f45887e8afb37b54b4052b3276e1a25f8c46d08557108",
+      "sha256": "4959f5cdfed7373f1f941fd6e92ef084bedf0a94522691b205b5a7e0efd6b86a",
+      "url": null,
+      "last_scan_date": "2026-10-13",
+      "last_report_dir": "docs/results/weekly_20261013",
+      "publisher": "OWASP/owasp-mastg"
+    },
+    "vuln-config-sdk": {
+      "id": "vuln-config-sdk",
+      "type": "sdk",
+      "name": "vuln-config-sdk",
+      "version": "1.0.0",
+      "etag": null,
+      "sha256": "49e01accbc118a0ae05519345232fbb549113be8bfbbcdfe2a5b4ce61ea17032",
+      "url": null,
+      "last_scan_date": "2026-10-13",
+      "last_report_dir": "docs/results/weekly_20261013",
+      "publisher": "apk-scanner (synthetic)"
+    },
+    "hamcrest-core-1.3": {
+      "id": "hamcrest-core-1.3",
+      "type": "jar",
+      "name": "hamcrest-core-1.3.jar",
+      "version": "1.3",
+      "etag": "6393363b47ddcbba82321110c3e07519",
+      "sha256": "66fdef91e9739348df7a096aa384a5685f4e875584cce89386a7a47251c4d8e9",
+      "url": "https://repo1.maven.org/maven2/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar",
+      "last_scan_date": "2026-10-13",
+      "last_report_dir": "docs/results/weekly_20261013",
+      "publisher": "Maven Central"
+    }
+  }
 }

@@ -1,5 +1,5 @@
 {
-  "scan_timestamp": "2026-10-13T20:14:36.925189+00:00",
+  "scan_timestamp": "2026-10-13T20:20:48.964574+00:00",
   "metadata": [
     {
       "path": "<sandbox>/jar/gson-2.8.9.jar",
@@ -93,6 +93,23 @@
       }
     },
     {
+      "path": "<sandbox>/jar/hamcrest-core-1.3.jar",
+      "type": "jar",
+      "size_bytes": 45024,
+      "metadata": {
+        "file_count": 52,
+        "manifest_version": "1.0",
+        "main_class": null,
+        "created_by": "1.6.0_33-b03 (Sun Microsystems Inc.)",
+        "Ant-Version": "Apache Ant 1.8.1",
+        "Implementation-Title": "hamcrest-core",
+        "Implementation-Vendor": "hamcrest.org",
+        "Implementation-Version": "1.3",
+        "Built-By": "tom",
+        "Built-Date": "2012-07-09 19:49:34"
+      }
+    },
+    {
       "path": "<sandbox>/jar/slf4j-api-1.7.36.jar",
       "type": "jar",
       "size_bytes": 41125,
@@ -119,13 +136,41 @@
       }
     },
     {
+      "path": "<sandbox>/modules/vuln-config-sdk",
+      "type": "sdk",
+      "size_bytes": 118,
+      "metadata": {
+        "directory": true,
+        "entry_count": 7,
+        "size_bytes": 118
+      }
+    },
+    {
       "path": "<sandbox>/modules/weekly-training-sdk",
       "type": "sdk",
-      "size_bytes": 46,
+      "size_bytes": 92,
       "metadata": {
         "directory": true,
         "entry_count": 6,
-        "size_bytes": 46
+        "size_bytes": 92
+      }
+    },
+    {
+      "path": "<sandbox>/so/libfoo.so",
+      "type": "so",
+      "size_bytes": 14176,
+      "metadata": {
+        "path": "<sandbox>/so/libfoo.so",
+        "elf_class": "64",
+        "machine": "AArch64",
+        "needed": [
+          "libm.so",
+          "libdl.so",
+          "libc.so"
+        ],
+        "soname": "libfoo.so",
+        "has_jni_exports": true,
+        "stripped": true
       }
     },
     {
@@ -165,11 +210,11 @@
         "min_sdk": "16",
         "target_sdk": 29,
         "permissions": [
-          "android.permission.WAKE_LOCK",
-          "android.permission.WRITE_EXTERNAL_STORAGE",
+          "android.permission.READ_EXTERNAL_STORAGE",
           "android.permission.INTERNET",
           "android.permission.READ_CONTACTS",
-          "android.permission.READ_EXTERNAL_STORAGE"
+          "android.permission.WRITE_EXTERNAL_STORAGE",
+          "android.permission.WAKE_LOCK"
         ],
         "main_activity": "com.insecureshop.ProductListActivity",
         "main_activities": [
@@ -260,6 +305,43 @@
             "subject": "CN=Android Debug O=Android C=US",
             "issuer": "CN=Android Debug O=Android C=US",
             "valid_until": "Aug 30 10:14:25 2046 GMT"
+          }
+        ]
+      }
+    },
+    {
+      "path": "<sandbox>/apk/UnCrackable-Level3.apk",
+      "type": "apk",
+      "size_bytes": 1460555,
+      "metadata": {
+        "package": "owasp.mstg.uncrackable3",
+        "version_code": "1",
+        "version_name": "1.0",
+        "min_sdk": "19",
+        "target_sdk": 28,
+        "permissions": [],
+        "main_activity": "sg.vantagepoint.uncrackable3.MainActivity",
+        "main_activities": [
+          "sg.vantagepoint.uncrackable3.MainActivity"
+        ],
+        "debuggable": null,
+        "allow_backup": "true",
+        "multidex": false,
+        "activities": [
+          {
+            "name": "sg.vantagepoint.uncrackable3.MainActivity",
+            "exported": null,
+            "permission": null
+          }
+        ],
+        "services": [],
+        "receivers": [],
+        "providers": [],
+        "signatures": [
+          {
+            "subject": "L=Everywhere O=OWASP OU=OMTG CN=Jeroen Willemsen",
+            "issuer": "L=Everywhere O=OWASP OU=OMTG CN=Jeroen Willemsen",
+            "valid_until": "May 28 16:44:09 2044 GMT"
           }
         ]
       }
@@ -3263,6 +3345,208 @@
       },
       "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
       "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+      "cve": null
+    },
+    {
+      "rule_id": "sdk-sensitive-file",
+      "severity": "high",
+      "message": "Sensitive file in SDK: secrets.pem (ensure not committed or restrict access).",
+      "location": {
+        "file": "<sandbox>/modules/vuln-config-sdk/secrets.pem",
+        "line": null
+      },
+      "masvs_id": "MASVS-STORAGE-2",
+      "source": "sast",
+      "classification": {
+        "cwe": [
+          {
+            "id": "CWE-312",
+            "label": "Cleartext storage of sensitive information"
+          },
+          {
+            "id": "CWE-200",
+            "label": "Information exposure"
+          }
+        ],
+        "nist": [
+          {
+            "id": "SC-28",
+            "label": "Protection of information at rest"
+          },
+          {
+            "id": "CM-7",
+            "label": "Least functionality"
+          }
+        ],
+        "owasp": [
+          {
+            "id": "MASVS-STORAGE-2",
+            "label": "Sensitive data encrypted at rest"
+          },
+          {
+            "id": "M2",
+            "label": "Insecure data storage"
+          },
+          {
+            "id": "M1:2024",
+            "label": "Improper Credential Usage",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          },
+          {
+            "id": "M2:2024",
+            "label": "Inadequate Supply Chain Security",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ],
+        "capec": [
+          {
+            "id": "CAPEC-37",
+            "label": "Retrieve embedded sensitive data"
+          }
+        ],
+        "cisa": [
+          {
+            "id": "NoSecrets",
+            "label": "Do not commit keys or credentials to SDK"
+          }
+        ],
+        "nsa": [
+          {
+            "id": "SupplyChain",
+            "label": "Secure SDK contents (NSA supply chain)"
+          }
+        ],
+        "maswe": [
+          {
+            "id": "MASWE-0001",
+            "label": "Sensitive files in package",
+            "url": "https://mas.owasp.org/MASWE/"
+          }
+        ],
+        "owasp_mobile": [
+          {
+            "id": "M1:2024",
+            "label": "Improper Credential Usage",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          },
+          {
+            "id": "M2:2024",
+            "label": "Inadequate Supply Chain Security",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ]
+      },
+      "maswe_id": "MASWE-0001",
+      "owasp_mobile": "M1:2024",
+      "severity_score": 8.0,
+      "cvss_estimate": {
+        "score": 6.5,
+        "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+        "note": "rule-based estimate, not NVD CVSS for a CVE"
+      },
+      "remediation": "Remove keystores, PEM files, and credential-like filenames from the SDK distribution; load secrets at runtime from a vault.",
+      "revalidate": "Re-scan the SDK path with --sast; sdk-sensitive-file should clear when those files are removed from the tree.",
+      "cve": null
+    },
+    {
+      "rule_id": "sdk-sensitive-file",
+      "severity": "high",
+      "message": "Sensitive file in SDK: .env (ensure not committed or restrict access).",
+      "location": {
+        "file": "<sandbox>/modules/vuln-config-sdk/config/.env",
+        "line": null
+      },
+      "masvs_id": "MASVS-STORAGE-2",
+      "source": "sast",
+      "classification": {
+        "cwe": [
+          {
+            "id": "CWE-312",
+            "label": "Cleartext storage of sensitive information"
+          },
+          {
+            "id": "CWE-200",
+            "label": "Information exposure"
+          }
+        ],
+        "nist": [
+          {
+            "id": "SC-28",
+            "label": "Protection of information at rest"
+          },
+          {
+            "id": "CM-7",
+            "label": "Least functionality"
+          }
+        ],
+        "owasp": [
+          {
+            "id": "MASVS-STORAGE-2",
+            "label": "Sensitive data encrypted at rest"
+          },
+          {
+            "id": "M2",
+            "label": "Insecure data storage"
+          },
+          {
+            "id": "M1:2024",
+            "label": "Improper Credential Usage",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          },
+          {
+            "id": "M2:2024",
+            "label": "Inadequate Supply Chain Security",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ],
+        "capec": [
+          {
+            "id": "CAPEC-37",
+            "label": "Retrieve embedded sensitive data"
+          }
+        ],
+        "cisa": [
+          {
+            "id": "NoSecrets",
+            "label": "Do not commit keys or credentials to SDK"
+          }
+        ],
+        "nsa": [
+          {
+            "id": "SupplyChain",
+            "label": "Secure SDK contents (NSA supply chain)"
+          }
+        ],
+        "maswe": [
+          {
+            "id": "MASWE-0001",
+            "label": "Sensitive files in package",
+            "url": "https://mas.owasp.org/MASWE/"
+          }
+        ],
+        "owasp_mobile": [
+          {
+            "id": "M1:2024",
+            "label": "Improper Credential Usage",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          },
+          {
+            "id": "M2:2024",
+            "label": "Inadequate Supply Chain Security",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ]
+      },
+      "maswe_id": "MASWE-0001",
+      "owasp_mobile": "M1:2024",
+      "severity_score": 8.0,
+      "cvss_estimate": {
+        "score": 6.5,
+        "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+        "note": "rule-based estimate, not NVD CVSS for a CVE"
+      },
+      "remediation": "Remove keystores, PEM files, and credential-like filenames from the SDK distribution; load secrets at runtime from a vault.",
+      "revalidate": "Re-scan the SDK path with --sast; sdk-sensitive-file should clear when those files are removed from the tree.",
       "cve": null
     },
     {
@@ -7779,6 +8063,1232 @@
       "severity": "medium",
       "message": "allowBackup is true; app data may be backed up unencrypted.",
       "location": {
+        "file": "<sandbox>/apk/UnCrackable-Level3.apk",
+        "line": null
+      },
+      "masvs_id": "MASVS-STORAGE-2",
+      "source": "sast",
+      "classification": {
+        "cwe": [
+          {
+            "id": "CWE-200",
+            "label": "Information exposure",
+            "url": "https://cwe.mitre.org/data/definitions/200.html"
+          }
+        ],
+        "nist": [
+          {
+            "id": "SC-28",
+            "label": "Protection of information at rest"
+          }
+        ],
+        "owasp": [
+          {
+            "id": "MASVS-STORAGE-2",
+            "label": "Sensitive data not in backups",
+            "url": "https://mas.owasp.org/MASVS/"
+          },
+          {
+            "id": "M2",
+            "label": "Insecure data storage"
+          },
+          {
+            "id": "M9:2024",
+            "label": "Insecure Data Storage",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ],
+        "capec": [
+          {
+            "id": "CAPEC-37",
+            "label": "Retrieve embedded sensitive data"
+          }
+        ],
+        "cisa": [
+          {
+            "id": "Backup",
+            "label": "Restrict backup of sensitive app data",
+            "url": "https://www.cisa.gov/"
+          }
+        ],
+        "nsa": [
+          {
+            "id": "MobileApp",
+            "label": "Control backup exposure (NSA)",
+            "url": "https://media.defense.gov/"
+          }
+        ],
+        "maswe": [
+          {
+            "id": "MASWE-0014",
+            "label": "Backup exposure",
+            "url": "https://mas.owasp.org/MASWE/"
+          }
+        ],
+        "owasp_mobile": [
+          {
+            "id": "M9:2024",
+            "label": "Insecure Data Storage",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ]
+      },
+      "maswe_id": "MASWE-0014",
+      "owasp_mobile": "M9:2024",
+      "severity_score": 5.5,
+      "cvss_estimate": {
+        "score": 5.3,
+        "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "note": "rule-based estimate, not NVD CVSS for a CVE"
+      },
+      "remediation": "Set android:allowBackup=false, or use a backup rules / data extraction rules file that excludes sensitive data.",
+      "revalidate": "Rebuild and re-scan with --sast; apk-allow-backup should clear when allowBackup is false or appropriately restricted.",
+      "cve": null
+    },
+    {
+      "rule_id": "dex-path-traversal",
+      "severity": "high",
+      "message": "Path traversal / file URI / external-storage path heuristic. (seen: kJ.L../N3-)",
+      "masvs_id": "MASVS-CODE-2",
+      "location": {
+        "file": "<sandbox>/apk/UnCrackable-Level3.apk",
+        "line": null
+      },
+      "source": "sast",
+      "classification": {
+        "cwe": [
+          {
+            "id": "CWE-22",
+            "label": "Path traversal",
+            "url": "https://cwe.mitre.org/data/definitions/22.html"
+          }
+        ],
+        "nist": [
+          {
+            "id": "AC-4",
+            "label": "Information flow enforcement"
+          }
+        ],
+        "owasp": [
+          {
+            "id": "MASVS-CODE-2",
+            "label": "Path / file handling"
+          },
+          {
+            "id": "M4:2024",
+            "label": "Insufficient Input/Output Validation",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ],
+        "capec": [
+          {
+            "id": "CAPEC-126",
+            "label": "Path Traversal"
+          }
+        ],
+        "cisa": [
+          {
+            "id": "LeastPriv",
+            "label": "Validate paths"
+          }
+        ],
+        "nsa": [
+          {
+            "id": "AppSec",
+            "label": "Safe file paths (NSA)"
+          }
+        ],
+        "maswe": [
+          {
+            "id": "MASWE-0041",
+            "label": "Path traversal / file URI",
+            "url": "https://mas.owasp.org/MASWE/"
+          }
+        ],
+        "owasp_mobile": [
+          {
+            "id": "M4:2024",
+            "label": "Insufficient Input/Output Validation",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ]
+      },
+      "maswe_id": "MASWE-0041",
+      "owasp_mobile": "M4:2024",
+      "severity_score": 8.0,
+      "cvss_estimate": {
+        "score": 7.5,
+        "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+        "note": "rule-based estimate, not NVD CVSS for a CVE"
+      },
+      "remediation": "Canonicalize and validate file paths; block ../ and unexpected file:// URIs; prefer app-private storage APIs.",
+      "revalidate": "Rebuild and re-scan with --sast; path-traversal rule_ids should clear or drop when unsafe path construction is fixed.",
+      "cve": null
+    },
+    {
+      "rule_id": "dex-hardcoded-password",
+      "severity": "info",
+      "message": "Bare password token (info only; high FP \u2014 not a credential finding). (seen: ; password: )",
+      "masvs_id": "MASVS-AUTH-4",
+      "location": {
+        "file": "<sandbox>/apk/UnCrackable-Level3.apk",
+        "line": null
+      },
+      "source": "sast",
+      "classification": {
+        "cwe": [
+          {
+            "id": "CWE-798",
+            "label": "Hard-coded credentials",
+            "url": "https://cwe.mitre.org/data/definitions/798.html"
+          }
+        ],
+        "nist": [
+          {
+            "id": "IA-5",
+            "label": "Authenticator management",
+            "url": "https://csf.tools/reference/nist-sp-800-53-r5/ia/ia-5/"
+          }
+        ],
+        "owasp": [
+          {
+            "id": "MASVS-AUTH-4",
+            "label": "No sensitive data in credentials",
+            "url": "https://mas.owasp.org/MASVS/"
+          },
+          {
+            "id": "M1",
+            "label": "Improper credential usage (Mobile Top 10)",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          },
+          {
+            "id": "M1:2024",
+            "label": "Improper Credential Usage",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ],
+        "capec": [
+          {
+            "id": "CAPEC-114",
+            "label": "Credential stuffing",
+            "url": "https://capec.mitre.org/data/definitions/114.html"
+          }
+        ],
+        "cisa": [
+          {
+            "id": "StrongAuth",
+            "label": "Use strong authentication; no hardcoded secrets",
+            "url": "https://www.cisa.gov/secure-our-world"
+          }
+        ],
+        "nsa": [
+          {
+            "id": "MobileApp",
+            "label": "Mobile app: avoid hardcoded credentials (NSA mobile guidance)",
+            "url": "https://media.defense.gov/"
+          }
+        ],
+        "maswe": [
+          {
+            "id": "MASWE-0001",
+            "label": "Hardcoded credentials",
+            "url": "https://mas.owasp.org/MASWE/"
+          }
+        ],
+        "owasp_mobile": [
+          {
+            "id": "M1:2024",
+            "label": "Improper Credential Usage",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ]
+      },
+      "maswe_id": "MASWE-0001",
+      "owasp_mobile": "M1:2024",
+      "severity_score": 0.7,
+      "cvss_estimate": {
+        "score": 5.3,
+        "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "note": "rule-based estimate, not NVD CVSS for a CVE"
+      },
+      "remediation": "Remove hardcoded passwords from app binaries and resources. Use platform secret stores (Android Keystore / iOS Keychain) or authenticate via a backend; never ship production credentials in the APK/IPA/JAR.",
+      "revalidate": "Rebuild the artifact, then re-run: python cli.py <path> --sast -o json. Expect this rule_id to be absent (or only leftover false-positive token hits at low/info). Compare finding counts for the same path.",
+      "cve": null
+    },
+    {
+      "rule_id": "dex-storage-sharedprefs",
+      "severity": "info",
+      "message": "Uses SharedPreferences; ensure sensitive data is encrypted. (seen: *Landroid/content/SharedPreferences$Editor;)",
+      "masvs_id": "MASVS-STORAGE-2",
+      "location": {
+        "file": "<sandbox>/apk/UnCrackable-Level3.apk",
+        "line": null
+      },
+      "source": "sast",
+      "classification": {
+        "cwe": [
+          {
+            "id": "CWE-312",
+            "label": "Cleartext storage of sensitive information",
+            "url": "https://cwe.mitre.org/data/definitions/312.html"
+          }
+        ],
+        "nist": [
+          {
+            "id": "SC-28",
+            "label": "Protection of information at rest"
+          }
+        ],
+        "owasp": [
+          {
+            "id": "MASVS-STORAGE-2",
+            "label": "Sensitive data encrypted at rest",
+            "url": "https://mas.owasp.org/MASVS/"
+          },
+          {
+            "id": "M2",
+            "label": "Insecure data storage"
+          },
+          {
+            "id": "M9:2024",
+            "label": "Insecure Data Storage",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ],
+        "capec": [
+          {
+            "id": "CAPEC-37",
+            "label": "Retrieve embedded sensitive data",
+            "url": "https://capec.mitre.org/data/definitions/37.html"
+          }
+        ],
+        "cisa": [
+          {
+            "id": "EncryptAtRest",
+            "label": "Encrypt sensitive data at rest",
+            "url": "https://www.cisa.gov/"
+          }
+        ],
+        "nsa": [
+          {
+            "id": "MobileApp",
+            "label": "Encrypt app storage (NSA mobile)",
+            "url": "https://media.defense.gov/"
+          }
+        ],
+        "maswe": [
+          {
+            "id": "MASWE-0013",
+            "label": "Insecure local storage",
+            "url": "https://mas.owasp.org/MASWE/"
+          }
+        ],
+        "owasp_mobile": [
+          {
+            "id": "M9:2024",
+            "label": "Insecure Data Storage",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ]
+      },
+      "maswe_id": "MASWE-0013",
+      "owasp_mobile": "M9:2024",
+      "severity_score": 0.7,
+      "cvss_estimate": {
+        "score": 4.0,
+        "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "note": "rule-based estimate, not NVD CVSS for a CVE"
+      },
+      "remediation": "Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.",
+      "revalidate": "Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.",
+      "cve": null
+    },
+    {
+      "rule_id": "dex-storage-sharedprefs",
+      "severity": "info",
+      "message": "Uses SharedPreferences; ensure sensitive data is encrypted. (seen: #Landroid/content/SharedPreferences;)",
+      "masvs_id": "MASVS-STORAGE-2",
+      "location": {
+        "file": "<sandbox>/apk/UnCrackable-Level3.apk",
+        "line": null
+      },
+      "source": "sast",
+      "classification": {
+        "cwe": [
+          {
+            "id": "CWE-312",
+            "label": "Cleartext storage of sensitive information",
+            "url": "https://cwe.mitre.org/data/definitions/312.html"
+          }
+        ],
+        "nist": [
+          {
+            "id": "SC-28",
+            "label": "Protection of information at rest"
+          }
+        ],
+        "owasp": [
+          {
+            "id": "MASVS-STORAGE-2",
+            "label": "Sensitive data encrypted at rest",
+            "url": "https://mas.owasp.org/MASVS/"
+          },
+          {
+            "id": "M2",
+            "label": "Insecure data storage"
+          },
+          {
+            "id": "M9:2024",
+            "label": "Insecure Data Storage",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ],
+        "capec": [
+          {
+            "id": "CAPEC-37",
+            "label": "Retrieve embedded sensitive data",
+            "url": "https://capec.mitre.org/data/definitions/37.html"
+          }
+        ],
+        "cisa": [
+          {
+            "id": "EncryptAtRest",
+            "label": "Encrypt sensitive data at rest",
+            "url": "https://www.cisa.gov/"
+          }
+        ],
+        "nsa": [
+          {
+            "id": "MobileApp",
+            "label": "Encrypt app storage (NSA mobile)",
+            "url": "https://media.defense.gov/"
+          }
+        ],
+        "maswe": [
+          {
+            "id": "MASWE-0013",
+            "label": "Insecure local storage",
+            "url": "https://mas.owasp.org/MASWE/"
+          }
+        ],
+        "owasp_mobile": [
+          {
+            "id": "M9:2024",
+            "label": "Insecure Data Storage",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ]
+      },
+      "maswe_id": "MASWE-0013",
+      "owasp_mobile": "M9:2024",
+      "severity_score": 0.7,
+      "cvss_estimate": {
+        "score": 4.0,
+        "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "note": "rule-based estimate, not NVD CVSS for a CVE"
+      },
+      "remediation": "Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.",
+      "revalidate": "Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.",
+      "cve": null
+    },
+    {
+      "rule_id": "dex-storage-sharedprefs",
+      "severity": "info",
+      "message": "Uses SharedPreferences; ensure sensitive data is encrypted. (seen: HLandroid/support/v4/content/SharedPreferencesCompat$EditorC...)",
+      "masvs_id": "MASVS-STORAGE-2",
+      "location": {
+        "file": "<sandbox>/apk/UnCrackable-Level3.apk",
+        "line": null
+      },
+      "source": "sast",
+      "classification": {
+        "cwe": [
+          {
+            "id": "CWE-312",
+            "label": "Cleartext storage of sensitive information",
+            "url": "https://cwe.mitre.org/data/definitions/312.html"
+          }
+        ],
+        "nist": [
+          {
+            "id": "SC-28",
+            "label": "Protection of information at rest"
+          }
+        ],
+        "owasp": [
+          {
+            "id": "MASVS-STORAGE-2",
+            "label": "Sensitive data encrypted at rest",
+            "url": "https://mas.owasp.org/MASVS/"
+          },
+          {
+            "id": "M2",
+            "label": "Insecure data storage"
+          },
+          {
+            "id": "M9:2024",
+            "label": "Insecure Data Storage",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ],
+        "capec": [
+          {
+            "id": "CAPEC-37",
+            "label": "Retrieve embedded sensitive data",
+            "url": "https://capec.mitre.org/data/definitions/37.html"
+          }
+        ],
+        "cisa": [
+          {
+            "id": "EncryptAtRest",
+            "label": "Encrypt sensitive data at rest",
+            "url": "https://www.cisa.gov/"
+          }
+        ],
+        "nsa": [
+          {
+            "id": "MobileApp",
+            "label": "Encrypt app storage (NSA mobile)",
+            "url": "https://media.defense.gov/"
+          }
+        ],
+        "maswe": [
+          {
+            "id": "MASWE-0013",
+            "label": "Insecure local storage",
+            "url": "https://mas.owasp.org/MASWE/"
+          }
+        ],
+        "owasp_mobile": [
+          {
+            "id": "M9:2024",
+            "label": "Insecure Data Storage",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ]
+      },
+      "maswe_id": "MASWE-0013",
+      "owasp_mobile": "M9:2024",
+      "severity_score": 0.7,
+      "cvss_estimate": {
+        "score": 4.0,
+        "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "note": "rule-based estimate, not NVD CVSS for a CVE"
+      },
+      "remediation": "Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.",
+      "revalidate": "Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.",
+      "cve": null
+    },
+    {
+      "rule_id": "dex-storage-sharedprefs",
+      "severity": "info",
+      "message": "Uses SharedPreferences; ensure sensitive data is encrypted. (seen: ALandroid/support/v4/content/SharedPreferencesCompat$EditorC...)",
+      "masvs_id": "MASVS-STORAGE-2",
+      "location": {
+        "file": "<sandbox>/apk/UnCrackable-Level3.apk",
+        "line": null
+      },
+      "source": "sast",
+      "classification": {
+        "cwe": [
+          {
+            "id": "CWE-312",
+            "label": "Cleartext storage of sensitive information",
+            "url": "https://cwe.mitre.org/data/definitions/312.html"
+          }
+        ],
+        "nist": [
+          {
+            "id": "SC-28",
+            "label": "Protection of information at rest"
+          }
+        ],
+        "owasp": [
+          {
+            "id": "MASVS-STORAGE-2",
+            "label": "Sensitive data encrypted at rest",
+            "url": "https://mas.owasp.org/MASVS/"
+          },
+          {
+            "id": "M2",
+            "label": "Insecure data storage"
+          },
+          {
+            "id": "M9:2024",
+            "label": "Insecure Data Storage",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ],
+        "capec": [
+          {
+            "id": "CAPEC-37",
+            "label": "Retrieve embedded sensitive data",
+            "url": "https://capec.mitre.org/data/definitions/37.html"
+          }
+        ],
+        "cisa": [
+          {
+            "id": "EncryptAtRest",
+            "label": "Encrypt sensitive data at rest",
+            "url": "https://www.cisa.gov/"
+          }
+        ],
+        "nsa": [
+          {
+            "id": "MobileApp",
+            "label": "Encrypt app storage (NSA mobile)",
+            "url": "https://media.defense.gov/"
+          }
+        ],
+        "maswe": [
+          {
+            "id": "MASWE-0013",
+            "label": "Insecure local storage",
+            "url": "https://mas.owasp.org/MASWE/"
+          }
+        ],
+        "owasp_mobile": [
+          {
+            "id": "M9:2024",
+            "label": "Insecure Data Storage",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ]
+      },
+      "maswe_id": "MASWE-0013",
+      "owasp_mobile": "M9:2024",
+      "severity_score": 0.7,
+      "cvss_estimate": {
+        "score": 4.0,
+        "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "note": "rule-based estimate, not NVD CVSS for a CVE"
+      },
+      "remediation": "Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.",
+      "revalidate": "Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.",
+      "cve": null
+    },
+    {
+      "rule_id": "dex-storage-sharedprefs",
+      "severity": "info",
+      "message": "Uses SharedPreferences; ensure sensitive data is encrypted. (seen: 4Landroid/support/v4/content/SharedPreferencesCompat;)",
+      "masvs_id": "MASVS-STORAGE-2",
+      "location": {
+        "file": "<sandbox>/apk/UnCrackable-Level3.apk",
+        "line": null
+      },
+      "source": "sast",
+      "classification": {
+        "cwe": [
+          {
+            "id": "CWE-312",
+            "label": "Cleartext storage of sensitive information",
+            "url": "https://cwe.mitre.org/data/definitions/312.html"
+          }
+        ],
+        "nist": [
+          {
+            "id": "SC-28",
+            "label": "Protection of information at rest"
+          }
+        ],
+        "owasp": [
+          {
+            "id": "MASVS-STORAGE-2",
+            "label": "Sensitive data encrypted at rest",
+            "url": "https://mas.owasp.org/MASVS/"
+          },
+          {
+            "id": "M2",
+            "label": "Insecure data storage"
+          },
+          {
+            "id": "M9:2024",
+            "label": "Insecure Data Storage",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ],
+        "capec": [
+          {
+            "id": "CAPEC-37",
+            "label": "Retrieve embedded sensitive data",
+            "url": "https://capec.mitre.org/data/definitions/37.html"
+          }
+        ],
+        "cisa": [
+          {
+            "id": "EncryptAtRest",
+            "label": "Encrypt sensitive data at rest",
+            "url": "https://www.cisa.gov/"
+          }
+        ],
+        "nsa": [
+          {
+            "id": "MobileApp",
+            "label": "Encrypt app storage (NSA mobile)",
+            "url": "https://media.defense.gov/"
+          }
+        ],
+        "maswe": [
+          {
+            "id": "MASWE-0013",
+            "label": "Insecure local storage",
+            "url": "https://mas.owasp.org/MASWE/"
+          }
+        ],
+        "owasp_mobile": [
+          {
+            "id": "M9:2024",
+            "label": "Insecure Data Storage",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ]
+      },
+      "maswe_id": "MASWE-0013",
+      "owasp_mobile": "M9:2024",
+      "severity_score": 0.7,
+      "cvss_estimate": {
+        "score": 4.0,
+        "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "note": "rule-based estimate, not NVD CVSS for a CVE"
+      },
+      "remediation": "Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.",
+      "revalidate": "Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.",
+      "cve": null
+    },
+    {
+      "rule_id": "dex-storage-sharedprefs",
+      "severity": "info",
+      "message": "Uses SharedPreferences; ensure sensitive data is encrypted. (seen: SharedPreferencesCompat.java)",
+      "masvs_id": "MASVS-STORAGE-2",
+      "location": {
+        "file": "<sandbox>/apk/UnCrackable-Level3.apk",
+        "line": null
+      },
+      "source": "sast",
+      "classification": {
+        "cwe": [
+          {
+            "id": "CWE-312",
+            "label": "Cleartext storage of sensitive information",
+            "url": "https://cwe.mitre.org/data/definitions/312.html"
+          }
+        ],
+        "nist": [
+          {
+            "id": "SC-28",
+            "label": "Protection of information at rest"
+          }
+        ],
+        "owasp": [
+          {
+            "id": "MASVS-STORAGE-2",
+            "label": "Sensitive data encrypted at rest",
+            "url": "https://mas.owasp.org/MASVS/"
+          },
+          {
+            "id": "M2",
+            "label": "Insecure data storage"
+          },
+          {
+            "id": "M9:2024",
+            "label": "Insecure Data Storage",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ],
+        "capec": [
+          {
+            "id": "CAPEC-37",
+            "label": "Retrieve embedded sensitive data",
+            "url": "https://capec.mitre.org/data/definitions/37.html"
+          }
+        ],
+        "cisa": [
+          {
+            "id": "EncryptAtRest",
+            "label": "Encrypt sensitive data at rest",
+            "url": "https://www.cisa.gov/"
+          }
+        ],
+        "nsa": [
+          {
+            "id": "MobileApp",
+            "label": "Encrypt app storage (NSA mobile)",
+            "url": "https://media.defense.gov/"
+          }
+        ],
+        "maswe": [
+          {
+            "id": "MASWE-0013",
+            "label": "Insecure local storage",
+            "url": "https://mas.owasp.org/MASWE/"
+          }
+        ],
+        "owasp_mobile": [
+          {
+            "id": "M9:2024",
+            "label": "Insecure Data Storage",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ]
+      },
+      "maswe_id": "MASWE-0013",
+      "owasp_mobile": "M9:2024",
+      "severity_score": 0.7,
+      "cvss_estimate": {
+        "score": 4.0,
+        "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "note": "rule-based estimate, not NVD CVSS for a CVE"
+      },
+      "remediation": "Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.",
+      "revalidate": "Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.",
+      "cve": null
+    },
+    {
+      "rule_id": "dex-hardcoded-secret",
+      "severity": "info",
+      "message": "Possible secret reference (low confidence; high FP). (seen: This is the correct secret.)",
+      "masvs_id": "MASVS-CRYPTO-1",
+      "location": {
+        "file": "<sandbox>/apk/UnCrackable-Level3.apk",
+        "line": null
+      },
+      "source": "sast",
+      "classification": {
+        "cwe": [
+          {
+            "id": "CWE-798",
+            "label": "Hard-coded credentials"
+          },
+          {
+            "id": "CWE-321",
+            "label": "Hard-coded cryptographic key",
+            "url": "https://cwe.mitre.org/data/definitions/321.html"
+          }
+        ],
+        "nist": [
+          {
+            "id": "SC-28",
+            "label": "Protection of information at rest",
+            "url": "https://csf.tools/reference/nist-sp-800-53-r5/sc/sc-28/"
+          },
+          {
+            "id": "IA-5",
+            "label": "Authenticator management"
+          }
+        ],
+        "owasp": [
+          {
+            "id": "MASVS-CRYPTO-1",
+            "label": "Standard crypto; no hardcoded keys",
+            "url": "https://mas.owasp.org/MASVS/"
+          },
+          {
+            "id": "M2",
+            "label": "Insecure data storage (Mobile Top 10)",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          },
+          {
+            "id": "M1:2024",
+            "label": "Improper Credential Usage",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          },
+          {
+            "id": "M10:2024",
+            "label": "Insufficient Cryptography",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ],
+        "capec": [
+          {
+            "id": "CAPEC-116",
+            "label": "Excavation",
+            "url": "https://capec.mitre.org/data/definitions/116.html"
+          }
+        ],
+        "cisa": [
+          {
+            "id": "NoSecrets",
+            "label": "Secrets in secure vault; not in code",
+            "url": "https://www.cisa.gov/"
+          }
+        ],
+        "nsa": [
+          {
+            "id": "MobileApp",
+            "label": "Mobile: protect cryptographic keys",
+            "url": "https://media.defense.gov/"
+          }
+        ],
+        "maswe": [
+          {
+            "id": "MASWE-0001",
+            "label": "Hardcoded credentials",
+            "url": "https://mas.owasp.org/MASWE/"
+          },
+          {
+            "id": "MASWE-0028",
+            "label": "Hardcoded crypto material",
+            "url": "https://mas.owasp.org/MASWE/"
+          }
+        ],
+        "owasp_mobile": [
+          {
+            "id": "M1:2024",
+            "label": "Improper Credential Usage",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          },
+          {
+            "id": "M10:2024",
+            "label": "Insufficient Cryptography",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ]
+      },
+      "maswe_id": "MASWE-0001",
+      "owasp_mobile": "M1:2024",
+      "severity_score": 0.7,
+      "cvss_estimate": {
+        "score": 5.5,
+        "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "note": "rule-based estimate, not NVD CVSS for a CVE"
+      },
+      "remediation": "Remove embedded secrets/crypto keys from the binary. Load keys from a secure backend or hardware-backed store at runtime.",
+      "revalidate": "Rebuild and re-run --sast; this rule_id should clear when the secret patterns are gone.",
+      "cve": null
+    },
+    {
+      "rule_id": "dex-path-traversal",
+      "severity": "high",
+      "message": "Path traversal / file URI / external-storage path heuristic. (seen: getExternalFilesDir)",
+      "masvs_id": "MASVS-CODE-2",
+      "location": {
+        "file": "<sandbox>/apk/UnCrackable-Level3.apk",
+        "line": null
+      },
+      "source": "sast",
+      "classification": {
+        "cwe": [
+          {
+            "id": "CWE-22",
+            "label": "Path traversal",
+            "url": "https://cwe.mitre.org/data/definitions/22.html"
+          }
+        ],
+        "nist": [
+          {
+            "id": "AC-4",
+            "label": "Information flow enforcement"
+          }
+        ],
+        "owasp": [
+          {
+            "id": "MASVS-CODE-2",
+            "label": "Path / file handling"
+          },
+          {
+            "id": "M4:2024",
+            "label": "Insufficient Input/Output Validation",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ],
+        "capec": [
+          {
+            "id": "CAPEC-126",
+            "label": "Path Traversal"
+          }
+        ],
+        "cisa": [
+          {
+            "id": "LeastPriv",
+            "label": "Validate paths"
+          }
+        ],
+        "nsa": [
+          {
+            "id": "AppSec",
+            "label": "Safe file paths (NSA)"
+          }
+        ],
+        "maswe": [
+          {
+            "id": "MASWE-0041",
+            "label": "Path traversal / file URI",
+            "url": "https://mas.owasp.org/MASWE/"
+          }
+        ],
+        "owasp_mobile": [
+          {
+            "id": "M4:2024",
+            "label": "Insufficient Input/Output Validation",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ]
+      },
+      "maswe_id": "MASWE-0041",
+      "owasp_mobile": "M4:2024",
+      "severity_score": 8.0,
+      "cvss_estimate": {
+        "score": 7.5,
+        "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+        "note": "rule-based estimate, not NVD CVSS for a CVE"
+      },
+      "remediation": "Canonicalize and validate file paths; block ../ and unexpected file:// URIs; prefer app-private storage APIs.",
+      "revalidate": "Rebuild and re-scan with --sast; path-traversal rule_ids should clear or drop when unsafe path construction is fixed.",
+      "cve": null
+    },
+    {
+      "rule_id": "dex-path-traversal",
+      "severity": "high",
+      "message": "Path traversal / file URI / external-storage path heuristic. (seen: getExternalFilesDirs)",
+      "masvs_id": "MASVS-CODE-2",
+      "location": {
+        "file": "<sandbox>/apk/UnCrackable-Level3.apk",
+        "line": null
+      },
+      "source": "sast",
+      "classification": {
+        "cwe": [
+          {
+            "id": "CWE-22",
+            "label": "Path traversal",
+            "url": "https://cwe.mitre.org/data/definitions/22.html"
+          }
+        ],
+        "nist": [
+          {
+            "id": "AC-4",
+            "label": "Information flow enforcement"
+          }
+        ],
+        "owasp": [
+          {
+            "id": "MASVS-CODE-2",
+            "label": "Path / file handling"
+          },
+          {
+            "id": "M4:2024",
+            "label": "Insufficient Input/Output Validation",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ],
+        "capec": [
+          {
+            "id": "CAPEC-126",
+            "label": "Path Traversal"
+          }
+        ],
+        "cisa": [
+          {
+            "id": "LeastPriv",
+            "label": "Validate paths"
+          }
+        ],
+        "nsa": [
+          {
+            "id": "AppSec",
+            "label": "Safe file paths (NSA)"
+          }
+        ],
+        "maswe": [
+          {
+            "id": "MASWE-0041",
+            "label": "Path traversal / file URI",
+            "url": "https://mas.owasp.org/MASWE/"
+          }
+        ],
+        "owasp_mobile": [
+          {
+            "id": "M4:2024",
+            "label": "Insufficient Input/Output Validation",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ]
+      },
+      "maswe_id": "MASWE-0041",
+      "owasp_mobile": "M4:2024",
+      "severity_score": 8.0,
+      "cvss_estimate": {
+        "score": 7.5,
+        "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+        "note": "rule-based estimate, not NVD CVSS for a CVE"
+      },
+      "remediation": "Canonicalize and validate file paths; block ../ and unexpected file:// URIs; prefer app-private storage APIs.",
+      "revalidate": "Rebuild and re-scan with --sast; path-traversal rule_ids should clear or drop when unsafe path construction is fixed.",
+      "cve": null
+    },
+    {
+      "rule_id": "dex-path-traversal",
+      "severity": "high",
+      "message": "Path traversal / file URI / external-storage path heuristic. (seen: getExternalStorageDirectory)",
+      "masvs_id": "MASVS-CODE-2",
+      "location": {
+        "file": "<sandbox>/apk/UnCrackable-Level3.apk",
+        "line": null
+      },
+      "source": "sast",
+      "classification": {
+        "cwe": [
+          {
+            "id": "CWE-22",
+            "label": "Path traversal",
+            "url": "https://cwe.mitre.org/data/definitions/22.html"
+          }
+        ],
+        "nist": [
+          {
+            "id": "AC-4",
+            "label": "Information flow enforcement"
+          }
+        ],
+        "owasp": [
+          {
+            "id": "MASVS-CODE-2",
+            "label": "Path / file handling"
+          },
+          {
+            "id": "M4:2024",
+            "label": "Insufficient Input/Output Validation",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ],
+        "capec": [
+          {
+            "id": "CAPEC-126",
+            "label": "Path Traversal"
+          }
+        ],
+        "cisa": [
+          {
+            "id": "LeastPriv",
+            "label": "Validate paths"
+          }
+        ],
+        "nsa": [
+          {
+            "id": "AppSec",
+            "label": "Safe file paths (NSA)"
+          }
+        ],
+        "maswe": [
+          {
+            "id": "MASWE-0041",
+            "label": "Path traversal / file URI",
+            "url": "https://mas.owasp.org/MASWE/"
+          }
+        ],
+        "owasp_mobile": [
+          {
+            "id": "M4:2024",
+            "label": "Insufficient Input/Output Validation",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ]
+      },
+      "maswe_id": "MASWE-0041",
+      "owasp_mobile": "M4:2024",
+      "severity_score": 8.0,
+      "cvss_estimate": {
+        "score": 7.5,
+        "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+        "note": "rule-based estimate, not NVD CVSS for a CVE"
+      },
+      "remediation": "Canonicalize and validate file paths; block ../ and unexpected file:// URIs; prefer app-private storage APIs.",
+      "revalidate": "Rebuild and re-scan with --sast; path-traversal rule_ids should clear or drop when unsafe path construction is fixed.",
+      "cve": null
+    },
+    {
+      "rule_id": "dex-storage-sharedprefs",
+      "severity": "info",
+      "message": "Uses SharedPreferences; ensure sensitive data is encrypted. (seen: getSharedPreferences)",
+      "masvs_id": "MASVS-STORAGE-2",
+      "location": {
+        "file": "<sandbox>/apk/UnCrackable-Level3.apk",
+        "line": null
+      },
+      "source": "sast",
+      "classification": {
+        "cwe": [
+          {
+            "id": "CWE-312",
+            "label": "Cleartext storage of sensitive information",
+            "url": "https://cwe.mitre.org/data/definitions/312.html"
+          }
+        ],
+        "nist": [
+          {
+            "id": "SC-28",
+            "label": "Protection of information at rest"
+          }
+        ],
+        "owasp": [
+          {
+            "id": "MASVS-STORAGE-2",
+            "label": "Sensitive data encrypted at rest",
+            "url": "https://mas.owasp.org/MASVS/"
+          },
+          {
+            "id": "M2",
+            "label": "Insecure data storage"
+          },
+          {
+            "id": "M9:2024",
+            "label": "Insecure Data Storage",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ],
+        "capec": [
+          {
+            "id": "CAPEC-37",
+            "label": "Retrieve embedded sensitive data",
+            "url": "https://capec.mitre.org/data/definitions/37.html"
+          }
+        ],
+        "cisa": [
+          {
+            "id": "EncryptAtRest",
+            "label": "Encrypt sensitive data at rest",
+            "url": "https://www.cisa.gov/"
+          }
+        ],
+        "nsa": [
+          {
+            "id": "MobileApp",
+            "label": "Encrypt app storage (NSA mobile)",
+            "url": "https://media.defense.gov/"
+          }
+        ],
+        "maswe": [
+          {
+            "id": "MASWE-0013",
+            "label": "Insecure local storage",
+            "url": "https://mas.owasp.org/MASWE/"
+          }
+        ],
+        "owasp_mobile": [
+          {
+            "id": "M9:2024",
+            "label": "Insecure Data Storage",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ]
+      },
+      "maswe_id": "MASWE-0013",
+      "owasp_mobile": "M9:2024",
+      "severity_score": 0.7,
+      "cvss_estimate": {
+        "score": 4.0,
+        "vector": "AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "note": "rule-based estimate, not NVD CVSS for a CVE"
+      },
+      "remediation": "Do not store secrets in plaintext SharedPreferences. Use EncryptedSharedPreferences or Keystore-backed storage.",
+      "revalidate": "Rebuild and re-scan with --sast. Expect dex-storage-sharedprefs hits related to the sensitive keys to clear.",
+      "cve": null
+    },
+    {
+      "rule_id": "apk-allow-backup",
+      "severity": "medium",
+      "message": "allowBackup is true; app data may be backed up unencrypted.",
+      "location": {
         "file": "<sandbox>/apk/UnCrackable-Level2.apk",
         "line": null
       },
@@ -8266,16 +9776,16 @@
     }
   ],
   "summary": {
-    "artifacts": 11,
-    "findings": 91,
+    "artifacts": 15,
+    "findings": 107,
     "by_severity": {
       "critical": 3,
-      "high": 10,
-      "medium": 49,
+      "high": 16,
+      "medium": 50,
       "low": 0,
-      "info": 29
+      "info": 38
     },
     "max_severity_score": 10.0,
-    "avg_severity_score": 4.44
+    "avg_severity_score": 4.33
   }
 }
