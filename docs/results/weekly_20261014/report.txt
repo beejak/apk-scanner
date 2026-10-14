@@ -1,0 +1,34 @@
+Scan time: 2026-10-14T17:45:40.294172+00:00
+Severity: critical=2, high=1, medium=1, low=0, info=0 | max_score=10.0 | avg_score=8.38
+
+=== JAR (1) ===
+  <sandbox>/jar/edu-weekly-sample.jar
+    size: 384 B
+    file_count: 2
+    manifest_version: 1.0
+    main_class: None
+    created_by: None
+
+=== FINDINGS (4) ===
+  [medium] score=5.5 jar-cleartext: Cleartext HTTP URL; prefer HTTPS. (in config.properties; seen: url=http://evil.example.com/api) @ <sandbox>/jar/edu-weekly-sample.jar
+    Classification: CWE-319 (Cleartext transmission of sensitive data); SC-8 (Transmission confidentiality and integrity); MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); MASWE-0050 (Cleartext traffic); M5:2024 (Insecure Communication); CAPEC-94 (Man in the middle); EncryptTransit (Encrypt data in transit); Encrypt (Use TLS (NSA))
+    CVSS-estimate: 7.4 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.
+    Revalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).
+  [high] score=8.0 jar-weak-crypto: Weak or deprecated Cipher.getInstance transformation (e.g. DES/ECB/RC4). (in config.properties; seen: Cipher.getInstance("DES")) @ <sandbox>/jar/edu-weekly-sample.jar
+    Classification: CWE-327 (Use of broken crypto algorithm); SC-13 (Cryptographic protection); MASVS-CRYPTO-2 (Strong crypto; no weak algorithms); M2 (Insecure data storage); MASWE-0026 (Weak cryptography); M10:2024 (Insufficient Cryptography); CAPEC-97 (Cryptanalysis); StrongCrypto (Use approved cryptography); Crypto (Use approved algorithms (NSA))
+    CVSS-estimate: 5.9 (AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Remove weak crypto algorithm names from native/JAR code paths; use approved algorithms (AES-GCM, SHA-256+).
+    Revalidate: Rebuild and re-scan with --sast; so-weak-crypto / jar-weak-crypto should clear when weak algorithm strings are gone.
+  [critical] score=10.0 jar-secret-aws-access-key: AWS access key id-like string (AKIA…). (in config.properties; seen: key=AKIAIOSFODNN7EXAMPLE) @ <sandbox>/jar/edu-weekly-sample.jar
+    Classification: CWE-798 (Hard-coded credentials); IA-5 (Authenticator management); MASVS-AUTH-4 (No sensitive data in credentials); M1:2024 (Improper Credential Usage); MASWE-0001 (Hardcoded credentials); M1:2024 (Improper Credential Usage); CAPEC-114 (Credential stuffing); NoSecrets (No cloud keys in JAR); AppSec (Protect cloud credentials (NSA))
+    CVSS-estimate: 9.1 (AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Rotate the AWS access key immediately. Remove it from the app; use Cognito/STS or a backend that vends temporary credentials.
+    Revalidate: After rotation and rebuild, re-scan with --sast; secret-*/aws-access-key findings should be gone. Confirm key disabled in AWS IAM.
+  [critical] score=10.0 dex-webview-js-bridge: WebView addJavascriptInterface (JS bridge) — high-impact if content is untrusted. (in config.properties; seen: addJavascriptInterface(bridge)) @ <sandbox>/jar/edu-weekly-sample.jar
+    Classification: CWE-749 (Exposed dangerous method); AC-4 (Information flow enforcement); MASVS-PLATFORM-2 (WebView / JS bridge hardening); M8 (Security misconfiguration); MASWE-0075 (WebView JavaScript bridge); M8:2024 (Security Misconfiguration); M4:2024 (Insufficient Input/Output Validation); CAPEC-182 (Flash Injection / bridge abuse); LeastPriv (Limit exposed interfaces); MobileApp (Harden WebView bridges (NSA))
+    CVSS-estimate: 8.1 (AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:L/A:N) — rule-based estimate, not NVD CVSS for a CVE
+    Remediation: Avoid addJavascriptInterface on untrusted content; if required, expose minimal APIs and validate all inputs.
+    Revalidate: Rebuild and re-scan with --sast; dex-webview-js-bridge should clear when the bridge is removed or no longer matched.
+
+Total: 1 artifact(s), 4 finding(s)
