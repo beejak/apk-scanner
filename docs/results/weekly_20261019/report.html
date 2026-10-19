@@ -1,0 +1,159 @@
+<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>Scan Report</title>
+<style>body{font-family:Georgia,"Times New Roman",serif;margin:0;background:#eef2f5;color:#1c2430;line-height:1.45;}
+.wrap{max-width:1100px;margin:0 auto;padding:1.5rem 1.25rem 3rem;}
+h1{font-family:"Segoe UI",system-ui,sans-serif;font-size:1.85rem;margin:0 0 0.35rem;color:#0b3d91;}
+h2{font-family:"Segoe UI",system-ui,sans-serif;font-size:1.25rem;margin:1.75rem 0 0.65rem;color:#1c2430;}
+h3{font-family:"Segoe UI",system-ui,sans-serif;font-size:1.05rem;margin:0 0 0.4rem;}
+h4{font-family:"Segoe UI",system-ui,sans-serif;font-size:0.95rem;margin:0.75rem 0 0.35rem;color:#334155;}
+.lead{color:#4b5563;margin:0 0 1rem;}
+.summary-grid{display:flex;flex-wrap:wrap;gap:0.75rem;margin:1rem 0 1.25rem;}
+.stat{background:#fff;border:1px solid #cfd8e3;padding:0.75rem 1rem;min-width:7.5rem;}
+.stat .n{display:block;font-family:"Segoe UI",system-ui,sans-serif;font-size:1.45rem;font-weight:700;}
+.stat .l{font-size:0.8rem;color:#64748b;text-transform:uppercase;letter-spacing:0.04em;}
+.stat.high .n{color:#b91c1c;} .stat.medium .n{color:#c2410c;} .stat.low .n{color:#15803d;}
+.stat.info .n{color:#0369a1;} .stat.critical .n{color:#7f1d1d;}
+table.meta-table{border-collapse:collapse;width:100%;background:#fff;border:1px solid #cfd8e3;}
+table.meta-table th,table.meta-table td{border:1px solid #dbe3ec;padding:0.45rem 0.65rem;text-align:left;font-family:"Segoe UI",system-ui,sans-serif;font-size:0.9rem;}
+table.meta-table th{background:#e8eef5;}
+.finding{background:#fff;border:1px solid #cfd8e3;margin:0.85rem 0;padding:1rem 1.1rem;}
+.finding .hdr{display:flex;flex-wrap:wrap;gap:0.5rem 1rem;align-items:baseline;margin-bottom:0.35rem;}
+.badge{font-family:"Segoe UI",system-ui,sans-serif;font-size:0.75rem;font-weight:700;text-transform:uppercase;padding:0.15rem 0.45rem;border:1px solid #cbd5e1;}
+.badge.high,.badge.critical{background:#fee2e2;color:#991b1b;border-color:#fecaca;}
+.badge.medium{background:#ffedd5;color:#9a3412;border-color:#fed7aa;}
+.badge.low{background:#dcfce7;color:#166534;border-color:#bbf7d0;}
+.badge.info{background:#e0f2fe;color:#075985;border-color:#bae6fd;}
+.score{font-family:"Segoe UI",system-ui,sans-serif;font-weight:700;color:#0b3d91;}
+.msg{margin:0.35rem 0 0.5rem;}
+.path{font-family:Consolas,"Courier New",monospace;font-size:0.85rem;color:#475569;word-break:break-all;}
+.tax-block ul{margin:0.25rem 0 0;padding-left:1.2rem;}
+.tax-block li{margin:0.2rem 0;}
+.tax-block a{color:#0b5fff;}
+.note{font-size:0.85rem;color:#64748b;}
+.fix{background:#f0f7ff;border-left:4px solid #0b5fff;padding:0.65rem 0.85rem;margin:0.65rem 0;}
+.fix.revalidate{background:#f3faf3;border-left-color:#15803d;}
+.fix strong{font-family:"Segoe UI",system-ui,sans-serif;}
+code{font-family:Consolas,"Courier New",monospace;font-size:0.88em;}
+.source{font-size:0.8rem;color:#64748b;font-style:italic;}</style></head><body><div class='wrap'>
+<h1>Scan Report</h1>
+<p class='lead'>Scan time: 2026-10-19T12:50:25.654630+00:00</p>
+<div class='summary-grid'>
+<div class='stat'><span class='n'>1</span><span class='l'>Artifacts</span></div>
+<div class='stat'><span class='n'>4</span><span class='l'>Findings</span></div>
+<div class='stat critical'><span class='n'>2</span><span class='l'>Critical</span></div>
+<div class='stat high'><span class='n'>1</span><span class='l'>High</span></div>
+<div class='stat medium'><span class='n'>1</span><span class='l'>Medium</span></div>
+<div class='stat low'><span class='n'>0</span><span class='l'>Low</span></div>
+<div class='stat info'><span class='n'>0</span><span class='l'>Info</span></div>
+<div class='stat'><span class='n'>10.0</span><span class='l'>Max score</span></div>
+<div class='stat'><span class='n'>8.38</span><span class='l'>Avg score</span></div>
+</div>
+<p class='note'>Severity scores are rule-based (band × weight), 0–10. CVSS-estimate fields are not NVD CVSS for a CVE. CVE IDs appear only from real OSV SCA (--sca) when component+version was extracted; otherwise null.</p>
+<h2>SCA / OSV board</h2>
+<p class='note'>CVE IDs only from real OSV responses when name+version extracted; never invented. Empty vulns means no OSV hits or no extractable coords. Components checked: 0; OSV vulns: 0; CVE ids: 0.</p>
+<h2>Artifacts</h2><table class='meta-table'><tr><th>Path</th><th>Type</th><th>Size</th></tr>
+<tr><td>&lt;sandbox&gt;/jar/edu-weekly-sample.jar</td><td>jar</td><td>384 B</td></tr>
+</table>
+<h2>Findings (4)</h2>
+<div class='finding'>
+<div class='hdr'>
+<span class='badge medium'>medium</span>
+<span class='score'>score 5.5</span>
+<h3>jar-cleartext</h3>
+<span class='source'>static</span>
+</div>
+<p class='msg'>Cleartext HTTP URL; prefer HTTPS. (in config.properties; seen: url=http://evil.example.com/api)</p>
+<p class='path'>&lt;sandbox&gt;/jar/edu-weekly-sample.jar</p>
+<div class='tax-block'><h4>Taxonomy &amp; scoring</h4><ul>
+<li><strong>Severity score:</strong> 5.5 / 10</li>
+<li><strong>CVSS-estimate:</strong> 7.4 <code>AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N</code><br><span class='note'>rule-based estimate, not NVD CVSS for a CVE</span></li>
+<li><strong>CVE:</strong> null (CVE IDs require component/version SCA; not invented here)</li>
+<li><strong>CWE:</strong> CWE-319 (Cleartext transmission of sensitive data)</li>
+<li><strong>NIST:</strong> SC-8 (Transmission confidentiality and integrity)</li>
+<li><strong>OWASP:</strong> MASVS-NETWORK-1 (Secure data in transit); M3 (Insecure communication); <a href='https://owasp.org/www-project-mobile-top-10/'>M5:2024</a> (Insecure Communication)</li>
+<li><strong>MASWE:</strong> <a href='https://mas.owasp.org/MASWE/'>MASWE-0050</a> (Cleartext traffic)</li>
+<li><strong>OWASP Mobile 2024:</strong> <a href='https://owasp.org/www-project-mobile-top-10/'>M5:2024</a> (Insecure Communication)</li>
+<li><strong>CAPEC:</strong> CAPEC-94 (Man in the middle)</li>
+<li><strong>CISA:</strong> EncryptTransit (Encrypt data in transit)</li>
+<li><strong>NSA:</strong> Encrypt (Use TLS (NSA))</li>
+</ul></div>
+<div class='fix'><strong>How to fix</strong><br>Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.</div>
+<div class='fix revalidate'><strong>How to revalidate</strong><br>Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).</div>
+</div>
+<div class='finding'>
+<div class='hdr'>
+<span class='badge high'>high</span>
+<span class='score'>score 8.0</span>
+<h3>jar-weak-crypto</h3>
+<span class='source'>static</span>
+</div>
+<p class='msg'>Weak or deprecated Cipher.getInstance transformation (e.g. DES/ECB/RC4). (in config.properties; seen: Cipher.getInstance(&quot;DES&quot;))</p>
+<p class='path'>&lt;sandbox&gt;/jar/edu-weekly-sample.jar</p>
+<div class='tax-block'><h4>Taxonomy &amp; scoring</h4><ul>
+<li><strong>Severity score:</strong> 8.0 / 10</li>
+<li><strong>CVSS-estimate:</strong> 5.9 <code>AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N</code><br><span class='note'>rule-based estimate, not NVD CVSS for a CVE</span></li>
+<li><strong>CVE:</strong> null (CVE IDs require component/version SCA; not invented here)</li>
+<li><strong>CWE:</strong> CWE-327 (Use of broken crypto algorithm)</li>
+<li><strong>NIST:</strong> SC-13 (Cryptographic protection)</li>
+<li><strong>OWASP:</strong> MASVS-CRYPTO-2 (Strong crypto; no weak algorithms); M2 (Insecure data storage); <a href='https://owasp.org/www-project-mobile-top-10/'>M10:2024</a> (Insufficient Cryptography)</li>
+<li><strong>MASWE:</strong> <a href='https://mas.owasp.org/MASWE/'>MASWE-0026</a> (Weak cryptography)</li>
+<li><strong>OWASP Mobile 2024:</strong> <a href='https://owasp.org/www-project-mobile-top-10/'>M10:2024</a> (Insufficient Cryptography)</li>
+<li><strong>CAPEC:</strong> CAPEC-97 (Cryptanalysis)</li>
+<li><strong>CISA:</strong> StrongCrypto (Use approved cryptography)</li>
+<li><strong>NSA:</strong> Crypto (Use approved algorithms (NSA))</li>
+</ul></div>
+<div class='fix'><strong>How to fix</strong><br>Remove weak crypto algorithm names from native/JAR code paths; use approved algorithms (AES-GCM, SHA-256+).</div>
+<div class='fix revalidate'><strong>How to revalidate</strong><br>Rebuild and re-scan with --sast; so-weak-crypto / jar-weak-crypto should clear when weak algorithm strings are gone.</div>
+</div>
+<div class='finding'>
+<div class='hdr'>
+<span class='badge critical'>critical</span>
+<span class='score'>score 10.0</span>
+<h3>jar-secret-aws-access-key</h3>
+<span class='source'>static</span>
+</div>
+<p class='msg'>AWS access key id-like string (AKIA…). (in config.properties; seen: key=AKIAIOSFODNN7EXAMPLE)</p>
+<p class='path'>&lt;sandbox&gt;/jar/edu-weekly-sample.jar</p>
+<div class='tax-block'><h4>Taxonomy &amp; scoring</h4><ul>
+<li><strong>Severity score:</strong> 10.0 / 10</li>
+<li><strong>CVSS-estimate:</strong> 9.1 <code>AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N</code><br><span class='note'>rule-based estimate, not NVD CVSS for a CVE</span></li>
+<li><strong>CVE:</strong> null (CVE IDs require component/version SCA; not invented here)</li>
+<li><strong>CWE:</strong> CWE-798 (Hard-coded credentials)</li>
+<li><strong>NIST:</strong> IA-5 (Authenticator management)</li>
+<li><strong>OWASP:</strong> MASVS-AUTH-4 (No sensitive data in credentials); <a href='https://owasp.org/www-project-mobile-top-10/'>M1:2024</a> (Improper Credential Usage)</li>
+<li><strong>MASWE:</strong> <a href='https://mas.owasp.org/MASWE/'>MASWE-0001</a> (Hardcoded credentials)</li>
+<li><strong>OWASP Mobile 2024:</strong> <a href='https://owasp.org/www-project-mobile-top-10/'>M1:2024</a> (Improper Credential Usage)</li>
+<li><strong>CAPEC:</strong> CAPEC-114 (Credential stuffing)</li>
+<li><strong>CISA:</strong> NoSecrets (No cloud keys in JAR)</li>
+<li><strong>NSA:</strong> AppSec (Protect cloud credentials (NSA))</li>
+</ul></div>
+<div class='fix'><strong>How to fix</strong><br>Rotate the AWS access key immediately. Remove it from the app; use Cognito/STS or a backend that vends temporary credentials.</div>
+<div class='fix revalidate'><strong>How to revalidate</strong><br>After rotation and rebuild, re-scan with --sast; secret-*/aws-access-key findings should be gone. Confirm key disabled in AWS IAM.</div>
+</div>
+<div class='finding'>
+<div class='hdr'>
+<span class='badge critical'>critical</span>
+<span class='score'>score 10.0</span>
+<h3>dex-webview-js-bridge</h3>
+<span class='source'>static</span>
+</div>
+<p class='msg'>WebView addJavascriptInterface (JS bridge) — high-impact if content is untrusted. (in config.properties; seen: addJavascriptInterface(bridge))</p>
+<p class='path'>&lt;sandbox&gt;/jar/edu-weekly-sample.jar</p>
+<div class='tax-block'><h4>Taxonomy &amp; scoring</h4><ul>
+<li><strong>Severity score:</strong> 10.0 / 10</li>
+<li><strong>CVSS-estimate:</strong> 8.1 <code>AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:L/A:N</code><br><span class='note'>rule-based estimate, not NVD CVSS for a CVE</span></li>
+<li><strong>CVE:</strong> null (CVE IDs require component/version SCA; not invented here)</li>
+<li><strong>CWE:</strong> <a href='https://cwe.mitre.org/data/definitions/749.html'>CWE-749</a> (Exposed dangerous method)</li>
+<li><strong>NIST:</strong> AC-4 (Information flow enforcement)</li>
+<li><strong>OWASP:</strong> <a href='https://mas.owasp.org/MASVS/'>MASVS-PLATFORM-2</a> (WebView / JS bridge hardening); <a href='https://owasp.org/www-project-mobile-top-10/'>M8</a> (Security misconfiguration); <a href='https://owasp.org/www-project-mobile-top-10/'>M8:2024</a> (Security Misconfiguration); <a href='https://owasp.org/www-project-mobile-top-10/'>M4:2024</a> (Insufficient Input/Output Validation)</li>
+<li><strong>MASWE:</strong> <a href='https://mas.owasp.org/MASWE/'>MASWE-0075</a> (WebView JavaScript bridge)</li>
+<li><strong>OWASP Mobile 2024:</strong> <a href='https://owasp.org/www-project-mobile-top-10/'>M8:2024</a> (Security Misconfiguration); <a href='https://owasp.org/www-project-mobile-top-10/'>M4:2024</a> (Insufficient Input/Output Validation)</li>
+<li><strong>CAPEC:</strong> <a href='https://capec.mitre.org/data/definitions/182.html'>CAPEC-182</a> (Flash Injection / bridge abuse)</li>
+<li><strong>CISA:</strong> LeastPriv (Limit exposed interfaces)</li>
+<li><strong>NSA:</strong> MobileApp (Harden WebView bridges (NSA))</li>
+</ul></div>
+<div class='fix'><strong>How to fix</strong><br>Avoid addJavascriptInterface on untrusted content; if required, expose minimal APIs and validate all inputs.</div>
+<div class='fix revalidate'><strong>How to revalidate</strong><br>Rebuild and re-scan with --sast; dex-webview-js-bridge should clear when the bridge is removed or no longer matched.</div>
+</div>
+</div></body></html>

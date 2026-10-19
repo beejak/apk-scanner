@@ -1,0 +1,381 @@
+{
+  "scan_timestamp": "2026-10-19T12:50:25.654630+00:00",
+  "metadata": [
+    {
+      "path": "<sandbox>/jar/edu-weekly-sample.jar",
+      "type": "jar",
+      "size_bytes": 384,
+      "metadata": {
+        "file_count": 2,
+        "manifest_version": "1.0",
+        "main_class": null,
+        "created_by": null
+      }
+    }
+  ],
+  "findings": [
+    {
+      "rule_id": "jar-cleartext",
+      "severity": "medium",
+      "message": "Cleartext HTTP URL; prefer HTTPS. (in config.properties; seen: url=http://evil.example.com/api)",
+      "masvs_id": "MASVS-NETWORK-1",
+      "location": {
+        "file": "<sandbox>/jar/edu-weekly-sample.jar",
+        "line": null
+      },
+      "source": "sast",
+      "classification": {
+        "cwe": [
+          {
+            "id": "CWE-319",
+            "label": "Cleartext transmission of sensitive data"
+          }
+        ],
+        "nist": [
+          {
+            "id": "SC-8",
+            "label": "Transmission confidentiality and integrity"
+          }
+        ],
+        "owasp": [
+          {
+            "id": "MASVS-NETWORK-1",
+            "label": "Secure data in transit"
+          },
+          {
+            "id": "M3",
+            "label": "Insecure communication"
+          },
+          {
+            "id": "M5:2024",
+            "label": "Insecure Communication",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ],
+        "capec": [
+          {
+            "id": "CAPEC-94",
+            "label": "Man in the middle"
+          }
+        ],
+        "cisa": [
+          {
+            "id": "EncryptTransit",
+            "label": "Encrypt data in transit"
+          }
+        ],
+        "nsa": [
+          {
+            "id": "Encrypt",
+            "label": "Use TLS (NSA)"
+          }
+        ],
+        "maswe": [
+          {
+            "id": "MASWE-0050",
+            "label": "Cleartext traffic",
+            "url": "https://mas.owasp.org/MASWE/"
+          }
+        ],
+        "owasp_mobile": [
+          {
+            "id": "M5:2024",
+            "label": "Insecure Communication",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ]
+      },
+      "maswe_id": "MASWE-0050",
+      "owasp_mobile": "M5:2024",
+      "severity_score": 5.5,
+      "cvss_estimate": {
+        "score": 7.4,
+        "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+        "note": "rule-based estimate, not NVD CVSS for a CVE"
+      },
+      "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+      "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+      "cve": null
+    },
+    {
+      "rule_id": "jar-weak-crypto",
+      "severity": "high",
+      "message": "Weak or deprecated Cipher.getInstance transformation (e.g. DES/ECB/RC4). (in config.properties; seen: Cipher.getInstance(\"DES\"))",
+      "masvs_id": "MASVS-CRYPTO-2",
+      "location": {
+        "file": "<sandbox>/jar/edu-weekly-sample.jar",
+        "line": null
+      },
+      "source": "sast",
+      "classification": {
+        "cwe": [
+          {
+            "id": "CWE-327",
+            "label": "Use of broken crypto algorithm"
+          }
+        ],
+        "nist": [
+          {
+            "id": "SC-13",
+            "label": "Cryptographic protection"
+          }
+        ],
+        "owasp": [
+          {
+            "id": "MASVS-CRYPTO-2",
+            "label": "Strong crypto; no weak algorithms"
+          },
+          {
+            "id": "M2",
+            "label": "Insecure data storage"
+          },
+          {
+            "id": "M10:2024",
+            "label": "Insufficient Cryptography",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ],
+        "capec": [
+          {
+            "id": "CAPEC-97",
+            "label": "Cryptanalysis"
+          }
+        ],
+        "cisa": [
+          {
+            "id": "StrongCrypto",
+            "label": "Use approved cryptography"
+          }
+        ],
+        "nsa": [
+          {
+            "id": "Crypto",
+            "label": "Use approved algorithms (NSA)"
+          }
+        ],
+        "maswe": [
+          {
+            "id": "MASWE-0026",
+            "label": "Weak cryptography",
+            "url": "https://mas.owasp.org/MASWE/"
+          }
+        ],
+        "owasp_mobile": [
+          {
+            "id": "M10:2024",
+            "label": "Insufficient Cryptography",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ]
+      },
+      "maswe_id": "MASWE-0026",
+      "owasp_mobile": "M10:2024",
+      "severity_score": 8.0,
+      "cvss_estimate": {
+        "score": 5.9,
+        "vector": "AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+        "note": "rule-based estimate, not NVD CVSS for a CVE"
+      },
+      "remediation": "Remove weak crypto algorithm names from native/JAR code paths; use approved algorithms (AES-GCM, SHA-256+).",
+      "revalidate": "Rebuild and re-scan with --sast; so-weak-crypto / jar-weak-crypto should clear when weak algorithm strings are gone.",
+      "cve": null
+    },
+    {
+      "rule_id": "jar-secret-aws-access-key",
+      "severity": "critical",
+      "message": "AWS access key id-like string (AKIA\u2026). (in config.properties; seen: key=AKIAIOSFODNN7EXAMPLE)",
+      "masvs_id": "MASVS-AUTH-4",
+      "location": {
+        "file": "<sandbox>/jar/edu-weekly-sample.jar",
+        "line": null
+      },
+      "source": "sast",
+      "classification": {
+        "cwe": [
+          {
+            "id": "CWE-798",
+            "label": "Hard-coded credentials"
+          }
+        ],
+        "nist": [
+          {
+            "id": "IA-5",
+            "label": "Authenticator management"
+          }
+        ],
+        "owasp": [
+          {
+            "id": "MASVS-AUTH-4",
+            "label": "No sensitive data in credentials"
+          },
+          {
+            "id": "M1:2024",
+            "label": "Improper Credential Usage",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ],
+        "capec": [
+          {
+            "id": "CAPEC-114",
+            "label": "Credential stuffing"
+          }
+        ],
+        "cisa": [
+          {
+            "id": "NoSecrets",
+            "label": "No cloud keys in JAR"
+          }
+        ],
+        "nsa": [
+          {
+            "id": "AppSec",
+            "label": "Protect cloud credentials (NSA)"
+          }
+        ],
+        "maswe": [
+          {
+            "id": "MASWE-0001",
+            "label": "Hardcoded credentials",
+            "url": "https://mas.owasp.org/MASWE/"
+          }
+        ],
+        "owasp_mobile": [
+          {
+            "id": "M1:2024",
+            "label": "Improper Credential Usage",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ]
+      },
+      "maswe_id": "MASWE-0001",
+      "owasp_mobile": "M1:2024",
+      "severity_score": 10.0,
+      "cvss_estimate": {
+        "score": 9.1,
+        "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+        "note": "rule-based estimate, not NVD CVSS for a CVE"
+      },
+      "remediation": "Rotate the AWS access key immediately. Remove it from the app; use Cognito/STS or a backend that vends temporary credentials.",
+      "revalidate": "After rotation and rebuild, re-scan with --sast; secret-*/aws-access-key findings should be gone. Confirm key disabled in AWS IAM.",
+      "cve": null
+    },
+    {
+      "rule_id": "dex-webview-js-bridge",
+      "severity": "critical",
+      "message": "WebView addJavascriptInterface (JS bridge) \u2014 high-impact if content is untrusted. (in config.properties; seen: addJavascriptInterface(bridge))",
+      "masvs_id": "MASVS-PLATFORM-2",
+      "location": {
+        "file": "<sandbox>/jar/edu-weekly-sample.jar",
+        "line": null
+      },
+      "source": "sast",
+      "classification": {
+        "cwe": [
+          {
+            "id": "CWE-749",
+            "label": "Exposed dangerous method",
+            "url": "https://cwe.mitre.org/data/definitions/749.html"
+          }
+        ],
+        "nist": [
+          {
+            "id": "AC-4",
+            "label": "Information flow enforcement"
+          }
+        ],
+        "owasp": [
+          {
+            "id": "MASVS-PLATFORM-2",
+            "label": "WebView / JS bridge hardening",
+            "url": "https://mas.owasp.org/MASVS/"
+          },
+          {
+            "id": "M8",
+            "label": "Security misconfiguration",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          },
+          {
+            "id": "M8:2024",
+            "label": "Security Misconfiguration",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          },
+          {
+            "id": "M4:2024",
+            "label": "Insufficient Input/Output Validation",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ],
+        "capec": [
+          {
+            "id": "CAPEC-182",
+            "label": "Flash Injection / bridge abuse",
+            "url": "https://capec.mitre.org/data/definitions/182.html"
+          }
+        ],
+        "cisa": [
+          {
+            "id": "LeastPriv",
+            "label": "Limit exposed interfaces"
+          }
+        ],
+        "nsa": [
+          {
+            "id": "MobileApp",
+            "label": "Harden WebView bridges (NSA)"
+          }
+        ],
+        "maswe": [
+          {
+            "id": "MASWE-0075",
+            "label": "WebView JavaScript bridge",
+            "url": "https://mas.owasp.org/MASWE/"
+          }
+        ],
+        "owasp_mobile": [
+          {
+            "id": "M8:2024",
+            "label": "Security Misconfiguration",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          },
+          {
+            "id": "M4:2024",
+            "label": "Insufficient Input/Output Validation",
+            "url": "https://owasp.org/www-project-mobile-top-10/"
+          }
+        ]
+      },
+      "maswe_id": "MASWE-0075",
+      "owasp_mobile": "M8:2024",
+      "severity_score": 10.0,
+      "cvss_estimate": {
+        "score": 8.1,
+        "vector": "AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:L/A:N",
+        "note": "rule-based estimate, not NVD CVSS for a CVE"
+      },
+      "remediation": "Avoid addJavascriptInterface on untrusted content; if required, expose minimal APIs and validate all inputs.",
+      "revalidate": "Rebuild and re-scan with --sast; dex-webview-js-bridge should clear when the bridge is removed or no longer matched.",
+      "cve": null
+    }
+  ],
+  "summary": {
+    "artifacts": 1,
+    "findings": 4,
+    "by_severity": {
+      "critical": 2,
+      "high": 1,
+      "medium": 1,
+      "low": 0,
+      "info": 0
+    },
+    "max_severity_score": 10.0,
+    "avg_severity_score": 8.38,
+    "sca": {
+      "components_checked": 0,
+      "vuln_count": 0,
+      "cve_count": 0,
+      "inventory": [],
+      "vulnerabilities": [],
+      "honesty": "CVE IDs only from real OSV responses when name+version extracted; never invented. Empty vulns means no OSV hits or no extractable coords."
+    }
+  }
+}
