@@ -1,0 +1,357 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "apk-scanner",
+          "version": "0.2.0",
+          "informationUri": "https://github.com/beejak/apk-scanner",
+          "rules": [
+            {
+              "id": "dex-webview-js-bridge",
+              "name": "dex-webview-js-bridge",
+              "shortDescription": {
+                "text": "dex-webview-js-bridge"
+              },
+              "fullDescription": {
+                "text": "WebView addJavascriptInterface (JS bridge) \u2014 high-impact if content is untrusted. (in config.properties; seen: addJavascriptInterface(bridge))"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "severity": "critical",
+                "maswe_id": "MASWE-0075",
+                "owasp_mobile": "M8:2024"
+              },
+              "help": {
+                "text": "Avoid addJavascriptInterface on untrusted content; if required, expose minimal APIs and validate all inputs.\n\nRevalidate: Rebuild and re-scan with --sast; dex-webview-js-bridge should clear when the bridge is removed or no longer matched.",
+                "markdown": "**Remediation**\n\nAvoid addJavascriptInterface on untrusted content; if required, expose minimal APIs and validate all inputs.\n\n**Revalidate**\n\nRebuild and re-scan with --sast; dex-webview-js-bridge should clear when the bridge is removed or no longer matched."
+              }
+            },
+            {
+              "id": "jar-cleartext",
+              "name": "jar-cleartext",
+              "shortDescription": {
+                "text": "jar-cleartext"
+              },
+              "fullDescription": {
+                "text": "Cleartext HTTP URL; prefer HTTPS. (in config.properties; seen: url=http://evil.example.com/api)"
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "severity": "medium",
+                "maswe_id": "MASWE-0050",
+                "owasp_mobile": "M5:2024"
+              },
+              "help": {
+                "text": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.\n\nRevalidate: Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+                "markdown": "**Remediation**\n\nUse HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.\n\n**Revalidate**\n\nRebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match)."
+              }
+            },
+            {
+              "id": "jar-secret-aws-access-key",
+              "name": "jar-secret-aws-access-key",
+              "shortDescription": {
+                "text": "jar-secret-aws-access-key"
+              },
+              "fullDescription": {
+                "text": "AWS access key id-like string (AKIA\u2026). (in config.properties; seen: key=AKIAIOSFODNN7EXAMPLE)"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "severity": "critical",
+                "maswe_id": "MASWE-0001",
+                "owasp_mobile": "M1:2024"
+              },
+              "help": {
+                "text": "Rotate the AWS access key immediately. Remove it from the app; use Cognito/STS or a backend that vends temporary credentials.\n\nRevalidate: After rotation and rebuild, re-scan with --sast; secret-*/aws-access-key findings should be gone. Confirm key disabled in AWS IAM.",
+                "markdown": "**Remediation**\n\nRotate the AWS access key immediately. Remove it from the app; use Cognito/STS or a backend that vends temporary credentials.\n\n**Revalidate**\n\nAfter rotation and rebuild, re-scan with --sast; secret-*/aws-access-key findings should be gone. Confirm key disabled in AWS IAM."
+              }
+            },
+            {
+              "id": "jar-weak-crypto",
+              "name": "jar-weak-crypto",
+              "shortDescription": {
+                "text": "jar-weak-crypto"
+              },
+              "fullDescription": {
+                "text": "Weak or deprecated Cipher.getInstance transformation (e.g. DES/ECB/RC4). (in config.properties; seen: Cipher.getInstance(\"DES\"))"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "severity": "high",
+                "maswe_id": "MASWE-0026",
+                "owasp_mobile": "M10:2024"
+              },
+              "help": {
+                "text": "Remove weak crypto algorithm names from native/JAR code paths; use approved algorithms (AES-GCM, SHA-256+).\n\nRevalidate: Rebuild and re-scan with --sast; so-weak-crypto / jar-weak-crypto should clear when weak algorithm strings are gone.",
+                "markdown": "**Remediation**\n\nRemove weak crypto algorithm names from native/JAR code paths; use approved algorithms (AES-GCM, SHA-256+).\n\n**Revalidate**\n\nRebuild and re-scan with --sast; so-weak-crypto / jar-weak-crypto should clear when weak algorithm strings are gone."
+              }
+            }
+          ]
+        }
+      },
+      "taxonomies": [
+        {
+          "name": "cwe",
+          "organization": "MITRE",
+          "informationUri": "https://cwe.mitre.org/"
+        },
+        {
+          "name": "maswe",
+          "organization": "OWASP",
+          "informationUri": "https://mas.owasp.org/MASWE/"
+        },
+        {
+          "name": "owasp-mobile-2024",
+          "organization": "OWASP",
+          "informationUri": "https://owasp.org/www-project-mobile-top-10/"
+        }
+      ],
+      "results": [
+        {
+          "ruleId": "jar-cleartext",
+          "level": "warning",
+          "message": {
+            "text": "Cleartext HTTP URL; prefer HTTPS. (in config.properties; seen: url=http://evil.example.com/api)"
+          },
+          "properties": {
+            "severity": "medium",
+            "severity_score": 5.5,
+            "cvss_estimate": {
+              "score": 7.4,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Use HTTPS/TLS for all sensitive traffic. Replace http:// endpoints with https:// and enforce TLS in the network stack.",
+            "revalidate": "Rebuild and re-scan with --sast. Expect dex-/jar-/ipa-cleartext hits for those URLs to disappear (schema/example URLs may still match).",
+            "cve": null,
+            "maswe_id": "MASWE-0050",
+            "owasp_mobile": "M5:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-319",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0050",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M5:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/edu-weekly-sample.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "jar-weak-crypto",
+          "level": "error",
+          "message": {
+            "text": "Weak or deprecated Cipher.getInstance transformation (e.g. DES/ECB/RC4). (in config.properties; seen: Cipher.getInstance(\"DES\"))"
+          },
+          "properties": {
+            "severity": "high",
+            "severity_score": 8.0,
+            "cvss_estimate": {
+              "score": 5.9,
+              "vector": "AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Remove weak crypto algorithm names from native/JAR code paths; use approved algorithms (AES-GCM, SHA-256+).",
+            "revalidate": "Rebuild and re-scan with --sast; so-weak-crypto / jar-weak-crypto should clear when weak algorithm strings are gone.",
+            "cve": null,
+            "maswe_id": "MASWE-0026",
+            "owasp_mobile": "M10:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-327",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0026",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M10:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/edu-weekly-sample.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "jar-secret-aws-access-key",
+          "level": "error",
+          "message": {
+            "text": "AWS access key id-like string (AKIA\u2026). (in config.properties; seen: key=AKIAIOSFODNN7EXAMPLE)"
+          },
+          "properties": {
+            "severity": "critical",
+            "severity_score": 10.0,
+            "cvss_estimate": {
+              "score": 9.1,
+              "vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Rotate the AWS access key immediately. Remove it from the app; use Cognito/STS or a backend that vends temporary credentials.",
+            "revalidate": "After rotation and rebuild, re-scan with --sast; secret-*/aws-access-key findings should be gone. Confirm key disabled in AWS IAM.",
+            "cve": null,
+            "maswe_id": "MASWE-0001",
+            "owasp_mobile": "M1:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-798",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0001",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M1:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/edu-weekly-sample.jar"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "dex-webview-js-bridge",
+          "level": "error",
+          "message": {
+            "text": "WebView addJavascriptInterface (JS bridge) \u2014 high-impact if content is untrusted. (in config.properties; seen: addJavascriptInterface(bridge))"
+          },
+          "properties": {
+            "severity": "critical",
+            "severity_score": 10.0,
+            "cvss_estimate": {
+              "score": 8.1,
+              "vector": "AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:L/A:N",
+              "note": "rule-based estimate, not NVD CVSS for a CVE"
+            },
+            "remediation": "Avoid addJavascriptInterface on untrusted content; if required, expose minimal APIs and validate all inputs.",
+            "revalidate": "Rebuild and re-scan with --sast; dex-webview-js-bridge should clear when the bridge is removed or no longer matched.",
+            "cve": null,
+            "maswe_id": "MASWE-0075",
+            "owasp_mobile": "M8:2024",
+            "source": "sast"
+          },
+          "taxa": [
+            {
+              "id": "CWE-749",
+              "toolComponent": {
+                "name": "cwe"
+              }
+            },
+            {
+              "id": "MASWE-0075",
+              "toolComponent": {
+                "name": "maswe"
+              }
+            },
+            {
+              "id": "M8:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            },
+            {
+              "id": "M4:2024",
+              "toolComponent": {
+                "name": "owasp-mobile-2024"
+              }
+            }
+          ],
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "<sandbox>/jar/edu-weekly-sample.jar"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "properties": {
+        "summary": {
+          "artifacts": 1,
+          "findings": 4,
+          "by_severity": {
+            "critical": 2,
+            "high": 1,
+            "medium": 1,
+            "low": 0,
+            "info": 0
+          },
+          "max_severity_score": 10.0,
+          "avg_severity_score": 8.38,
+          "sca": {
+            "components_checked": 0,
+            "vuln_count": 0,
+            "cve_count": 0,
+            "inventory": [],
+            "vulnerabilities": [],
+            "honesty": "CVE IDs only from real OSV responses when name+version extracted; never invented. Empty vulns means no OSV hits or no extractable coords."
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "run_id": "weekly_20261026",
+  "scan_timestamp": "2026-10-26T12:43:53.914110+00:00",
+  "generated_utc": "2026-10-26T12:43:53.914389+00:00",
+  "allowlist": "tests/fixtures/sources.json",
+  "history": "tests/fixtures/scan_history.json",
+  "selected": 1,
+  "skipped_dedupe": 14,
+  "materialized": 0,
+  "materialize_log": [
+    {
+      "id": "uncrackable-l1-libscrypt",
+      "type": "so",
+      "pool": "primary",
+      "ok": false,
+      "version": "mastg-android-l1-libscrypt",
+      "error": "member not found: lib/armeabi/libscrypt.so"
+    }
+  ],
+  "by_type_selected": {
+    "so": 1
+  },
+  "artifacts": 1,
+  "findings": 4,
+  "by_type": {
+    "jar": 1
+  },
+  "by_severity": {
+    "critical": 2,
+    "high": 1,
+    "medium": 1,
+    "low": 0,
+    "info": 0
+  },
+  "honesty": "Allowlist-only educational sources (primary + fallback). Pattern-scan leads. History dedupe skips same id+version. Binaries deleted from runner temp. Soft-fail on findings.",
+  "limits": {
+    "max_artifacts": 15,
+    "runner_note": "Keep allowlist small (~10-15) for GitHub Actions disk/time reliability (~14GB disk, 6h job cap)."
+  }
+}
